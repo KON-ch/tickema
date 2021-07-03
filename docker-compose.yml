@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     image: postgres
-    env_file: /app/.env
+    env_file: .env
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USERNAME}
