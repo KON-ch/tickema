@@ -1,5 +1,21 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe Stage, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Stageモデルのバリデーションテスト" do
+    context "タイトルが入力されていない場合" do
+      it "登録されないこと" do
+        stage = FactoryBot.build(:stage, title: "")
+        expect(stage).not_to be_valid
+      end
+    end
+
+    context "タイトルが20文字を超える場合" do
+      it "登録されないこと" do
+        stage = FactoryBot.build(:stage, title: "20文字を超える長いタイトルは登録することができない")
+        expect(stage).not_to be_valid
+      end
+    end
+  end
 end

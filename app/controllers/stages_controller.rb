@@ -28,7 +28,7 @@ class StagesController < ApplicationController
     if @stage.update(stage_params)
       head :no_content
     else
-      render json: { errors: stage.errors.full_messages }, status: 422
+      render json: { errors: @stage.errors.full_messages }, status: 422
     end
   end
 
