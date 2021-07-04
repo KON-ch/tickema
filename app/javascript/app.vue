@@ -16,6 +16,7 @@ const router = new VueRouter({
     { path: '/',
       component: StageIndexPage },
     { path: '/stage/:id(\\d+)',
+      name: 'StageDetailPage',
       component: StageDetailPage }
   ]
 })

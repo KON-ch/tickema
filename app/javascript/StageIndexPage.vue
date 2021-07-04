@@ -8,7 +8,7 @@
           <th>title</th>
         </tr>
         <tr v-for="s in stages" :key="s.id">
-          <td>{{ s.id }}</td>
+          <td><router-link :to="{ name: 'StageDetailPage', params: { id: s.id } }">{{ s.id }}</router-link></td>
           <td>{{ s.title }}</td>
         </tr>
       </tbody>
