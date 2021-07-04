@@ -2,13 +2,9 @@ require "rails_helper"
 
 RSpec.describe "Stages", type: :request do
   describe "GET #index " do
-    it "公演の一覧を取得すること" do
-      list_length = 10
-      FactoryBot.create_list(:stage, list_length)
+    it "status 200" do
       get "/stages"
-      json = JSON.parse(response.body)
       expect(response).to have_http_status(200)
-      expect(json.length).to eq(list_length)
     end
   end
 

@@ -10,15 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_03_092711) do
+ActiveRecord::Schema.define(version: 2021_07_04_133011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "stages", force: :cascade do |t|
-    t.string "title", default: "", null: false
+  create_table "schedules", force: :cascade do |t|
+    t.time "start_time", null: false
+    t.date "staging_date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["start_time", "staging_date"], name: "index_schedules_on_start_time_and_staging_date", unique: true
+  end
+
+  create_table "stages", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_stages_on_title", unique: true
   end
 
 end
