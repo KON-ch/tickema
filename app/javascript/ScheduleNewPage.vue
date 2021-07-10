@@ -24,15 +24,15 @@
         schedule: {
           staging_date: '',
           start_time: '',
-          stage_id: this.$route.params.id
         },
+        stage_id: this.$route.params.id,
         errors: ''
       }
     },
     methods: {
       createSchedule: function() {
         axios
-          .post(`/schedules`, this.schedule)
+          .post(`/schedules`, { schedule: this.schedule, stage_id: this.stage_id })
           .then(response => { response.data })
           .catch(error => {
             console.error(error);
