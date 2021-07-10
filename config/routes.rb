@@ -3,4 +3,5 @@ Rails.application.routes.draw do
 
   root 'top#index'
   resources :stages, except: %i[new edit]
+  resources :schedules, only: :create
 end
