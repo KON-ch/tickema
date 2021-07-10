@@ -28,7 +28,7 @@ RSpec.describe "Stages", type: :request do
 
     context "登録できない場合" do
       it "status 422" do
-        post "/stages", params: { stage: FactoryBot.attributes_for(:stage, title: "")}
+        post "/stages", params: { stage: FactoryBot.attributes_for(:stage, title: nil)}
         expect(response).to have_http_status(422)
       end
     end
@@ -48,7 +48,7 @@ RSpec.describe "Stages", type: :request do
 
     context "更新できない場合" do
       it "status 422" do
-        put "/stages/#{@stage.id}", params: { stage: { title: "" } }
+        put "/stages/#{@stage.id}", params: { stage: { title: nil } }
         expect(response).to have_http_status(422)
       end
     end
