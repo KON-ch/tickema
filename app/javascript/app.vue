@@ -12,6 +12,7 @@ import StageIndexPage  from './StageIndexPage.vue'
 import StageDetailPage from './StageDetailPage.vue'
 import StageNewPage    from './StageNewPage.vue'
 import StageEditPage   from './StageEditPage.vue'
+import ScheduleNewPage from './ScheduleNewPage.vue'
 
 const router = new VueRouter({
   routes: [
@@ -26,6 +27,9 @@ const router = new VueRouter({
     { path: '/stages/:id(\\d+)/edit',
       name: 'StageEditPage',
       component: StageEditPage   },
+    { path: '/schedules/:id(\\d+)',
+      name: 'ScheduleNewPage',
+      component: ScheduleNewPage },
   ]
 })
 
