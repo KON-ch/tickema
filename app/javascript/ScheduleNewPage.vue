@@ -5,7 +5,7 @@
         <li><font color="red">{{ e }}</font></li>
       </ul>
     </div>
-    <div>
+    <div v-for="schedule in schedules" :key="schedule.id">
       <label>日付</label>
       <input v-model="schedule.staging_date" type="date">
       <label>時間</label>
@@ -21,10 +21,10 @@
   export default {
     data: function() {
       return {
-        schedule: {
+        schedules: [{
           staging_date: '',
           start_time: '',
-        },
+        }],
         stage_id: this.$route.params.id,
         errors: ''
       }
@@ -32,7 +32,7 @@
     methods: {
       createSchedule: function() {
         axios
-          .post(`/schedules`, { schedule: this.schedule, stage_id: this.stage_id })
+          .post(`/schedules`, { schedule: this.schedules, stage_id: this.stage_id })
           .then(response => { response.data })
           .catch(error => {
             console.error(error);
