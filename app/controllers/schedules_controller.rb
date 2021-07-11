@@ -1,6 +1,9 @@
 class SchedulesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  rescue_from Exception, with: :render_status_500
+  rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
+
   def create
     return unless stage = Stage.find_by(id: params.require(:stage_id))
 
@@ -22,5 +25,13 @@ class SchedulesController < ApplicationController
       params.require(:schedule).map do |s|
         s.permit(:staging_date, :start_time)
       end
+    end
+
+    def render_status_404(exception)
+      render json: { errors: [exception] }, status: 404
+    end
+
+    def render_status_500(exception)
+      render json: { errors: [exception] }, status: 500
     end
 end
