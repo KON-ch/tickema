@@ -4,16 +4,17 @@ class SchedulesController < ApplicationController
   def create
     return unless stage = Stage.find_by(id: params.require(:stage_id))
 
+    schedules = []
     schedule_params.each do |param|
       schedule = Schedule.new(param)
       if schedule.save
-        stage_schedule = StageSchedule.new(stage_id: stage.id, schedule_id: schedule.id)
-        stage_schedule.save
-        render json: schedule, status: 201
+        schedules << schedule
+        StageSchedule.new(stage_id: stage.id, schedule_id: schedule.id).save
       else
-        render json: { errors: schedule.errors.full_messages }, status: 422
+        return render json: { errors: schedule.errors.full_messages }, status: 422
       end
     end
+    render json: schedules, status: 201
   end
 
   private
