@@ -38,19 +38,19 @@ class StagesController < ApplicationController
   end
 
   private
-  def stage_params
-    params.require(:stage).permit(:title)
-  end
+    def stage_params
+      params.require(:stage).permit(:title)
+    end
 
-  def set_stage
-    @stage = Stage.find(params[:id])
-  end
+    def set_stage
+      @stage = Stage.find_by(id: params[:id])
+    end
 
-  def render_status_404(exception)
-    render json: { errors: [exception] }, status: 404
-  end
+    def render_status_404(exception)
+      render json: { errors: [exception] }, status: 404
+    end
 
-  def render_status_500(exception)
-    render json: { errors: [exception] }, status: 500
-  end
+    def render_status_500(exception)
+      render json: { errors: [exception] }, status: 500
+    end
 end
