@@ -16,7 +16,7 @@ class CustomersController < ApplicationController
   end
 
   def create
-    customer = Customer.new(customer_params)
+    customer = Customer.new(name: customer_params.values.join(" "))
     if customer.save
       render json: customer, status: 201
     else
@@ -39,7 +39,7 @@ class CustomersController < ApplicationController
 
   private
     def customer_params
-      params.require(:customer).permit(:name)
+      params.require(:customer).permit(:family_name, :first_name)
     end
 
     def set_customer
