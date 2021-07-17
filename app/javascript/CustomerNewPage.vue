@@ -10,7 +10,7 @@
       <input v-model="customer.family_name" type="text">
       <label>名</label>
       <input v-model="customer.first_name" type="text">
-      <button type="submit">登録</button>
+      <v-btn type="submit">登録</v-btn>
     </div>
   </form>
 </template>
