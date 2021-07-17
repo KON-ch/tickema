@@ -1,0 +1,7 @@
+ja:
+  date:
+    formats:
+      default: "%-m月%-d日(%a)"
+  time:
+    formats:
+      default: "%H:%M"
