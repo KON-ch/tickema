@@ -1,10 +1,12 @@
 <template>
-  <dl>
-    <dt>ID</dt>
-    <dd>{{ stage.id }}</dd>
-    <dt>Title</dt>
-    <dd>{{ stage.title }}</dd>
-  </dl>
+  <div>
+    <h1>{{ stage.title }}</h1>
+    <div>
+      <ul v-for="schedule in stage.schedules" :key="schedule.id">
+        <li>{{ schedule.staging_date }}{{ schedule.start_time }}</li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -12,7 +12,15 @@ class StagesController < ApplicationController
   end
 
   def show
-    render json: @stage
+    schedules = []
+
+    @stage.schedules.select(:id, :staging_date, :start_time).each do |s|
+      schedules << { id: s.id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
+    end
+
+    stage = { title: @stage.title, schedules: schedules }
+
+    render json: stage
   end
 
   def create
