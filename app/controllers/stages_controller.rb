@@ -14,7 +14,7 @@ class StagesController < ApplicationController
   def show
     schedules = []
 
-    @stage.schedules.select(:id, :staging_date, :start_time).each do |s|
+    @stage.schedules.order(:staging_date).select(:id, :staging_date, :start_time).each do |s|
       schedules << { id: s.id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
