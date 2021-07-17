@@ -13,6 +13,7 @@ import StageDetailPage from './StageDetailPage.vue'
 import StageNewPage    from './StageNewPage.vue'
 import StageEditPage   from './StageEditPage.vue'
 import ScheduleNewPage from './ScheduleNewPage.vue'
+import CustomerNewPage from './CustomerNewPage.vue'
 
 const router = new VueRouter({
   routes: [
@@ -30,6 +31,9 @@ const router = new VueRouter({
     { path: '/schedules/:id(\\d+)',
       name: 'ScheduleNewPage',
       component: ScheduleNewPage },
+    { path: '/customers/new',
+      name: 'CustomerNewPage',
+      component: CustomerNewPage },
   ]
 })
 
