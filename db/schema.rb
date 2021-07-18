@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_121446) do
+ActiveRecord::Schema.define(version: 2021_07_18_035213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2021_07_11_121446) do
     t.index ["start_time", "staging_date"], name: "index_schedules_on_start_time_and_staging_date", unique: true
   end
 
+  create_table "stage_customers", force: :cascade do |t|
+    t.bigint "stage_schedule_id", null: false
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stage_schedule_id", "customer_id"], name: "index_stage_customers_on_stage_schedule_id_and_customer_id", unique: true
+  end
+
   create_table "stage_schedules", force: :cascade do |t|
     t.bigint "stage_id", null: false
     t.bigint "schedule_id", null: false
@@ -44,6 +52,8 @@ ActiveRecord::Schema.define(version: 2021_07_11_121446) do
     t.index ["title"], name: "index_stages_on_title", unique: true
   end
 
+  add_foreign_key "stage_customers", "customers"
+  add_foreign_key "stage_customers", "stage_schedules"
   add_foreign_key "stage_schedules", "schedules"
   add_foreign_key "stage_schedules", "stages"
 end
