@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :stage_schedule do
+    id { 1 }
     stage_id { 1 }
     schedule_id { 1 }
   end
