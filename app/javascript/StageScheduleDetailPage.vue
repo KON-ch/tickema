@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <v-list v-if="customers.length">
-      <v-list-item v-for="customer in customers" :key="customer.id">
-        {{ customer.name }}
-      </v-list-item>
-    </v-list>
-    <v-list v-else>
-      まだ予約がありません
-    </v-list>
-  </div>
+  <v-list v-if="customers.length">
+    <v-list-item v-for="customer in customers" :key="customer.id">
+      {{ customer.name }}
+    </v-list-item>
+  </v-list>
+  <v-list v-else>
+    頑張ってるのは知ってるよ
+  </v-list>
 </template>
 
 <script>
