@@ -11,6 +11,7 @@
         <v-list-item>
           <v-list-item-content>
             <stage-schedule-detail-page :customers="customers" :id="schedule.id" ></stage-schedule-detail-page>
+            <customer-new-page :id="schedule.id"></customer-new-page>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -21,10 +22,12 @@
 <script>
 import axios from 'axios';
 import StageScheduleDetailPage from './StageScheduleDetailPage.vue';
+import CustomerNewPage from './CustomerNewPage.vue';
 
 export default {
   components: {
-    StageScheduleDetailPage
+    StageScheduleDetailPage,
+    CustomerNewPage
   },
   data: function() {
     return {
