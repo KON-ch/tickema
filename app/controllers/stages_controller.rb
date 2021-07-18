@@ -15,7 +15,8 @@ class StagesController < ApplicationController
     schedules = []
 
     @stage.schedules.order(:staging_date).select(:id, :staging_date, :start_time).each do |s|
-      schedules << { id: s.id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
+      id = StageSchedule.find_by(stage_id: @stage.id, schedule_id: s.id).id
+      schedules << { id: id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
     stage = { title: @stage.title, schedules: schedules }
