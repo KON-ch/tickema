@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <v-list v-if="customers.length">
+      <v-list-item v-for="customer in customers" :key="customer.id">
+        {{ customer.name }}
+      </v-list-item>
+    </v-list>
+    <v-list v-else>
+      まだ予約がありません
+    </v-list>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data: function() {
+    return {
+      customers: [],
+    }
+  },
+  props: ['id'],
+  mounted() {
+    axios
+      .get(`/stage_schedules/${this.id}`)
+      .then(response => (this.customers = response.data))
+  }
+}
+</script>
+
+<style scoped>
+</style>
