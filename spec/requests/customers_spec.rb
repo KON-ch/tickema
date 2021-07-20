@@ -19,16 +19,21 @@ RSpec.describe "Customers", type: :request do
   end
 
   describe "POST #create" do
+    before do
+      @schedule = FactoryBot.create(:schedule)
+    end
+
     context "登録できる場合" do
       it "status 201" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer) }
+        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: "テスト", first_name: "太郎",), schedule_id: @schedule.id }
+
         expect(response).to have_http_status(201)
       end
     end
 
     context "登録できない場合" do
       it "status 422" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, name: nil)}
+        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: nil, first_name: nil), schedule_id: @schedule.id }
         expect(response).to have_http_status(422)
       end
     end
@@ -41,14 +46,14 @@ RSpec.describe "Customers", type: :request do
 
     context "更新できる場合" do
       it "status 204" do
-        put "/customers/#{@customer.id}", params: { customer: { name: "テスト 新太郎" } }
+        put "/customers/#{@customer.id}", params: { customer: { family_name: "テスト", first_name: "新太郎" } }
         expect(response).to have_http_status(204)
       end
     end
 
     context "更新できない場合" do
       it "status 422" do
-        put "/customers/#{@customer.id}", params: { customer: { name: nil } }
+        put "/customers/#{@customer.id}", params: { customer: { family_name: nil, first_name: nil } }
         expect(response).to have_http_status(422)
       end
     end

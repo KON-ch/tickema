@@ -16,7 +16,7 @@ class CustomersController < ApplicationController
   end
 
   def create
-    customer = Customer.new(name: customer_params.values.join(" "))
+    customer = Customer.new(name: customer_params)
     customer.set_schedule_id(params.require(:schedule_id))
     if customer.save
       render json: customer, status: 201
@@ -26,7 +26,7 @@ class CustomersController < ApplicationController
   end
 
   def update
-    if @customer.update(customer_params)
+    if @customer.update(name: customer_params)
       head :no_content
     else
       render json: { errors: @customer.errors.full_messages }, status: 422
@@ -40,7 +40,7 @@ class CustomersController < ApplicationController
 
   private
     def customer_params
-      params.require(:customer).permit(:family_name, :first_name)
+      params.require(:customer).permit(:family_name, :first_name).values.join(" ")
     end
 
     def set_customer
