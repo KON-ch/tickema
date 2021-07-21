@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe StageCustomer, type: :model do
-  describe "StageScheduleモデルのバリデーションテスト" do
+  describe "StageCustomerモデルのバリデーションテスト" do
     before do
+      FactoryBot.create(:customer)
       FactoryBot.create(:stage)
       FactoryBot.create(:schedule)
       FactoryBot.create(:stage_schedule)
-      FactoryBot.create(:customer)
     end
 
     it "正常に登録されること" do
