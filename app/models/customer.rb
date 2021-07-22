@@ -5,13 +5,10 @@ class Customer < ApplicationRecord
   validates :name, presence: true, length: { maximum: 10 }
 
   after_save :create_stage_customer
-
-  def set_schedule_id(schedule_id)
-    @schedule_id = schedule_id
-  end
+  attr_accessor :schedule_id
 
   private
     def create_stage_customer
-      self.stage_customers.create(customer_id: id, stage_schedule_id: @schedule_id)
+      stage_customers.create(customer_id: id, stage_schedule_id: schedule_id)
     end
 end

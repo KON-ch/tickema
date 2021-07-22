@@ -17,7 +17,7 @@ class CustomersController < ApplicationController
 
   def create
     customer = Customer.new(name: customer_params)
-    customer.set_schedule_id(params.require(:schedule_id))
+    customer.schedule_id = params.require(:schedule_id)
     if customer.save
       render json: customer, status: 201
     else
