@@ -18,10 +18,10 @@ export default {
       customers: [],
     }
   },
-  props: ['id'],
+  props: ['schedule_id'],
   mounted() {
     axios
-      .get(`/stage_schedules/${this.id}`)
+      .get(`/stage_schedules/${this.schedule_id}`)
       .then(response => (this.customers = response.data))
   }
 }
