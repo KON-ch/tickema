@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="$emit('submit')">
+  <v-form @submit="createCustomer">
     <div v-if="errors.length != 0">
       <ul v-for="e in errors" :key="e">
         <li><font color="red">{{ e }}</font></li>
@@ -29,13 +29,29 @@
   export default {
     data: function() {
       return {
+        customer: {
+          family_name: '',
+          first_name: '',
+        },
+        errors: '',
       }
     },
     props: {
-      schedule_id: '',
-      customer: {},
-      errors: ''
+      schedule_id: ''
+    },
+    methods: {
+    createCustomer: function() {
+      axios
+        .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
+        .then(response => { response.data })
+        .catch(error => {
+          console.error(error);
+          if (error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        });
     }
+  }
   }
 </script>
 
