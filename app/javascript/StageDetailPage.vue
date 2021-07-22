@@ -10,8 +10,8 @@
         </template>
         <v-list-item>
           <v-list-item-content>
-            <stage-schedule-detail-page :customers="customers" :id="schedule.id" ></stage-schedule-detail-page>
-            <customer-new-page :id="schedule.id"></customer-new-page>
+            <stage-schedule-detail-page :customers="customers" :schedule_id="schedule.id"></stage-schedule-detail-page>
+            <customer-new-page :schedule_id="schedule.id" :customer="customer" @submit="createCustomer" :errors="errors" ></customer-new-page>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -32,13 +32,31 @@ export default {
   data: function() {
     return {
       stage: [],
-      customers: []
+      customers: [],
+      customer: {
+        family_name: '',
+        first_name: '',
+      },
+      errors: ''
     }
   },
   mounted() {
     axios
       .get(`/stages/${this.$route.params.id}`)
       .then(response => (this.stage = response.data))
+  },
+  methods: {
+    createCustomer: function() {
+      axios
+        .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
+        .then(response => { response.data })
+        .catch(error => {
+          console.error(error);
+          if (error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        });
+    }
   }
 }
 </script>
