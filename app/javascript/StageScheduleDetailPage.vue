@@ -3,6 +3,7 @@
     <v-list v-if="customers.length">
       <v-list-item v-for="customer in customers" :key="customer.id">
         {{ customer.name }}
+        <v-btn v-on:click="deleteCustomer(customer.id)">削除</v-btn>
       </v-list-item>
     </v-list>
     <v-list v-else>
@@ -42,7 +43,11 @@ export default {
     createCustomer: function() {
       axios
         .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
-        .then(response => { response.data })
+        .then(response => {
+          this.customers = axios
+            .get(`/stage_schedules/${this.schedule_id}`)
+            .then(response => (this.customers = response.data));
+        })
         .catch(error => {
           console.error(error);
           if (error.response.data && error.response.data.errors) {
@@ -50,10 +55,16 @@ export default {
           }
         });
       this.customer = {};
+    },
+    deleteCustomer: function(id) {
       axios
-        .get(`/stage_schedules/${this.schedule_id}`)
-        .then(response => (this.customers = response.data))
-    }
+        .delete(`/customers/${id}`)
+        .then(response => {
+          this.customers = axios
+            .get(`/stage_schedules/${this.schedule_id}`)
+            .then(response => (this.customers = response.data));
+        })
+    },
   }
 }
 </script>
