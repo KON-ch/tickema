@@ -32,7 +32,7 @@ export default {
     }
   },
   props: {
-    schedule_id: ''
+    schedule_id: '',
   },
   mounted() {
     axios
@@ -43,11 +43,7 @@ export default {
     createCustomer: function() {
       axios
         .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
-        .then(response => {
-          this.customers = axios
-            .get(`/stage_schedules/${this.schedule_id}`)
-            .then(response => (this.customers = response.data));
-        })
+        .then(response => { this.imoprtCustomer(); })
         .catch(error => {
           console.error(error);
           if (error.response.data && error.response.data.errors) {
@@ -59,12 +55,13 @@ export default {
     deleteCustomer: function(id) {
       axios
         .delete(`/customers/${id}`)
-        .then(response => {
-          this.customers = axios
-            .get(`/stage_schedules/${this.schedule_id}`)
-            .then(response => (this.customers = response.data));
-        })
+        .then(response => { this.imoprtCustomer(); })
     },
+    imoprtCustomer: function() {
+      axios
+        .get(`/stage_schedules/${this.schedule_id}`)
+        .then(response => (this.customers = response.data));
+    }
   }
 }
 </script>
