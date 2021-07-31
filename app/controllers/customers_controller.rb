@@ -1,6 +1,4 @@
 class CustomersController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   before_action :set_customer, only: %i[show update destroy]
 
   rescue_from Exception, with: :render_status_500
