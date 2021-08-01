@@ -1,4 +1,4 @@
-class TopController < ActionController::Base
+class TopController < ApplicationController
   def index
   end
 end

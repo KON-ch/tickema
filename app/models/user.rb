@@ -5,6 +5,5 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
-         :lockable,   # アカウントロック
          :timeoutable # 自動ログアウト
 end
