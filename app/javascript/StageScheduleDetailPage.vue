@@ -16,6 +16,9 @@
 <script>
 import axios from 'axios';
 import CustomerNewPage from './CustomerNewPage.vue';
+import { csrfToken } from '@rails/ujs';
+
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
 
 export default {
   components: {
