@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_142510) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_customers_on_user_id", unique: true
+    t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
   create_table "schedules", force: :cascade do |t|
