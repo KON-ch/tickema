@@ -3,13 +3,10 @@ Rails.application.routes.draw do
 
   root to: 'top#index'
 
-  devise_for :users, skip: :all
-
-  devise_scope :user do
-    get 'sign_in', to: 'users/sessions#new'
-    get 'login',   to: 'users/sessions#new'
-    get 'logout',  to: 'users/sessions#destroy'
-  end
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    sessions:      'users/sessions',
+  }
 
   resources :stages, except: %i[new edit]
   resources :schedules, only: :create
