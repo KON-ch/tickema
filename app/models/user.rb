@@ -6,4 +6,6 @@ class User < ApplicationRecord
          :rememberable,
          :validatable,
          :timeoutable # 自動ログアウト
+
+  has_many :customers, dependent: :destroy
 end
