@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2021_08_04_142510) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_customers_on_user_id", unique: true
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -61,15 +63,13 @@ ActiveRecord::Schema.define(version: 2021_08_04_142510) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customer_id", null: false
-    t.index ["customer_id"], name: "index_users_on_customer_id", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "customers", "users"
   add_foreign_key "stage_customers", "customers"
   add_foreign_key "stage_customers", "stage_schedules"
   add_foreign_key "stage_schedules", "schedules"
   add_foreign_key "stage_schedules", "stages"
-  add_foreign_key "users", "customers"
 end
