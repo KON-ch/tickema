@@ -3,15 +3,12 @@ Rails.application.routes.draw do
 
   root to: 'top#index'
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions:      'users/sessions',
-  }
+  devise_for :users, skip: %i[registrations passwords]
 
   resources :stages, except: %i[new edit]
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
   resources :stage_schedules, only: :show
-  
+
   get '/mypage', to: 'users#show'
 end
