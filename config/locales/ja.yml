@@ -1,4 +1,10 @@
 ja:
+  activerecord:
+    attributes:
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        remember_me: "次回からパスワードの入力を省略する"
   date:
     formats:
       default: "%-m月%-d日(%a)"
