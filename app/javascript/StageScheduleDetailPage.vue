@@ -3,10 +3,13 @@
     <v-list v-if="customers.length">
       <v-list-item v-for="customer in customers" :key="customer.id">
         <div class="customer_name">{{ customer.name }}</div>
-        <v-btn v-on:click="deleteCustomer(customer.id)" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
+        <v-btn v-on:click="deleteTarget = customer.id; showModal = true" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
       </v-list-item>
     </v-list>
     <customer-new-page :errors="errors" :customer="customer" @submit="createCustomer"></customer-new-page>
+    <modal v-if="showModal" @cancel="showModal = false" @ok="deleteCustomer(deleteTarget); showModal = false;">
+        <div slot="body">Are you sure?</div>
+    </modal>
   </div>
 </template>
 
@@ -14,12 +17,14 @@
 import axios from 'axios';
 import CustomerNewPage from './CustomerNewPage.vue';
 import { csrfToken } from '@rails/ujs';
+import Modal from 'Modal.vue'
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
 
 export default {
   components: {
-    CustomerNewPage
+    CustomerNewPage,
+    Modal
   },
   data: function() {
     return {
@@ -28,6 +33,8 @@ export default {
         family_name: '',
         first_name: '',
       },
+      showModal: false,
+      deleteTarget: -1,
       errors: '',
     }
   },

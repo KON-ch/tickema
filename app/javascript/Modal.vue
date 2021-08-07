@@ -1,33 +1,32 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
+  <v-app>
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
 
-          <div class="modal-header">
-            <slot name="header">
-            </slot>
-          </div>
+            <div class="modal-header">
+              <slot name="header">
+              </slot>
+            </div>
 
-          <div class="modal-body">
-            <slot name="body">
-            </slot>
-          </div>
+            <div class="modal-body">
+              本当に削除しますか？
+            </div>
 
-          <div class="modal-footer">
-            <slot name="footer">
-              <button class="modal-default-button" @click="$emit('ok')">
-                OK
-              </button>
-              <button class="modal-default-button" @click="$emit('cancel')">
+            <div class="modal-footer">
+              <v-btn color="gray" text @click="$emit('cancel')">
                 Cancel
-              </button>
-            </slot>
+              </v-btn>
+              <v-btn color="error" text @click="$emit('ok')">
+                OK
+              </v-btn>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </v-app>
 </template>
 
 <script>
@@ -55,6 +54,7 @@ export default {
 
 .modal-container {
   width: 300px;
+  height: 150px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -71,6 +71,10 @@ export default {
 
 .modal-body {
   margin: 20px 0;
+}
+
+.modal-footer {
+  float: right;
 }
 
 .modal-default-button {
