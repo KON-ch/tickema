@@ -17,7 +17,9 @@
         </v-text-field>
       </v-col>
       <v-col>
-        <v-btn type="submit">登録</v-btn>
+        <v-btn type="submit" icon>
+          <v-icon x-large>mdi-account-multiple-plus</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
@@ -33,4 +35,10 @@
 </script>
 
 <style scoped>
+.row {
+  padding: 0 16px;
+}
+.col {
+  align-self: center;
+}
 </style>

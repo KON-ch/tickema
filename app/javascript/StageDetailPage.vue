@@ -5,7 +5,8 @@
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id" click="importCustomers">
         <template v-slot:activator>
           <v-list-item-title>
-            {{ schedule.staging_date }}{{ schedule.start_time }}
+            {{ schedule.staging_date }}
+            {{ schedule.start_time }}
           </v-list-item-title>
         </template>
         <v-list-item>
@@ -41,4 +42,16 @@ export default {
 </script>
 
 <style scoped>
+body {
+  height: 100%;
+}
+h1{
+  font-size: 2rem;
+  margin-top: 2rem;
+  text-align: center;
+  color: gray;
+}
+.v-list-item {
+  min-height: 5rem;
+}
 </style>

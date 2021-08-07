@@ -25,7 +25,7 @@ export default {
 <style scoped>
 div{
   text-align: center;
-  margin-top: 3vh;
+  margin-top: 2rem;
 }
 a{
   text-decoration: none;

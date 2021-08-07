@@ -2,12 +2,9 @@
   <div>
     <v-list v-if="customers.length">
       <v-list-item v-for="customer in customers" :key="customer.id">
-        {{ customer.name }}
-        <v-btn v-on:click="deleteCustomer(customer.id)">削除</v-btn>
+        <div class="customer_name">{{ customer.name }}</div>
+        <v-btn v-on:click="deleteCustomer(customer.id)" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
       </v-list-item>
-    </v-list>
-    <v-list v-else>
-      頑張ってるのは知ってるよ
     </v-list>
     <customer-new-page :errors="errors" :customer="customer" @submit="createCustomer"></customer-new-page>
   </div>
@@ -70,4 +67,10 @@ export default {
 </script>
 
 <style scoped>
+.customer_name {
+  min-width: 15rem;
+}
+.v-list-item {
+  justify-content: space-between;
+}
 </style>
