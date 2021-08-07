@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
   resources :stage_schedules, only: :show
+  
+  get '/mypage', to: 'users#show'
 end
