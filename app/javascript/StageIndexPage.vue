@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div>Index</div>
     <table>
       <tbody>
@@ -16,6 +16,7 @@
         </tr>
       </tbody>
     </table>
+    <v-btn v-on:click="signOut">ログアウト</v-btn>
     <modal v-if="showModal" @cancel="showModal = false" @ok="deleteStage(); showModal = false;">
       <div slot="body">Are you sure?</div>
     </modal>
@@ -66,7 +67,10 @@ export default {
       axios
         .get(`/stages`)
         .then(response => (this.stages = response.data))
-    }
+    },
+    signOut: function() {
+      axios.delete(`/users/sign_out`)
+    },
   }
 }
 </script>
