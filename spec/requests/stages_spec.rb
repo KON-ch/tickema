@@ -1,6 +1,11 @@
 require "rails_helper"
 
 RSpec.describe "Stages", type: :request do
+  before do
+    user = FactoryBot.create(:user)
+    sign_in user
+  end
+
   describe "GET #index " do
     it "status 200" do
       get "/stages"
@@ -35,20 +40,18 @@ RSpec.describe "Stages", type: :request do
   end
 
   describe "PUT #update" do
-    before do
-      @stage = FactoryBot.create(:stage)
-    end
+    let(:stage) { FactoryBot.create(:stage) }
 
     context "更新できる場合" do
       it "status 204" do
-        put "/stages/#{@stage.id}", params: { stage: { title: "ステージニューテストタイトル" } }
+        put "/stages/#{stage.id}", params: { stage: { title: "ステージニューテストタイトル" } }
         expect(response).to have_http_status(204)
       end
     end
 
     context "更新できない場合" do
       it "status 422" do
-        put "/stages/#{@stage.id}", params: { stage: { title: nil } }
+        put "/stages/#{stage.id}", params: { stage: { title: nil } }
         expect(response).to have_http_status(422)
       end
     end

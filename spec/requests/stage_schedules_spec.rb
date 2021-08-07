@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe "StageSchedules", type: :request do
   describe "GET #show" do
     it "公演日程から顧客情報が取得できること" do
+      user = FactoryBot.create(:user)
+      sign_in user
+
       FactoryBot.create(:stage)
       FactoryBot.create(:schedule)
       stage_schedule = FactoryBot.create(:stage_schedule)
