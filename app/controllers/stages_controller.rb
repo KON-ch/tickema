@@ -17,7 +17,7 @@ class StagesController < ApplicationController
       schedules << { id: id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
-    stage = { title: @stage.title, schedules: schedules }
+    stage = { title: @stage.title, schedules: schedules, customers: set_customers(@stage) }
 
     render json: stage
   end
@@ -59,5 +59,20 @@ class StagesController < ApplicationController
 
     def render_status_500(exception)
       render json: { errors: [exception] }, status: 500
+    end
+
+    def set_customers(stage)
+      customers = []
+      user_customers = Customer.where(user_id: current_user.id).select(:id, :name)
+
+      user_customers.map do |customer|
+        customer.stage_schedules.map do |s|
+          next unless s.stage_id == stage.id
+          date = Schedule.find_by(id: s.schedule_id).staging_date
+          customers << { name: customer.name, schedule: l(date) }
+        end
+      end
+
+      customers
     end
 end

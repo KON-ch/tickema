@@ -1,13 +1,15 @@
 <template>
   <div>
     <h1>{{ stage.title }}</h1>
-    <customer-search></customer-search>
+    <customer-search :customers="stage.customers"></customer-search>
+    <div class="total_count">合計 {{ stage.customers.length }} 人</div>
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id" click="importCustomers">
         <template v-slot:activator>
           <v-list-item-title>
             {{ schedule.staging_date }}
             {{ schedule.start_time }}
+            <span>{{ scheduleCustomers(schedule.staging_date) }}人</span>
           </v-list-item-title>
         </template>
         <v-list-item>
@@ -32,7 +34,9 @@ export default {
   },
   data: function() {
     return {
-      stage: [],
+      stage: {
+        customers: [],
+      },
       customers: [],
     }
   },
@@ -40,6 +44,16 @@ export default {
     axios
       .get(`/stages/${this.$route.params.id}`)
       .then(response => (this.stage = response.data))
+  },
+  computed: {
+    scheduleCustomers: function(){
+      return function(date) {
+        let customers = this.stage.customers
+        return customers.filter(customer => {
+          return customer.schedule === date
+        }).length
+      }
+    }
   }
 }
 </script>
@@ -56,5 +70,14 @@ h1{
 }
 .v-list-item {
   min-height: 5rem;
+}
+span {
+  margin-left: 1.5rem;
+  color: gray;
+}
+.total_count {
+  text-align: right;
+  margin-right: 1.5rem;
+  color: gray;
 }
 </style>

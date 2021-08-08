@@ -10,13 +10,14 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   data: function() {
     return {
       keyword: '',
-      customers: [],
     }
+  },
+  props: {
+    customers: [],
   },
   computed: {
     search_customers: function(){
@@ -25,11 +26,6 @@ export default {
         return customer.name.includes(this.keyword)
       })
     }
-  },
-  mounted() {
-    axios
-      .get(`/customers/search/${this.$route.params.id}`)
-      .then(response => { this.customers = response.data })
   }
 }
 </script>

@@ -11,5 +11,4 @@ Rails.application.routes.draw do
   resources :stage_schedules, only: :show
 
   get '/mypage', to: 'users#show'
-  get '/customers/search/:id', to: 'customers#search'
 end
