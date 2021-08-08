@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{ stage.title }}</h1>
+    <customer-search></customer-search>
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id" click="importCustomers">
         <template v-slot:activator>
@@ -21,11 +22,13 @@
 
 <script>
 import axios from 'axios';
+import CustomerSearch from './CustomerSearch.vue'
 import StageScheduleDetailPage from './StageScheduleDetailPage.vue';
 
 export default {
   components: {
     StageScheduleDetailPage,
+    CustomerSearch,
   },
   data: function() {
     return {

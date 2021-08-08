@@ -37,6 +37,21 @@ class CustomersController < ApplicationController
     head :no_content
   end
 
+  def search
+    customers = []
+    user_customers = Customer.where(user_id: current_user.id).select(:id, :name)
+
+    user_customers.map do |customer|
+      customer.stage_schedules.map do |s|
+        next unless s.stage_id == params[:id].to_i
+        date = Schedule.find_by(id: s.schedule_id).staging_date
+        customers << { name: customer.name, schedule: l(date) }
+      end
+    end
+
+    render json: customers
+  end
+
   private
     def customer_params
       params.require(:customer).permit(:family_name, :first_name).values.join(" ")

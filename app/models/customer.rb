@@ -1,6 +1,6 @@
 class Customer < ApplicationRecord
   has_many :stage_customers, dependent: :destroy
-  has_many :stages, through: :stage_customers
+  has_many :stage_schedules, through: :stage_customers
   belongs_to :user
 
   validates :name, presence: true, length: { maximum: 10 }
