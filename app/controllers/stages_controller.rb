@@ -63,7 +63,7 @@ class StagesController < ApplicationController
 
     def set_customers(stage)
       customers = []
-      user_customers = Customer.where(user_id: current_user.id).select(:id, :name)
+      user_customers = Customer.includes([:stage_schedules]).where(user_id: current_user.id).select(:id, :name)
 
       user_customers.map do |customer|
         customer.stage_schedules.map do |s|
