@@ -44,10 +44,9 @@ export default {
   },
   computed: {
     scheduleCustomers: function(){
-        let customers = this.customers
-        return customers.filter(customer => {
-          return customer.schedule_id === this.schedule_id
-        })
+      return this.customers.filter(customer => {
+        return customer.schedule_id === this.schedule_id
+      })
     }
   },
   methods: {
