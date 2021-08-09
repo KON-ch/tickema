@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :stages, except: %i[new edit]
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
-  resources :stage_schedules, only: :show
 
   get '/mypage', to: 'users#show'
 end

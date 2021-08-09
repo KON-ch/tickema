@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list v-if="customers.length">
-      <v-list-item v-for="customer in customers" :key="customer.id">
+      <v-list-item v-for="customer in scheduleCustomers" :key="customer.id">
         <div class="customer_name">{{ customer.name }}</div>
         <v-btn v-on:click="deleteTarget = customer.id; showModal = true" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
       </v-list-item>
@@ -28,7 +28,6 @@ export default {
   },
   data: function() {
     return {
-      customers: [],
       customer: {
         family_name: '',
         first_name: '',
@@ -39,18 +38,25 @@ export default {
     }
   },
   props: {
+    customers: [],
     schedule_id: '',
+    date: '',
   },
-  mounted() {
-    axios
-      .get(`/stage_schedules/${this.schedule_id}`)
-      .then(response => (this.customers = response.data))
+  computed: {
+    scheduleCustomers: function(){
+        let customers = this.customers
+        return customers.filter(customer => {
+          return customer.schedule_id === this.schedule_id
+        })
+    }
   },
   methods: {
     createCustomer: function() {
       axios
         .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
-        .then(response => { this.imoprtCustomer(); })
+        .then(response => {
+          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id })
+        })
         .catch(error => {
           console.error(error);
           if (error.response.data && error.response.data.errors) {
@@ -62,12 +68,10 @@ export default {
     deleteCustomer: function(id) {
       axios
         .delete(`/customers/${id}`)
-        .then(response => { this.imoprtCustomer(); })
-    },
-    imoprtCustomer: function() {
-      axios
-        .get(`/stage_schedules/${this.schedule_id}`)
-        .then(response => (this.customers = response.data));
+        .then(this.customers.splice(this.customers.map(function(customer, index) {
+            if (customer.id === id) return index
+          }).filter(Boolean)[0], 1
+        ))
     }
   }
 }

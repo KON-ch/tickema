@@ -68,8 +68,10 @@ class StagesController < ApplicationController
       user_customers.map do |customer|
         customer.stage_schedules.map do |s|
           next unless s.stage_id == stage.id
-          date = Schedule.find_by(id: s.schedule_id).staging_date
-          customers << { name: customer.name, schedule: l(date) }
+          schedule = Schedule.find_by(id: s.schedule_id)
+          schedule_id = StageSchedule.find_by(stage_id: stage.id, schedule_id: schedule.id).id
+          date = schedule.staging_date
+          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date) }
         end
       end
 

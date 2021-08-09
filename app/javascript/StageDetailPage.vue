@@ -4,17 +4,17 @@
     <customer-search :customers="stage.customers"></customer-search>
     <div class="total_count">合計 {{ stage.customers.length }} 人</div>
     <v-list>
-      <v-list-group v-for="schedule in stage.schedules" :key="schedule.id" click="importCustomers">
+      <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
         <template v-slot:activator>
           <v-list-item-title>
             {{ schedule.staging_date }}
             {{ schedule.start_time }}
-            <span>{{ scheduleCustomers(schedule.staging_date) }}人</span>
+            <span>{{ customersCount(schedule.id) }}人</span>
           </v-list-item-title>
         </template>
         <v-list-item>
           <v-list-item-content>
-            <stage-schedule-detail-page :customers="customers" :schedule_id="schedule.id"></stage-schedule-detail-page>
+            <stage-schedule-detail-page :customers="stage.customers" :schedule_id="schedule.id" :date="schedule.staging_date"></stage-schedule-detail-page>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -36,8 +36,7 @@ export default {
     return {
       stage: {
         customers: [],
-      },
-      customers: [],
+      }
     }
   },
   mounted() {
@@ -46,11 +45,11 @@ export default {
       .then(response => (this.stage = response.data))
   },
   computed: {
-    scheduleCustomers: function(){
-      return function(date) {
+    customersCount: function(){
+      return function(schedule_id) {
         let customers = this.stage.customers
         return customers.filter(customer => {
-          return customer.schedule === date
+          return customer.schedule_id === schedule_id
         }).length
       }
     }
