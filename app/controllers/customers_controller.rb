@@ -1,7 +1,6 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: %i[show update destroy]
 
-  rescue_from Exception, with: :render_status_500
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
@@ -14,7 +13,13 @@ class CustomersController < ApplicationController
   end
 
   def create
-    customer = Customer.new(name: customer_params)
+    begin
+      customer = Customer.new(name: customer_params)
+    rescue
+      render json: { errors: ["名前を入力してください"] }, status: 422
+      return
+    end
+
     customer.schedule_id = params.require(:schedule_id)
     customer.user_id = current_user.id
     if customer.save
@@ -48,9 +53,5 @@ class CustomersController < ApplicationController
 
     def render_status_404(exception)
       render json: { errors: [exception] }, status: 404
-    end
-
-    def render_status_500(exception)
-      render json: { errors: [exception] }, status: 500
     end
 end

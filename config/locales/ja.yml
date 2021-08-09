@@ -5,6 +5,8 @@ ja:
         email: "メールアドレス"
         password: "パスワード"
         remember_me: "次回からパスワードの入力を省略する"
+      customer:
+        name: "名前"
   date:
     formats:
       default: "%-m月%-d日(%a)"

@@ -55,7 +55,8 @@ export default {
       axios
         .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
         .then(response => {
-          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id })
+          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id });
+          this.errors = ''
         })
         .catch(error => {
           console.error(error);
