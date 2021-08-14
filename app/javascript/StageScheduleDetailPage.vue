@@ -93,14 +93,14 @@ export default {
     },
     customerCountUp: function(id, count) {
       axios
-        .post(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count + 1 } })
+        .put(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count + 1 } })
         .then(this.customers.map(customer => {
           if (customer.id === id) customer.count = count + 1
         }))
     },
     customerCountDown: function(id, count) {
       axios
-        .post(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count - 1 } })
+        .put(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count - 1 } })
         .then(this.customers.map(customer => {
           if (customer.id === id) customer.count = count - 1
         }))

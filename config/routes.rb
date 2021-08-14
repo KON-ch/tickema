@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :stages, except: %i[new edit]
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
-  post '/customers/:id/count', to: 'customers#count'
+  put '/customers/:id/count', to: 'customers#count'
 
   get '/mypage', to: 'users#show'
 end
