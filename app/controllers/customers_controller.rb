@@ -14,13 +14,13 @@ class CustomersController < ApplicationController
 
   def create
     begin
-      customer = Customer.new(name: customer_params)
+      customer = Customer.new(name: name_params)
     rescue
       render json: { errors: ["名前を入力してください"] }, status: 422
       return
     end
 
-    customer.schedule_id = params.require(:schedule_id)
+    customer.schedule_id = schedule_params
     customer.user_id = current_user.id
     if customer.save
       render json: customer, status: 201
@@ -30,7 +30,7 @@ class CustomersController < ApplicationController
   end
 
   def update
-    if @customer.update(name: customer_params)
+    if @customer.update(name: name_params)
       head :no_content
     else
       render json: { errors: @customer.errors.full_messages }, status: 422
@@ -52,12 +52,16 @@ class CustomersController < ApplicationController
   end
 
   private
-    def customer_params
+    def name_params
       params.require(:customer).permit(:family_name, :first_name).values.join(" ")
     end
 
     def count_params
       params.require(:customer).permit(:schedule_id, :count)
+    end
+
+    def schedule_params
+      params.require(:schedule).permit(:id)
     end
 
     def set_customer

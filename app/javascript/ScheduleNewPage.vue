@@ -70,7 +70,7 @@
     methods: {
       createSchedule: function() {
         axios
-          .post(`/schedules`, { schedule: this.schedules, stage_id: this.stage_id })
+          .post(`/schedules`, { schedule: this.schedules, stage: { id: this.stage_id } })
           .then(response => { response.data })
           .catch(error => {
             console.error(error);
