@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: %i[show update destroy]
+  before_action :set_customer, only: %i[show update destroy count]
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
@@ -42,9 +42,22 @@ class CustomersController < ApplicationController
     head :no_content
   end
 
+  def count
+    customer = @customer.stage_customers.find_by(stage_schedule_id: count_params[:schedule_id])
+    if customer.update(count: count_params[:count])
+      head :no_content
+    else
+      render json: { errors: @customer.errors.full_messages }, status: 422
+    end
+  end
+
   private
     def customer_params
       params.require(:customer).permit(:family_name, :first_name).values.join(" ")
+    end
+
+    def count_params
+      params.require(:customer).permit(:schedule_id, :count)
     end
 
     def set_customer

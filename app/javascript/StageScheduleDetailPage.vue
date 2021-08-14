@@ -3,8 +3,25 @@
     <v-list v-if="customers.length">
       <v-list-item v-for="customer in scheduleCustomers" :key="customer.id">
         <div class="customer_name">{{ customer.name }}</div>
-        <div>{{ customer.count }}枚</div>
-        <v-btn v-on:click="deleteTarget = customer.id; showModal = true" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
+        <div v-if="customer.count > 1">
+          <v-btn v-on:click="customerCountDown(customer.id, customer.count)" icon>
+            <v-icon>mdi-minus</v-icon>
+          </v-btn>
+        </div>
+        <div v-else><v-icon class="minus_btn">mdi-minus</v-icon></div>
+        <div>
+          <v-btn v-on:click="customerCountUp(customer.id, customer.count)" icon>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+        <div>
+          {{ customer.count }}枚
+        </div>
+        <div class="trash_btn">
+          <v-btn v-on:click="deleteTarget = customer.id; showModal = true" icon>
+            <v-icon>mdi-trash-can-outline</v-icon>
+          </v-btn>
+        </div>
       </v-list-item>
     </v-list>
     <customer-new-page :errors="errors" :customer="customer" @submit="createCustomer"></customer-new-page>
@@ -73,6 +90,20 @@ export default {
             if (customer.id === id) return index
           }).filter(Boolean)[0], 1
         ))
+    },
+    customerCountUp: function(id, count) {
+      axios
+        .post(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count + 1 } })
+        .then(this.customers.map(customer => {
+          if (customer.id === id) customer.count = count + 1
+        }))
+    },
+    customerCountDown: function(id, count) {
+      axios
+        .post(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count - 1 } })
+        .then(this.customers.map(customer => {
+          if (customer.id === id) customer.count = count - 1
+        }))
     }
   }
 }
@@ -80,9 +111,16 @@ export default {
 
 <style scoped>
 .customer_name {
-  min-width: 15rem;
+  min-width: 8rem;
 }
 .v-list-item {
   justify-content: space-between;
+}
+.minus_btn {
+  min-width: 36px;
+  color: lightgray;
+}
+.trash_btn {
+  padding: 0 1rem;
 }
 </style>
