@@ -20,7 +20,7 @@ class CustomersController < ApplicationController
       return
     end
 
-    customer.schedule_id = schedule_params
+    customer.schedule_id = schedule_params[:id]
     customer.user_id = current_user.id
     if customer.save
       render json: customer, status: 201
