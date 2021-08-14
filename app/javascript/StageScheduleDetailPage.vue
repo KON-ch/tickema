@@ -3,6 +3,7 @@
     <v-list v-if="customers.length">
       <v-list-item v-for="customer in scheduleCustomers" :key="customer.id">
         <div class="customer_name">{{ customer.name }}</div>
+        <div>{{ customer.count }}枚</div>
         <v-btn v-on:click="deleteTarget = customer.id; showModal = true" icon><v-icon>mdi-trash-can-outline</v-icon></v-btn>
       </v-list-item>
     </v-list>
@@ -54,7 +55,7 @@ export default {
       axios
         .post(`/customers`, { customer: this.customer, schedule_id: this.schedule_id })
         .then(response => {
-          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id });
+          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id, count: 1 });
           this.errors = ''
         })
         .catch(error => {

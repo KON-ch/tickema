@@ -65,13 +65,14 @@ class StagesController < ApplicationController
       customers = []
       user_customers = Customer.includes([:stage_schedules]).where(user_id: current_user.id).select(:id, :name)
 
-      user_customers.map do |customer|
-        customer.stage_schedules.map do |s|
+      user_customers.each do |customer|
+        customer.stage_schedules.each do |s|
           next unless s.stage_id == stage.id
           schedule = Schedule.find_by(id: s.schedule_id)
           schedule_id = StageSchedule.find_by(stage_id: stage.id, schedule_id: schedule.id).id
           date = schedule.staging_date
-          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date) }
+          count = s.stage_customers.find_by(customer_id: customer.id).count
+          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date), count: count }
         end
       end
 

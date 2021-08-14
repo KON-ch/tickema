@@ -2,14 +2,14 @@
   <div>
     <h1>{{ stage.title }}</h1>
     <customer-search :customers="stage.customers"></customer-search>
-    <div class="total_count">合計 {{ stage.customers.length }} 人</div>
+    <div class="total_count">合計 {{ customersCount }} 人</div>
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
         <template v-slot:activator>
           <v-list-item-title>
             {{ schedule.staging_date }}
             {{ schedule.start_time }}
-            <span>{{ customersCount(schedule.id) }}人</span>
+            <span>{{ scheduleCustomersCount(schedule.id) }}人</span>
           </v-list-item-title>
         </template>
         <v-list-item>
@@ -45,15 +45,23 @@ export default {
       .then(response => (this.stage = response.data))
   },
   computed: {
-    customersCount: function(){
+    customersCount: function() {
+      let count = 0
+      this.stage.customers.forEach(customer => {
+        count += customer.count
+      })
+      return count
+    },
+    scheduleCustomersCount: function(){
       return function(schedule_id) {
-        let customers = this.stage.customers
-        return customers.filter(customer => {
-          return customer.schedule_id === schedule_id
-        }).length
+        let count = 0
+        this.stage.customers.forEach(customer => {
+          if (customer.schedule_id === schedule_id) count += customer.count
+        })
+        return count
       }
     }
-  }
+  },
 }
 </script>
 
