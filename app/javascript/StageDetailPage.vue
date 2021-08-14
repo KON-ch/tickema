@@ -7,9 +7,11 @@
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
         <template v-slot:activator>
           <v-list-item-title>
-            {{ schedule.staging_date }}
-            {{ schedule.start_time }}
-            <span>{{ scheduleCustomersCount(schedule.id) }}人</span>
+            <span class="schedule_list">
+              {{ schedule.staging_date }}
+              {{ schedule.start_time }}
+            </span>
+            <span class="customer_count">{{ scheduleCustomersCount(schedule.id) }}人</span>
           </v-list-item-title>
         </template>
         <v-list-item>
@@ -78,7 +80,7 @@ h1{
 .v-list-item {
   min-height: 5rem;
 }
-span {
+.customer_count {
   margin-left: 1.5rem;
   color: gray;
 }
@@ -86,5 +88,10 @@ span {
   text-align: right;
   margin-right: 1.5rem;
   color: gray;
+}
+.schedule_list {
+  min-width: 9rem;
+  display: inline-block;
+  text-align: right;
 }
 </style>
