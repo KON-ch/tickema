@@ -5,5 +5,6 @@ FactoryBot.define do
     id { 1 }
     stage_schedule_id { 1 }
     customer_id { 1 }
+    count { 2 }
   end
 end

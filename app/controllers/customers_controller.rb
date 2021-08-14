@@ -43,8 +43,11 @@ class CustomersController < ApplicationController
   end
 
   def count
+    count = count_params[:count]
+    return head :unprocessable_entity unless count.to_i.positive?
+
     customer = @customer.stage_customers.find_by(stage_schedule_id: count_params[:schedule_id])
-    if customer.update(count: count_params[:count])
+    if customer.update(count: count)
       head :no_content
     else
       render json: { errors: @customer.errors.full_messages }, status: 422

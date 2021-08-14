@@ -3,7 +3,7 @@ class SchedulesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def create
-    return unless stage = Stage.find_by(id: stage_params)
+    return unless stage = Stage.find_by(id: stage_params[:id])
 
     schedules = []
     schedule_params.each do |param|

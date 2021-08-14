@@ -29,11 +29,11 @@ RSpec.describe "Customers", type: :request do
       FactoryBot.create(:schedule)
     end
 
-    let(:schedule_id) { FactoryBot.create(:stage_schedule) }
+    let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
 
     context "登録できる場合" do
       it "status 201" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: "テスト", first_name: "太郎",), schedule_id: schedule_id }
+        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: "テスト", first_name: "太郎",), schedule: { id: schedule_id } }
 
         expect(response).to have_http_status(201)
       end
@@ -41,7 +41,7 @@ RSpec.describe "Customers", type: :request do
 
     context "登録できない場合" do
       it "status 422" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: nil, first_name: nil), schedule_id: schedule_id }
+        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: nil, first_name: nil), schedule: { id: schedule_id } }
         expect(response).to have_http_status(422)
       end
     end
@@ -70,6 +70,40 @@ RSpec.describe "Customers", type: :request do
       customer = FactoryBot.create(:customer)
       delete "/customers/#{customer.id}"
       expect(response).to have_http_status(204)
+    end
+  end
+
+  describe "PUT #count" do
+    before do
+      FactoryBot.create(:stage)
+      FactoryBot.create(:schedule)
+    end
+
+    let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
+    let(:customer) { FactoryBot.create(:customer) }
+    let(:count) { FactoryBot.create(:stage_customer).count }
+
+    context "購入枚数が増える場合" do
+      it "購入枚数が+1されること" do
+        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count + 1 } }
+        expect(response).to have_http_status(204)
+        expect(StageCustomer.first.count).to eq count + 1
+      end
+    end
+
+    context "購入枚数が減る場合" do
+      it "購入枚数が-1されること" do
+        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count - 1 } }
+        expect(response).to have_http_status(204)
+        expect(StageCustomer.first.count).to eq count - 1
+      end
+    end
+
+    context "購入枚数が0になる場合" do
+      it "更新されないこと" do
+        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: 0 } }
+        expect(response).to have_http_status(422)
+      end
     end
   end
 end
