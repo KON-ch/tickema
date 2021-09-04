@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h1>{{ stage.title }}</h1>
+  <v-card height="100vh">
+    <header-menu :stage="stage"></header-menu>
+
     <customer-search :customers="stage.customers"></customer-search>
+
     <div class="total_count">合計 {{ customersCount }} 人</div>
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
@@ -21,31 +23,35 @@
         </v-list-item>
       </v-list-group>
     </v-list>
-  </div>
+  </v-card>
 </template>
 
 <script>
 import axios from 'axios';
 import CustomerSearch from './CustomerSearch.vue'
+import HeaderMenu from './HeaderMenu.vue'
 import StageScheduleDetailPage from './StageScheduleDetailPage.vue';
 
 export default {
   components: {
     StageScheduleDetailPage,
     CustomerSearch,
+    HeaderMenu
   },
   data: function() {
     return {
       stage: {
         customers: [],
-      }
+      },
     }
   },
+
   mounted() {
     axios
       .get(`/stages/${this.$route.params.id}`)
       .then(response => (this.stage = response.data))
   },
+
   computed: {
     customersCount: function() {
       let count = 0
@@ -70,12 +76,6 @@ export default {
 <style scoped>
 body {
   height: 100%;
-}
-h1{
-  font-size: 2rem;
-  margin-top: 2rem;
-  text-align: center;
-  color: gray;
 }
 .v-list-item {
   min-height: 5rem;
