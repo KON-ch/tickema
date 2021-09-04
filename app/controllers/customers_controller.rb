@@ -14,14 +14,14 @@ class CustomersController < ApplicationController
 
   def create
     begin
-      customer = Customer.new(name: name_params)
-    rescue
+      customer = Customer.new(name: name_params, user_id: current_user.id)
+    rescue ActionController::ParameterMissing
       render json: { errors: ["名前を入力してください"] }, status: 422
       return
     end
 
     customer.schedule_id = schedule_params[:id]
-    customer.user_id = current_user.id
+
     if customer.save
       render json: customer, status: 201
     else
