@@ -27,9 +27,11 @@
             <v-icon large class="title-icon">mdi-clipboard-list-outline</v-icon>公演一覧
           </v-list-item-title>
           <v-list-item v-for="stageList in stages" :key="stageList.id">
-            <v-list-item-title @click="changeStage(stageList.id)">
-              <v-icon class="content-icon">mdi-refresh</v-icon>
-              {{ stageList.title }}
+            <v-list-item-title>
+              <router-link :to="{ path: `/stages/${stageList.id}` }" class="router-link">
+                <v-icon class="content-icon">mdi-refresh</v-icon>
+                {{ stageList.title }}
+              </router-link>
             </v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -62,14 +64,6 @@
 
     mounted() {
       axios.get(`/mypage`).then(response => (this.stages = response.data))
-    },
-
-    methods: {
-      changeStage(id) {
-        const route = { name: 'StageDetailPage', params: { id: id } }
-        this.$router.push(route)
-        this.$router.go(route);
-      }
     }
   }
 </script>
@@ -87,6 +81,13 @@
   .content-icon {
     margin-left: 1rem;
     margin-right: 0.5rem;
+  }
+  .router-link{
+    text-decoration: none;
+    color: gray;
+  }
+  .router-link-active {
+    color: lightgray;
   }
 
 </style>

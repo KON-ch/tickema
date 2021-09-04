@@ -46,6 +46,14 @@ export default {
     }
   },
 
+  watch: {
+    $route(to) {
+      axios
+      .get(`/stages/${to.params.id}`)
+      .then(response => (this.stage = response.data))
+    }
+  },
+
   mounted() {
     axios
       .get(`/stages/${this.$route.params.id}`)
