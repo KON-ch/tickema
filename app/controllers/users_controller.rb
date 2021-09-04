@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def show
-    stage = Stage.select(:id, :title).first
+    stage = Stage.select(:id, :title)
     render json: stage
   end
 end

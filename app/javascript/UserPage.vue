@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div><router-link :to="{ name: 'StageDetailPage', params: { id: stage.id } }">{{ stage.title }}</router-link></div>
+    <div v-for="stage in stages" :key="stage.id"><router-link :to="{ name: 'StageDetailPage', params: { id: stage.id } }">{{ stage.title }}</router-link></div>
   </div>
 </template>
 
@@ -10,14 +10,11 @@ import axios from 'axios';
 export default {
   data: function () {
     return {
-      stage: {
-        id: '',
-        title: '',
-      }
+      stages: []
     }
   },
   mounted() {
-    axios.get(`/mypage`).then(response => (this.stage = response.data))
+    axios.get(`/mypage`).then(response => (this.stages = response.data))
   },
 }
 </script>

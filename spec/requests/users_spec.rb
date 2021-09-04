@@ -7,7 +7,7 @@ RSpec.describe "Users", type: :request do
       sign_in user
 
       stage = FactoryBot.create(:stage)
-      stage = { "id"=> stage.id, "title"=> stage.title }
+      stage = [{ "id"=> stage.id, "title"=> stage.title }]
 
       get "/mypage"
       json = JSON.parse(response.body)
