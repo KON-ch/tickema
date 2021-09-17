@@ -18,7 +18,12 @@
         </template>
         <v-list-item>
           <v-list-item-content>
-            <stage-schedule-detail-page :customers="stage.customers" :schedule_id="schedule.id" :date="schedule.staging_date"></stage-schedule-detail-page>
+            <stage-schedule-detail-page
+              :customers="stage.customers"
+              :schedule_id="schedule.id"
+              :date="schedule.staging_date"
+              :stage_id="stage.id"
+            ></stage-schedule-detail-page>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>

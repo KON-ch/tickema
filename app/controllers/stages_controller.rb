@@ -17,7 +17,7 @@ class StagesController < ApplicationController
       schedules << { id: id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
-    stage = { title: @stage.title, schedules: schedules, customers: set_customers(@stage) }
+    stage = { id: @stage.id, title: @stage.title, schedules: schedules, customers: set_customers(@stage) }
 
     render json: stage
   end

@@ -59,6 +59,7 @@ export default {
     customers: [],
     schedule_id: '',
     date: '',
+    stage_id: '',
   },
   computed: {
     scheduleCustomers: function(){
@@ -73,7 +74,8 @@ export default {
         .post(`/customers`, { customer: this.customer, schedule: { id: this.schedule_id } })
         .then(response => {
           this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id, count: 1 });
-          this.errors = ''
+          this.$router.push({ path: `/stages/${this.stage_id}` });
+          this.errors = '';
         })
         .catch(error => {
           console.error(error);
