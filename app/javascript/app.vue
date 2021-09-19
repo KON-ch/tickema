@@ -10,6 +10,7 @@ import VueRouter       from 'vue-router'
 
 import UserPage        from './UserPage.vue'
 import StageDetailPage from './StageDetailPage.vue'
+import CustomerIndexPage from './CustomerIndexPage.vue'
 
 const router = new VueRouter({
   routes: [
@@ -18,6 +19,9 @@ const router = new VueRouter({
     { path: '/stages/:id(\\d+)',
       name: 'StageDetailPage',
       component: StageDetailPage },
+    { path: '/customers/:id(\\d+)',
+      name: 'CustomerIndexPage',
+      component: CustomerIndexPage },
   ]
 })
 

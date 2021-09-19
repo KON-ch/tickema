@@ -22,17 +22,18 @@
         <v-list-item-group
           v-model="group"
           active-class="deep-purple--text text--accent-4"
+          v-for="stageList in stages" :key="stageList.id"
         >
-          <v-list-item-title>
-            <v-icon large class="title-icon">mdi-clipboard-list-outline</v-icon>公演一覧
-          </v-list-item-title>
-          <v-list-item v-for="stageList in stages" :key="stageList.id">
-            <v-list-item-title>
-              <router-link :to="{ path: `/stages/${stageList.id}` }" class="router-link">
-                <v-icon class="content-icon">mdi-refresh</v-icon>
-                {{ stageList.title }}
-              </router-link>
-            </v-list-item-title>
+          <v-list-item-title>{{ stageList.title }}</v-list-item-title>
+          <v-list-item>
+            <router-link :to="{ path: `/stages/${stageList.id}` }" class="router-link">
+              <v-icon class="content-icon">mdi-clipboard-list-outline</v-icon>公演詳細
+            </router-link>
+          </v-list-item>
+          <v-list-item>
+            <router-link :to="{ path: `/customers/${stageList.id}` }" class="router-link">
+              <v-icon class="content-icon">mdi-account-multiple</v-icon>顧客一覧
+            </router-link>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -73,10 +74,8 @@
     margin-bottom: 2rem;
   }
   .v-list-item__title {
-    margin-bottom: 1rem;
-  }
-  .title-icon {
-    margin-right: 0.75rem;
+    margin: 1rem 0;
+    font-weight: bold;
   }
   .content-icon {
     margin-left: 1rem;
