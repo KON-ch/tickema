@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
   put '/customers/:id/count', to: 'customers#count'
+  put '/customers/:id/contacted', to: 'customers#contacted'
 
   get '/mypage', to: 'users#show'
 end

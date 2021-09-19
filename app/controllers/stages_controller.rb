@@ -72,7 +72,8 @@ class StagesController < ApplicationController
           schedule_id = StageSchedule.find_by(stage_id: stage.id, schedule_id: schedule.id).id
           date = schedule.staging_date
           count = s.stage_customers.find_by(customer_id: customer.id).count
-          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date), count: count }
+          contacted = s.stage_customers.find_by(customer_id: customer.id).contacted
+          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date), count: count, contacted: contacted }
         end
       end
 

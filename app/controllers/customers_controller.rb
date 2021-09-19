@@ -54,6 +54,15 @@ class CustomersController < ApplicationController
     end
   end
 
+  def contacted
+    customer = set_customer.stage_customers.find_by(stage_schedule_id: contacted_params[:schedule_id])
+    if customer.update(contacted: contacted_params[:contacted])
+      head :no_content
+    else
+      render json: { errors: customer.errors.full_messages }, status: 422
+    end
+  end
+
   private
     def name_params
       params.require(:customer).permit(:family_name, :first_name).values.join(" ")
@@ -65,6 +74,10 @@ class CustomersController < ApplicationController
 
     def schedule_params
       params.require(:schedule).permit(:id)
+    end
+
+    def contacted_params
+      params.require(:customer).permit(:schedule_id, :contacted)
     end
 
     def set_customer
