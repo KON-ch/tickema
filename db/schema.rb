@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_043839) do
+ActiveRecord::Schema.define(version: 2021_09_19_141235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_043839) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "count", default: 1, null: false
+    t.boolean "contacted", default: false, null: false
     t.index ["stage_schedule_id", "customer_id"], name: "index_stage_customers_on_stage_schedule_id_and_customer_id", unique: true
   end
 
