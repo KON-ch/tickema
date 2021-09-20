@@ -8,7 +8,7 @@
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
         <template v-slot:activator>
-          <v-list-item-title>
+          <v-list-item-title :class="scheduleColor(schedule.start_time)">
             <span class="schedule_list">
               {{ schedule.staging_date }}
               {{ schedule.start_time }}
@@ -81,6 +81,15 @@ export default {
         })
         return count
       }
+    },
+    scheduleColor: function() {
+      return function(time) {
+        if(time < '15:00') {
+          return "schedule_matinee"
+        } else {
+          return "schedule_soiree"
+        }
+      }
     }
   },
 }
@@ -106,5 +115,14 @@ body {
   min-width: 9rem;
   display: inline-block;
   text-align: right;
+}
+.v-list-item__title {
+  font-weight: bold;
+}
+.schedule_matinee {
+  color: rgba(255, 125, 0, 0.7);
+}
+.schedule_soiree {
+  color: rgba(0, 125, 255, 0.7);
 }
 </style>
