@@ -69,7 +69,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   header {
     margin-bottom: 2rem;
   }
