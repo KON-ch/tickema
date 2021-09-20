@@ -1,3 +1,5 @@
+require 'csv'
+
 class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
@@ -60,6 +62,23 @@ class CustomersController < ApplicationController
     else
       render json: { errors: customer.errors.full_messages }, status: 422
     end
+  end
+
+  def csv
+    customers = current_user.customers.filter_map do |customer|
+      customer if customer.stage_schedules.find_by(stage_id: params[:id])
+    end
+
+    csv_data = CSV.generate do |csv|
+      csv << %w[名前 日付 開演時間 備考]
+
+      customers.each do |customer|
+        customer_schedule = customer.stage_schedules.find_by(stage_id: params[:id]).schedule
+        csv << [customer.name, l(customer_schedule.staging_date), l(customer_schedule.start_time)]
+      end
+    end
+
+    send_data(csv_data)
   end
 
   private

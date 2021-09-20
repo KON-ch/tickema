@@ -18,6 +18,9 @@
         ></v-simple-checkbox>
       </template>
     </v-data-table>
+    <div style="text-align: center; margin-top: 2rem;">
+      <v-btn elevation="2" @click="download">顧客一覧ダウンロード</v-btn>
+    </div>
   </div>
 </template>
 
@@ -69,6 +72,27 @@ export default {
     changeContacted: function(customer){
       axios
         .put(`customers/${customer.id}/contacted`, { customer: { schedule_id: customer.schedule_id, contacted: customer.contacted } })
+    },
+
+    download: function() {
+      axios
+        .get(`customers/${this.$route.params.id}/csv`)
+        .then(response => {
+          const today = new Date();
+          let month = today.getMonth()
+          if(month < 10) {
+            month = "0" + month
+          } else {
+            month = month
+          }
+
+          const fileURL = URL.createObjectURL(new Blob([response.data]));
+          const fileLink = document.createElement("a");
+          fileLink.href = fileURL;
+          fileLink.setAttribute("download", "customers_" + month + today.getDate() + ".csv" );
+          fileLink.click();
+        })
+        .catch(error => { alert("ダウンロードに失敗しました") })
     }
   }
 }

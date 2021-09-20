@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :customers, except: %i[new edit]
   put '/customers/:id/count', to: 'customers#count'
   put '/customers/:id/contacted', to: 'customers#contacted'
+  get '/customers/:id/csv', to: 'customers#csv'
 
   get '/mypage', to: 'users#show'
 end
