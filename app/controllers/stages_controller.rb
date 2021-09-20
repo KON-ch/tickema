@@ -11,13 +11,14 @@ class StagesController < ApplicationController
 
   def show
     schedules = []
+    stage     = set_stage
 
-    @stage.schedules.order(:staging_date, :start_time).select(:id, :staging_date, :start_time).each do |s|
-      id = StageSchedule.find_by(stage_id: @stage.id, schedule_id: s.id).id
+    stage.schedules.order(:staging_date, :start_time).select(:id, :staging_date, :start_time).each do |s|
+      id = StageSchedule.find_by(stage_id: stage.id, schedule_id: s.id).id
       schedules << { id: id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
-    stage = { id: @stage.id, title: @stage.title, schedules: schedules, customers: set_customers(@stage) }
+    stage = { id: stage.id, title: stage.title, schedules: schedules, customers: set_customers(stage) }
 
     render json: stage
   end
@@ -32,15 +33,16 @@ class StagesController < ApplicationController
   end
 
   def update
-    if @stage.update(stage_params)
+    stage = set_stage
+    if stage.update(stage_params)
       head :no_content
     else
-      render json: { errors: @stage.errors.full_messages }, status: 422
+      render json: { errors: stage.errors.full_messages }, status: 422
     end
   end
 
   def destroy
-    @stage.destroy!
+    set_stage.destroy!
     head :no_content
   end
 
@@ -50,7 +52,7 @@ class StagesController < ApplicationController
     end
 
     def set_stage
-      @stage = Stage.find_by(id: params[:id])
+      Stage.find_by(id: params[:id])
     end
 
     def render_status_404(exception)

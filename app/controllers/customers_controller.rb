@@ -1,6 +1,4 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: %i[show update destroy count]
-
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
@@ -9,7 +7,7 @@ class CustomersController < ApplicationController
   end
 
   def show
-    render json: @customer
+    render json: set_customer
   end
 
   def create
@@ -30,15 +28,16 @@ class CustomersController < ApplicationController
   end
 
   def update
-    if @customer.update(name: name_params)
+    customer = set_customer
+    if customer.update(name: name_params)
       head :no_content
     else
-      render json: { errors: @customer.errors.full_messages }, status: 422
+      render json: { errors: customer.errors.full_messages }, status: 422
     end
   end
 
   def destroy
-    @customer.destroy!
+    set_customer.destroy!
     head :no_content
   end
 
@@ -46,11 +45,11 @@ class CustomersController < ApplicationController
     count = count_params[:count]
     return head :unprocessable_entity unless count.to_i.positive?
 
-    customer = @customer.stage_customers.find_by(stage_schedule_id: count_params[:schedule_id])
+    customer = set_customer.stage_customers.find_by(stage_schedule_id: count_params[:schedule_id])
     if customer.update(count: count)
       head :no_content
     else
-      render json: { errors: @customer.errors.full_messages }, status: 422
+      render json: { errors: customer.errors.full_messages }, status: 422
     end
   end
 
@@ -81,7 +80,7 @@ class CustomersController < ApplicationController
     end
 
     def set_customer
-      @customer = Customer.find_by(id: params[:id])
+      Customer.find_by(id: params[:id])
     end
 
     def render_status_404(exception)
