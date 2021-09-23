@@ -4,7 +4,12 @@ RSpec.describe "Customers", type: :request do
   before do
     user = FactoryBot.create(:user)
     sign_in user
+    FactoryBot.create(:stage)
+    FactoryBot.create(:schedule)
   end
+
+  let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
+  let(:customer) { FactoryBot.create(:customer) }
 
   describe "GET #index " do
     it "status 200" do
@@ -14,8 +19,7 @@ RSpec.describe "Customers", type: :request do
   end
 
   describe "GET #show" do
-    it "公演タイトルを取得できること" do
-      customer = FactoryBot.create(:customer)
+    it "名前を取得できること" do
       get "/customers/#{customer.id}"
       json = JSON.parse(response.body)
       expect(response).to have_http_status(200)
@@ -24,50 +28,47 @@ RSpec.describe "Customers", type: :request do
   end
 
   describe "POST #create" do
-    before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:schedule)
-    end
+    before { post "/customers", params: { customer: name, schedule: { id: schedule_id } } }
 
-    let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
+    context "名前が入力されている場合" do
+      let(:name) { { family_name: "テスト", first_name: "花子" } }
 
-    context "登録できる場合" do
-      it "status 201" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: "テスト", first_name: "太郎",), schedule: { id: schedule_id } }
-
+      it "登録できること" do
         expect(response).to have_http_status(201)
       end
     end
 
-    context "登録できない場合" do
-      it "status 422" do
-        post "/customers", params: { customer: FactoryBot.attributes_for(:customer, family_name: nil, first_name: nil), schedule: { id: schedule_id } }
+    context "名前が入力されていない場合" do
+      let(:name) { { family_name: nil, first_name: nil } }
+
+      it "登録できないこと" do
         expect(response).to have_http_status(422)
       end
     end
   end
 
   describe "PUT #update" do
-    let(:customer) { FactoryBot.create(:customer) }
+    before { put "/customers/#{customer.id}", params: { customer: name } }
 
-    context "更新できる場合" do
-      it "status 204" do
-        put "/customers/#{customer.id}", params: { customer: { family_name: "テスト", first_name: "新太郎" } }
+    context "名前が入力されている場合" do
+      let(:name) { { family_name: "テスト", first_name: "花子" } }
+
+      it "更新できること" do
         expect(response).to have_http_status(204)
       end
     end
 
-    context "更新できない場合" do
-      it "status 422" do
-        put "/customers/#{customer.id}", params: { customer: { family_name: nil, first_name: nil } }
+    context "名前が入力されていない場合" do
+      let(:name) { { family_name: nil, first_name: nil } }
+
+      it "更新されないこと" do
         expect(response).to have_http_status(422)
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "公演情報が削除されること" do
-      customer = FactoryBot.create(:customer)
+    it "顧客情報が削除されること" do
       delete "/customers/#{customer.id}"
       expect(response).to have_http_status(204)
     end
@@ -75,35 +76,63 @@ RSpec.describe "Customers", type: :request do
 
   describe "PUT #count" do
     before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:schedule)
+      FactoryBot.create(:stage_customer, stage_schedule_id: schedule_id, customer_id: customer.id)
+      put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count } }
     end
 
-    let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
-    let(:customer) { FactoryBot.create(:customer) }
-    let(:count) { FactoryBot.create(:stage_customer).count }
-
     context "購入枚数が増える場合" do
+      let(:count) { StageCustomer.first.count + 1 }
+
       it "購入枚数が+1されること" do
-        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count + 1 } }
         expect(response).to have_http_status(204)
-        expect(StageCustomer.first.count).to eq count + 1
+        expect(StageCustomer.first.count).to eq count
       end
     end
 
     context "購入枚数が減る場合" do
+      let(:count) { StageCustomer.first.count - 1 }
+
       it "購入枚数が-1されること" do
-        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count - 1 } }
         expect(response).to have_http_status(204)
-        expect(StageCustomer.first.count).to eq count - 1
+        expect(count).to eq count
       end
     end
 
     context "購入枚数が0になる場合" do
+      let(:count) { 0 }
+
       it "更新されないこと" do
-        put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: 0 } }
         expect(response).to have_http_status(422)
       end
     end
+
+    context "入力された購入枚数が文字列の場合" do
+      let(:count) { "テスト枚数" }
+
+      it "status 422" do
+        expect(response).to have_http_status(422)
+      end
+    end
+  end
+
+  describe "PUT #contacted" do
+    before do
+      FactoryBot.create(:stage_customer, stage_schedule_id: schedule_id, customer_id: customer.id)
+      put "/customers/#{customer.id}/contacted", params: { customer: { schedule_id: schedule_id, contacted: contacted } }
+    end
+
+    subject { StageCustomer.first.contacted }
+
+    context "連絡済みの場合" do
+      let(:contacted) { true }
+      it { is_expected.to eq true }
+    end
+
+    context "連絡済みではない場合" do
+      let(:contacted) { false }
+      it { is_expected.to eq false }
+    end
+
+
   end
 end
