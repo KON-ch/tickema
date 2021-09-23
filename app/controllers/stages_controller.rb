@@ -14,11 +14,11 @@ class StagesController < ApplicationController
     stage     = set_stage
 
     stage.schedules.order(:staging_date, :start_time).select(:id, :staging_date, :start_time).each do |s|
-      id = StageSchedule.find_by(stage_id: stage.id, schedule_id: s.id).id
+      id = stage.stage_schedules.find_by(schedule_id: s.id).id
       schedules << { id: id, staging_date: l(s.staging_date), start_time: l(s.start_time) }
     end
 
-    stage = { id: stage.id, title: stage.title, schedules: schedules, customers: set_customers(stage) }
+    stage = { id: stage.id, title: stage.title, schedules: schedules, customers: set_customers }
 
     render json: stage
   end
@@ -28,7 +28,7 @@ class StagesController < ApplicationController
     if stage.save
       render json: stage, status: 201
     else
-      render json: { errors: stage.errors.full_messages }, status: 422
+      render_status_422(stage.errors.full_messages)
     end
   end
 
@@ -37,7 +37,7 @@ class StagesController < ApplicationController
     if stage.update(stage_params)
       head :no_content
     else
-      render json: { errors: stage.errors.full_messages }, status: 422
+      render_status_422(stage.errors.full_messages)
     end
   end
 
@@ -47,38 +47,47 @@ class StagesController < ApplicationController
   end
 
   private
-    def stage_params
-      params.require(:stage).permit(:title)
-    end
 
-    def set_stage
-      Stage.find_by(id: params[:id])
-    end
+  def stage_params
+    params.require(:stage).permit(:title)
+  end
 
-    def render_status_404(exception)
-      render json: { errors: [exception] }, status: 404
-    end
+  def set_stage
+    Stage.find_by(id: params[:id])
+  end
 
-    def render_status_500(exception)
-      render json: { errors: [exception] }, status: 500
-    end
+  def set_customers
+    customers = []
 
-    def set_customers(stage)
-      customers = []
-      user_customers = Customer.includes([:stage_schedules]).where(user_id: current_user.id).select(:id, :name)
+    current_user.customers.includes([:stage_schedules]).each do |customer|
+      customer.stage_schedules.each do |s|
+        next if s.stage_id != params[:id].to_i
 
-      user_customers.each do |customer|
-        customer.stage_schedules.each do |s|
-          next unless s.stage_id == stage.id
-          schedule = Schedule.find_by(id: s.schedule_id)
-          schedule_id = StageSchedule.find_by(stage_id: stage.id, schedule_id: schedule.id).id
-          date = schedule.staging_date
-          count = s.stage_customers.find_by(customer_id: customer.id).count
-          contacted = s.stage_customers.find_by(customer_id: customer.id).contacted
-          customers << { id: customer.id, name: customer.name, schedule_id: schedule_id, schedule: l(date), count: count, contacted: contacted }
-        end
+        date = s.schedule.staging_date
+        stage_customer = s.stage_customers.find_by(customer_id: customer.id)
+        customers << {
+          id:          customer.id,
+          name:        customer.name,
+          schedule_id: s.id,
+          schedule:    l(date),
+          count:       stage_customer.count,
+          contacted:   stage_customer.contacted
+        }
       end
-
-      customers
     end
+
+    customers
+  end
+
+  def render_status_404(exception)
+    render json: { errors: [exception] }, status: 404
+  end
+
+  def render_status_500(exception)
+    render json: { errors: [exception] }, status: 500
+  end
+
+  def render_status_422(exception)
+    render json: { errors: [exception] }, status: 422
+  end
 end

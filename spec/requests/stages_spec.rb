@@ -6,6 +6,8 @@ RSpec.describe "Stages", type: :request do
     sign_in user
   end
 
+  let(:stage) { FactoryBot.create(:stage) }
+
   describe "GET #index " do
     it "status 200" do
       get "/stages"
@@ -15,7 +17,6 @@ RSpec.describe "Stages", type: :request do
 
   describe "GET #show" do
     it "公演タイトルを取得できること" do
-      stage = FactoryBot.create(:stage)
       get "/stages/#{stage.id}"
       json = JSON.parse(response.body)
       expect(response).to have_http_status(200)
@@ -24,34 +25,44 @@ RSpec.describe "Stages", type: :request do
   end
 
   describe "POST #create" do
-    context "登録できる場合" do
-      it "status 201" do
-        post "/stages", params: { stage: FactoryBot.attributes_for(:stage) }
+    before do
+      post "/stages", params: { stage: { title: title} }
+    end
+
+    context "タイトルが入力されている場合" do
+      let(:title ) { "テスト題名" }
+
+      it "登録できること" do
         expect(response).to have_http_status(201)
       end
     end
 
-    context "登録できない場合" do
-      it "status 422" do
-        post "/stages", params: { stage: FactoryBot.attributes_for(:stage, title: nil)}
+    context "タイトルが入力されていない場合" do
+      let(:title ) { nil }
+
+      it "登録できないこと" do
         expect(response).to have_http_status(422)
       end
     end
   end
 
   describe "PUT #update" do
-    let(:stage) { FactoryBot.create(:stage) }
+    before do
+      put "/stages/#{stage.id}", params: { stage: { title: title } }
+    end
 
-    context "更新できる場合" do
-      it "status 204" do
-        put "/stages/#{stage.id}", params: { stage: { title: "ステージニューテストタイトル" } }
+    context "タイトルが入力されている場合" do
+      let(:title) { "新テストタイトル" }
+
+      it "更新されること" do
         expect(response).to have_http_status(204)
       end
     end
 
-    context "更新できない場合" do
+    context "タイトルが入力されていない場合" do
+      let(:title) { nil }
+
       it "status 422" do
-        put "/stages/#{stage.id}", params: { stage: { title: nil } }
         expect(response).to have_http_status(422)
       end
     end
@@ -59,7 +70,6 @@ RSpec.describe "Stages", type: :request do
 
   describe "DELETE #destroy" do
     it "公演情報が削除されること" do
-      stage = FactoryBot.create(:stage)
       delete "/stages/#{stage.id}"
       expect(response).to have_http_status(204)
     end
