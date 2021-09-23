@@ -74,7 +74,9 @@ export default {
         .post(`/customers`, { customer: this.customer, schedule: { id: this.schedule_id } })
         .then(response => {
           this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id, count: 1 });
-          this.$router.push({ path: `/stages/${this.stage_id}` });
+          if (this.$route.params.id != this.stage_id ){
+            this.$router.push({ path: `/stages/${this.stage_id}` });
+          };
           this.errors = '';
         })
         .catch(error => {
