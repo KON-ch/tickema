@@ -7,7 +7,14 @@ class StagesController < ApplicationController
   end
 
   def show
-    render json: set_stage.set_schedule_data(customers_data: set_customers)
+    stage = set_stage
+
+    render json: {
+      id:        stage.id,
+      title:     stage.title,
+      schedules: stage.set_schedules,
+      customers: set_customers
+    }
   end
 
   def create

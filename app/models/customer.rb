@@ -24,6 +24,8 @@ class Customer < ApplicationRecord
         contacted:   stage_customer.contacted
       }
     end
+
+    customers_data
   end
 
   private

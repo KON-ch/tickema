@@ -23,4 +23,24 @@ RSpec.describe Stage, type: :model do
       end
     end
   end
+
+  describe "set_schedules" do
+    before do
+      FactoryBot.create(:stage)
+      FactoryBot.create(:schedule)
+      FactoryBot.create(:stage_schedule)
+    end
+
+    let(:stage) { Stage.first }
+
+    it "日程情報が取得できること" do
+      expect(stage.set_schedules).to eq ([
+        {
+          id:           1,
+          staging_date: "12月31日",
+          start_time:   "13:30"
+        }
+      ])
+    end
+  end
 end
