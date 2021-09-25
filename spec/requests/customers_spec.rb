@@ -6,10 +6,14 @@ RSpec.describe "Customers", type: :request do
     sign_in user
     FactoryBot.create(:stage)
     FactoryBot.create(:schedule)
+    FactoryBot.create(:stage_schedule)
+    FactoryBot.create(:customer)
+    FactoryBot.create(:stage_customer)
   end
 
-  let(:schedule_id) { FactoryBot.create(:stage_schedule).id }
-  let(:customer) { FactoryBot.create(:customer) }
+  let(:schedule_id) { StageSchedule.first.id }
+  let(:customer) { Customer.first }
+  let(:stage_customer) { StageCustomer.first }
 
   describe "GET #index " do
     it "status 200" do
@@ -69,14 +73,13 @@ RSpec.describe "Customers", type: :request do
 
   describe "DELETE #destroy" do
     it "顧客情報が削除されること" do
-      delete "/customers/#{customer.id}"
+      delete "/customers/#{customer.id}", params: { schedule_id: schedule_id }
       expect(response).to have_http_status(204)
     end
   end
 
   describe "PUT #data" do
     before do
-      FactoryBot.create(:stage_customer, stage_schedule_id: schedule_id, customer_id: customer.id)
       put "/customers/#{customer.id}/data", params: { customer: { count: count, contacted: contacted }, schedule: { id: schedule_id } }
     end
 

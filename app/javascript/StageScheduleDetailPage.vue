@@ -87,26 +87,32 @@ export default {
         });
       this.customer = {};
     },
+
     deleteCustomer: function(id) {
+      const schedule_id = this.schedule_id
       axios
-        .delete(`/customers/${id}`)
+        .delete(`/customers/${id}`, { params: { schedule_id: this.schedule_id } })
         .then(this.customers.splice(this.customers.map(function(customer, index) {
-            if (customer.id === id) return index
+            if (customer.id == id && customer.schedule_id == schedule_id) {
+              return index
+            }
           }).filter(Boolean)[0], 1
         ))
     },
+
     customerCountUp: function(id, count) {
       axios
         .put(`/customers/${id}/data`, { customer: { count: count + 1 }, schedule: { id: this.schedule_id } })
         .then(this.customers.map(customer => {
-          if (customer.id === id) customer.count = count + 1
+          if (customer.id == id && customer.schedule_id == this.schedule_id) customer.count = count + 1
         }))
     },
+
     customerCountDown: function(id, count) {
       axios
         .put(`/customers/${id}/data`, { customer: { count: count - 1 }, schedule: { id: this.schedule_id } })
         .then(this.customers.map(customer => {
-          if (customer.id === id) customer.count = count - 1
+          if (customer.id == id && customer.schedule_id == this.schedule_id) customer.count = count - 1
         }))
     }
   }

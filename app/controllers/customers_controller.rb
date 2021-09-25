@@ -12,17 +12,21 @@ class CustomersController < ApplicationController
   end
 
   def create
-    begin
-      customer = Customer.new(name: name_params, user_id: current_user.id, schedule_id: schedule_params[:id])
-    rescue ActionController::ParameterMissing
+    if name_params.blank?
       render_status_422("名前を入力してください")
       return
     end
 
-    if customer.save
-      render json: customer, status: 201
+    customer = Customer.find_or_initialize_by(name: name_params, user_id: current_user.id)
+
+    customer.schedule_id = schedule_params[:id]
+
+    begin
+      customer.save
+    rescue ActiveRecord::RecordNotUnique
+      render_status_422("#{customer.name}は同じ日に登録されています")
     else
-      render_status_422(customer.errors.full_messages)
+      render json: customer, status: 201
     end
   end
 
@@ -37,7 +41,7 @@ class CustomersController < ApplicationController
   end
 
   def destroy
-    set_customer.destroy!
+    set_customer.stage_customers.find_by(stage_schedule_id: params[:schedule_id]).destroy!
     head :no_content
   end
 
