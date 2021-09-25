@@ -4,7 +4,7 @@
       <template v-slot:label>検索</template>
     </v-text-field>
     <div v-for="customer in search_customers" :key="customer.id">
-      {{ customer.name }}は{{ customer.schedule }}です
+      {{ customer.name }}は{{ customer.date }}です
     </div>
   </div>
 </template>

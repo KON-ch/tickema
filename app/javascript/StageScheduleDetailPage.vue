@@ -73,7 +73,7 @@ export default {
       axios
         .post(`/customers`, { customer: this.customer, schedule: { id: this.schedule_id } })
         .then(response => {
-          this.customers.push({ id: response.data.id, name: response.data.name, schedule: this.date, schedule_id: this.schedule_id, count: 1 });
+          this.customers.push({ id: response.data.id, name: response.data.name, date: this.date, schedule_id: this.schedule_id, count: 1 });
           if (this.$route.params.id != this.stage_id ){
             this.$router.push({ path: `/stages/${this.stage_id}` });
           };
@@ -97,14 +97,14 @@ export default {
     },
     customerCountUp: function(id, count) {
       axios
-        .put(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count + 1 } })
+        .put(`/customers/${id}/data`, { customer: { count: count + 1 }, schedule: { id: this.schedule_id } })
         .then(this.customers.map(customer => {
           if (customer.id === id) customer.count = count + 1
         }))
     },
     customerCountDown: function(id, count) {
       axios
-        .put(`/customers/${id}/count`, { customer: { schedule_id: this.schedule_id, count: count - 1 } })
+        .put(`/customers/${id}/data`, { customer: { count: count - 1 }, schedule: { id: this.schedule_id } })
         .then(this.customers.map(customer => {
           if (customer.id === id) customer.count = count - 1
         }))

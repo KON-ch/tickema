@@ -4,8 +4,7 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
-    customers = current_user.customers.select(:id, :name)
-    render json: customers
+    render json: current_user.customers.select(:id, :name)
   end
 
   def show
@@ -14,13 +13,11 @@ class CustomersController < ApplicationController
 
   def create
     begin
-      customer = Customer.new(name: name_params, user_id: current_user.id)
+      customer = Customer.new(name: name_params, user_id: current_user.id, schedule_id: schedule_params[:id])
     rescue ActionController::ParameterMissing
       render_status_422("名前を入力してください")
       return
     end
-
-    customer.schedule_id = schedule_params[:id]
 
     if customer.save
       render json: customer, status: 201
@@ -31,6 +28,7 @@ class CustomersController < ApplicationController
 
   def update
     customer = set_customer
+
     if customer.update(name: name_params)
       head :no_content
     else
@@ -43,25 +41,13 @@ class CustomersController < ApplicationController
     head :no_content
   end
 
-  def count
-    count = count_params[:count]
-    # status: 422
-    return head :unprocessable_entity unless count.to_i.positive?
+  def data
+    stage_customer = set_customer.stage_customers.find_by(stage_schedule_id: schedule_params[:id])
 
-    customer = set_stage_customer(count_params[:schedule_id])
-    if customer.update(count: count)
+    if stage_customer.update(stage_customer_params)
       head :no_content
     else
-      render_status_422(customer.errors.full_messages)
-    end
-  end
-
-  def contacted
-    customer = set_stage_customer(contacted_params[:schedule_id])
-    if customer.update(contacted: contacted_params[:contacted])
-      head :no_content
-    else
-      render json: { errors: customer.errors.full_messages }, status: 422
+      render_status_422(stage_customer.errors.full_messages)
     end
   end
 
@@ -83,35 +69,28 @@ class CustomersController < ApplicationController
   end
 
   private
-    def name_params
-      params.require(:customer).permit(:family_name, :first_name).values.join(" ")
-    end
 
-    def count_params
-      params.require(:customer).permit(:schedule_id, :count)
-    end
+  def name_params
+    params.require(:customer).permit(:family_name, :first_name).values.join(" ")
+  end
 
-    def schedule_params
-      params.require(:schedule).permit(:id)
-    end
+  def stage_customer_params
+    params.require(:customer).permit(:count, :contacted)
+  end
 
-    def contacted_params
-      params.require(:customer).permit(:schedule_id, :contacted)
-    end
+  def schedule_params
+    params.require(:schedule).permit(:id)
+  end
 
-    def set_customer
-      Customer.find_by(id: params[:id])
-    end
+  def set_customer
+    Customer.find_by(id: params[:id])
+  end
 
-    def set_stage_customer(stage_schedule_id)
-      set_customer.stage_customers.find_by(stage_schedule_id: stage_schedule_id)
-    end
+  def render_status_404(exception)
+    render json: { errors: [exception] }, status: 404
+  end
 
-    def render_status_404(exception)
-      render json: { errors: [exception] }, status: 404
-    end
-
-    def render_status_422(exception)
-      render json: { errors: [exception] }, status: 422
-    end
+  def render_status_422(exception)
+    render json: { errors: [exception] }, status: 422
+  end
 end

@@ -39,7 +39,7 @@ export default {
       headers:[
         { text: "連絡済み", value: "contacted" },
         { text: "名前", value: "name" },
-        { text: "観劇日", value: "schedule" }
+        { text: "観劇日", value: "date" }
       ],
       keyword: "",
     }
@@ -71,7 +71,12 @@ export default {
   methods: {
     changeContacted: function(customer){
       axios
-        .put(`customers/${customer.id}/contacted`, { customer: { schedule_id: customer.schedule_id, contacted: customer.contacted } })
+        .put(`customers/${customer.id}/data`,
+          {
+            customer: { contacted: customer.contacted },
+            schedule: { id: customer.schedule_id }
+          }
+        )
     },
 
     download: function() {

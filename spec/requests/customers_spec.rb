@@ -74,14 +74,15 @@ RSpec.describe "Customers", type: :request do
     end
   end
 
-  describe "PUT #count" do
+  describe "PUT #data" do
     before do
       FactoryBot.create(:stage_customer, stage_schedule_id: schedule_id, customer_id: customer.id)
-      put "/customers/#{customer.id}/count", params: { customer: { schedule_id: schedule_id, count: count } }
+      put "/customers/#{customer.id}/data", params: { customer: { count: count, contacted: contacted }, schedule: { id: schedule_id } }
     end
 
     context "購入枚数が増える場合" do
       let(:count) { StageCustomer.first.count + 1 }
+      let(:contacted) { false }
 
       it "購入枚数が+1されること" do
         expect(response).to have_http_status(204)
@@ -91,6 +92,7 @@ RSpec.describe "Customers", type: :request do
 
     context "購入枚数が減る場合" do
       let(:count) { StageCustomer.first.count - 1 }
+      let(:contacted) { false }
 
       it "購入枚数が-1されること" do
         expect(response).to have_http_status(204)
@@ -98,41 +100,18 @@ RSpec.describe "Customers", type: :request do
       end
     end
 
-    context "購入枚数が0になる場合" do
-      let(:count) { 0 }
-
-      it "更新されないこと" do
-        expect(response).to have_http_status(422)
-      end
-    end
-
-    context "入力された購入枚数が文字列の場合" do
-      let(:count) { "テスト枚数" }
-
-      it "status 422" do
-        expect(response).to have_http_status(422)
-      end
-    end
-  end
-
-  describe "PUT #contacted" do
-    before do
-      FactoryBot.create(:stage_customer, stage_schedule_id: schedule_id, customer_id: customer.id)
-      put "/customers/#{customer.id}/contacted", params: { customer: { schedule_id: schedule_id, contacted: contacted } }
-    end
-
-    subject { StageCustomer.first.contacted }
-
     context "連絡済みの場合" do
       let(:contacted) { true }
-      it { is_expected.to eq true }
+      let(:count) { 1 }
+
+      it { expect(StageCustomer.first.contacted).to eq true }
     end
 
     context "連絡済みではない場合" do
       let(:contacted) { false }
-      it { is_expected.to eq false }
+      let(:count) { 1 }
+
+      it { expect(StageCustomer.first.contacted).to eq false }
     end
-
-
   end
 end

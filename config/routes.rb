@@ -8,8 +8,7 @@ Rails.application.routes.draw do
   resources :stages, except: %i[new edit]
   resources :schedules, only: :create
   resources :customers, except: %i[new edit]
-  put '/customers/:id/count', to: 'customers#count'
-  put '/customers/:id/contacted', to: 'customers#contacted'
+  put '/customers/:id/data', to: 'customers#data'
   get '/customers/:id/csv', to: 'customers#csv'
 
   get '/mypage', to: 'users#show'
