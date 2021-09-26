@@ -4,20 +4,23 @@
     <v-text-field v-model="keyword" style="padding: 0 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
-    <v-data-table
-      :headers="headers"
-      :items="search_customers"
-      :items-per-page="10"
-      :disable-sort="true"
-      :hide-default-header="true"
-    >
-      <template v-slot:[`item.contacted`]="{ item }">
-        <v-simple-checkbox
-          v-model="item.contacted"
-          @click="changeContacted(item)"
-        ></v-simple-checkbox>
-      </template>
-    </v-data-table>
+    <v-simple-table>
+      <template v-slot:default>
+        <tbody v-for="(customer, index) in search_customers" :key="index">
+          <tr :class="contactedColor(customer.contacted)">
+            <td>
+              <v-checkbox
+                v-model="customer.contacted "
+                @click="changeContacted(customer)"
+              ></v-checkbox>
+            </td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.date }}</td>
+            <td>{{ customer.count }}枚</td>
+          </tr>
+        </tbody>
+    </template>
+    </v-simple-table>
     <div style="text-align: center; margin-top: 2rem;">
       <v-btn elevation="2" @click="download">顧客一覧ダウンロード</v-btn>
     </div>
@@ -36,11 +39,6 @@ export default {
   data: function() {
     return {
       stage: {},
-      headers:[
-        { text: "連絡済み", value: "contacted" },
-        { text: "名前", value: "name" },
-        { text: "観劇日", value: "date" }
-      ],
       keyword: "",
     }
   },
@@ -61,10 +59,20 @@ export default {
 
   computed: {
     search_customers: function(){
-      if (this.keyword === "") return this.stage.customers
+      if (this.keyword == "") return this.stage.customers
       return this.stage.customers.filter(customer => {
         return customer.name.includes(this.keyword)
       })
+    },
+
+    contactedColor: function() {
+      return function(contacted) {
+        if(contacted) {
+          return "contacted_done"
+        } else {
+          return "contacted_not"
+        }
+      }
     }
   },
 
@@ -103,16 +111,14 @@ export default {
 }
 </script>
 
-<style>
-  .v-data-table__mobile-table-row {
+<style scoped>
+  td {
     border-bottom: thin solid rgba(0,0,0,.12);
   }
-  .v-data-table__mobile-row {
-    display: inline-block;
-    margin-top: 2rem;
-    align-items: center;
+  .contacted_done {
+    background-color: rgba(100, 100, 100, 0.5);
   }
-  .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:last-child {
-    border-bottom: none;
+  .contacted_not {
+    background-color: rgba(255, 255, 0, 0.05);
   }
 </style>
