@@ -3,6 +3,18 @@
 require "rails_helper"
 
 RSpec.describe Stage, type: :model do
+  before do
+    FactoryBot.create(:user)
+    FactoryBot.create(:stage)
+    FactoryBot.create(:schedule)
+    FactoryBot.create(:stage_schedule)
+    FactoryBot.create(:customer)
+    FactoryBot.create(:stage_customer)
+  end
+
+  let(:stage) { Stage.first }
+  let(:user) { User.first }
+
   describe "Stageモデルのバリデーションテスト" do
     it "正常に登録されること" do
       stage = FactoryBot.build(:stage)
@@ -25,20 +37,27 @@ RSpec.describe Stage, type: :model do
   end
 
   describe "set_schedules" do
-    before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:schedule)
-      FactoryBot.create(:stage_schedule)
-    end
-
-    let(:stage) { Stage.first }
-
     it "日程情報が取得できること" do
       expect(stage.set_schedules).to eq ([
         {
           id:           1,
           staging_date: "12月31日",
           start_time:   "13:30"
+        }
+      ])
+    end
+  end
+
+  describe "set_customers" do
+    it "顧客情報が取得できること" do
+      expect(stage.set_customers(user_id: user.id)).to eq ([
+        {
+          id:          1,
+          name:        "テスト 太郎",
+          schedule_id: 1,
+          date:        "12月31日",
+          count:       2,
+          contacted:   false,
         }
       ])
     end

@@ -9,25 +9,6 @@ class Customer < ApplicationRecord
 
   attr_accessor :schedule_id
 
-  def set_customer_data(customers_data, stage_id:)
-    stage_schedules.each do |s|
-      next unless s.stage_id == stage_id.to_i
-
-      stage_customer = s.stage_customers.find_by(customer_id: id)
-
-      customers_data << {
-        id:          id,
-        name:        name,
-        schedule_id: s.id,
-        date:        s.schedule.staging_date.strftime("%m月%d日"),
-        count:       stage_customer.count,
-        contacted:   stage_customer.contacted
-      }
-    end
-
-    customers_data
-  end
-
   private
 
   def create_stage_customer

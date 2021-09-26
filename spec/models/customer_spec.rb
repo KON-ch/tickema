@@ -23,29 +23,4 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
-
-  describe "set_customer_data" do
-    before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:schedule)
-      FactoryBot.create(:stage_schedule)
-      FactoryBot.create(:customer)
-      FactoryBot.create(:stage_customer)
-    end
-
-    let(:customer) { Customer.first }
-
-    it "顧客情報が取得できること" do
-      expect(customer.set_customer_data([], stage_id: 1)).to eq ([
-        {
-          id:          1,
-          name:        "テスト 太郎",
-          schedule_id: 1,
-          date:        "12月31日",
-          count:       2,
-          contacted:   false,
-        }
-      ])
-    end
-  end
 end

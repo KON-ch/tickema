@@ -13,7 +13,7 @@ class StagesController < ApplicationController
       id:        stage.id,
       title:     stage.title,
       schedules: stage.set_schedules,
-      customers: set_customers
+      customers: stage.set_customers(user_id: current_user.id)
     }
   end
 
@@ -50,16 +50,6 @@ class StagesController < ApplicationController
 
   def set_stage
     Stage.find_by(id: params[:id])
-  end
-
-  def set_customers
-    customers_data = []
-
-    current_user.customers.includes([:stage_schedules]).each do |customer|
-      customer.set_customer_data(customers_data, stage_id: params[:id])
-    end
-
-    customers_data
   end
 
   def render_status_404(exception)
