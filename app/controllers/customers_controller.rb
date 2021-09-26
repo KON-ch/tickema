@@ -56,16 +56,10 @@ class CustomersController < ApplicationController
   end
 
   def csv
-    customers = current_user.customers.filter_map do |customer|
-      customer if customer.stage_schedules.find_by(stage_id: params[:id])
-    end
-
     csv_data = CSV.generate do |csv|
-      csv << %w[名前 日付 開演時間 備考]
-
-      customers.each do |customer|
-        customer_schedule = customer.stage_schedules.find_by(stage_id: params[:id]).schedule
-        csv << [customer.name, l(customer_schedule.staging_date), l(customer_schedule.start_time)]
+      csv << %w[名前 日付 枚数 備考]
+      current_user.set_customers(stage_id: params[:id].to_i).each do |customer_data|
+        csv << [customer_data[:name], customer_data[:date], customer_data[:count]]
       end
     end
 
