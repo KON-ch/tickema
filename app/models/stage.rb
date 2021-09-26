@@ -17,23 +17,4 @@ class Stage < ApplicationRecord
       end
     }
   end
-
-  def set_customers(user_id:)
-    customers_data = []
-
-    customers_data.tap {
-      stage_schedules.joins(:stage_customers).eager_load(:schedule).each do |stage_schedule|
-        stage_schedule.stage_customers.eager_load(:customer).each do |stage_customer|
-          customers_data << {
-            id:          stage_customer.customer.id,
-            name:        stage_customer.customer.name,
-            schedule_id: stage_schedule.id,
-            date:        stage_schedule.schedule.staging_date.strftime("%m月%d日"),
-            count:       stage_customer.count,
-            contacted:   stage_customer.contacted
-          }
-        end
-      end
-    }
-  end
 end

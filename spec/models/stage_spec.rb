@@ -4,34 +4,37 @@ require "rails_helper"
 
 RSpec.describe Stage, type: :model do
   before do
-    FactoryBot.create(:user)
     FactoryBot.create(:stage)
     FactoryBot.create(:schedule)
     FactoryBot.create(:stage_schedule)
-    FactoryBot.create(:customer)
-    FactoryBot.create(:stage_customer)
   end
 
   let(:stage) { Stage.first }
-  let(:user) { User.first }
 
   describe "Stageモデルのバリデーションテスト" do
-    it "正常に登録されること" do
-      stage = FactoryBot.build(:stage)
-      expect(stage).to be_valid
+    subject { Stage.new(title: title) }
+
+    context "タイトルが入力されている場合" do
+      let(:title) { "テストタイトル" }
+
+      it "正常に登録されること" do
+        is_expected.to be_valid
+      end
     end
 
     context "タイトルが入力されていない場合" do
+      let(:title) { nil }
+
       it "登録されないこと" do
-        stage = FactoryBot.build(:stage, title: "")
-        expect(stage).not_to be_valid
+        is_expected.not_to be_valid
       end
     end
 
     context "タイトルが20文字を超える場合" do
+      let(:title) { "20文字を超える長いタイトルは登録することができない" }
+
       it "登録されないこと" do
-        stage = FactoryBot.build(:stage, title: "20文字を超える長いタイトルは登録することができない")
-        expect(stage).not_to be_valid
+        is_expected.not_to be_valid
       end
     end
   end
@@ -43,21 +46,6 @@ RSpec.describe Stage, type: :model do
           id:           1,
           staging_date: "12月31日",
           start_time:   "13:30"
-        }
-      ])
-    end
-  end
-
-  describe "set_customers" do
-    it "顧客情報が取得できること" do
-      expect(stage.set_customers(user_id: user.id)).to eq ([
-        {
-          id:          1,
-          name:        "テスト 太郎",
-          schedule_id: 1,
-          date:        "12月31日",
-          count:       2,
-          contacted:   false,
         }
       ])
     end
