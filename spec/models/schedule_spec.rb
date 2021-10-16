@@ -25,10 +25,16 @@ RSpec.describe Schedule, type: :model do
   end
 
   describe "data" do
-    it "日程情報が取得できること" do
-      stage    = FactoryBot.create(:stage)
-      schedule = FactoryBot.create(:schedule)
+    before do
+      FactoryBot.create(:stage)
+      FactoryBot.create(:schedule)
       FactoryBot.create(:stage_schedule)
+    end
+
+    let(:stage) { Stage.first}
+    let(:schedule) { Schedule.first}
+
+    it "日程情報が取得できること" do
       expect(schedule.data(stage_id: stage.id)).to eq ({ id: 1, staging_date: "12月31日", start_time: "13:30" })
     end
   end

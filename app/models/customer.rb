@@ -9,6 +9,20 @@ class Customer < ApplicationRecord
 
   attr_accessor :schedule_id
 
+  def data(stage_id)
+    stage_schedules.where(stage_id: stage_id).map do |stage_schedule|
+      stage_customer = stage_customers.find_by(stage_schedule_id: stage_schedule.id)
+      {
+        id:          id,
+        name:        name,
+        schedule_id: stage_schedule.id,
+        date:        stage_schedule.staging_date,
+        count:       stage_customer.count,
+        contacted:   stage_customer.contacted,
+      }
+    end
+  end
+
   private
 
   def create_stage_customer

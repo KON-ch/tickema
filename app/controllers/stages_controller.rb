@@ -13,7 +13,7 @@ class StagesController < ApplicationController
       id:        stage.id,
       title:     stage.title,
       schedules: stage.set_schedules,
-      customers: current_user.set_customers(stage_id: stage.id)
+      customers: current_user.set_customers(stage.id)
     }
   end
 

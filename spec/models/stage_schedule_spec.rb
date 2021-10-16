@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe StageSchedule, type: :model do
-  describe "StageScheduleモデルのバリデーションテスト" do
-    before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:schedule)
-    end
+  before do
+    FactoryBot.create(:stage)
+    FactoryBot.create(:schedule)
+  end
 
+  describe "StageScheduleモデルのバリデーションテスト" do
     it "正常に登録されること" do
       stage_schedule = FactoryBot.build(:stage_schedule)
       expect(stage_schedule).to be_valid
@@ -24,6 +24,20 @@ RSpec.describe StageSchedule, type: :model do
         stage_schedule = FactoryBot.build(:stage_schedule, schedule_id: nil)
         expect(stage_schedule).not_to be_valid
       end
+    end
+  end
+
+  describe "staging_date" do
+    it "公演日が取得できること" do
+      stage_schedule = FactoryBot.build(:stage_schedule)
+      expect(stage_schedule.staging_date).to eq("12月31日")
+    end
+  end
+
+  describe "start_time" do
+    it "開演時間が取得できること" do
+      stage_schedule = FactoryBot.build(:stage_schedule)
+      expect(stage_schedule.start_time).to eq("13:30")
     end
   end
 end

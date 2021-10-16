@@ -49,6 +49,14 @@ RSpec.describe "Customers", type: :request do
         expect(response).to have_http_status(422)
       end
     end
+
+    context "既に登録されている場合" do
+      let(:name) { { family_name: "テスト", first_name: "太郎" } }
+
+      it "登録できないこと" do
+        expect(response).to have_http_status(422)
+      end
+    end
   end
 
   describe "PUT #update" do

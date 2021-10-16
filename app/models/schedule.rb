@@ -11,7 +11,7 @@ class Schedule < ApplicationRecord
 
   def data(stage_id:)
     {
-      id:           stage_schedule_id(stage_id: stage_id),
+      id:           stage_schedules.find_by(stage_id: stage_id).id,
       staging_date: staging_date,
       start_time:   start_time
     }
@@ -26,10 +26,6 @@ class Schedule < ApplicationRecord
   end
 
   private
-
-  def stage_schedule_id(stage_id:)
-    stage_schedules.find_by(stage_id: stage_id).id
-  end
 
   def create_stage_schedule
     stage_schedules.create(schedule_id: id, stage_id: stage_id)

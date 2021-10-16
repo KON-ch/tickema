@@ -15,16 +15,18 @@ RSpec.describe User, type: :model do
 
   describe "set_customers" do
     it "顧客情報が取得できること" do
-      expect(user.set_customers(stage_id: stage.id)).to eq ([
-        {
-          id:          1,
-          name:        "テスト 太郎",
-          schedule_id: 1,
-          date:        "12月31日",
-          count:       2,
-          contacted:   false,
-        }
-      ])
+      expect(user.set_customers(stage.id)).to eq (
+        [
+          {
+            id:          1,
+            name:        "テスト 太郎",
+            schedule_id: 1,
+            date:        "12月31日",
+            count:       2,
+            contacted:   false,
+          }
+        ]
+      )
     end
   end
 end
