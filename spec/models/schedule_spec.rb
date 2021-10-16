@@ -23,4 +23,27 @@ RSpec.describe Schedule, type: :model do
       end
     end
   end
+
+  describe "data" do
+    it "日程情報が取得できること" do
+      stage    = FactoryBot.create(:stage)
+      schedule = FactoryBot.create(:schedule)
+      FactoryBot.create(:stage_schedule)
+      expect(schedule.data(stage_id: stage.id)).to eq ({ id: 1, staging_date: "12月31日", start_time: "13:30" })
+    end
+  end
+
+  describe "staging_date" do
+    it "公演日が指定のフォーマットで出力されること" do
+      schedule = FactoryBot.build(:schedule)
+      expect(schedule.staging_date).to eq("12月31日")
+    end
+  end
+
+  describe "start_time" do
+    it "開演時間が指定のフォーマットで出力されること" do
+      schedule = FactoryBot.build(:schedule)
+      expect(schedule.start_time).to eq("13:30")
+    end
+  end
 end
