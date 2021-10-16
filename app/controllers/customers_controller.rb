@@ -12,10 +12,7 @@ class CustomersController < ApplicationController
   end
 
   def create
-    if name_params.blank?
-      render_status_422("名前を入力してください")
-      return
-    end
+    return render_status_422("名前を入力してください") if name_params.blank?
 
     customer = Customer.find_or_initialize_by(name: name_params, user_id: current_user.id)
 
@@ -58,7 +55,7 @@ class CustomersController < ApplicationController
   def csv
     csv_data = CSV.generate do |csv|
       csv << %w[名前 日付 枚数 備考]
-      current_user.set_customers(stage_id: params[:id].to_i).each do |customer_data|
+      current_user.set_customers(params[:id].to_i).each do |customer_data|
         csv << [customer_data[:name], customer_data[:date], customer_data[:count]]
       end
     end
