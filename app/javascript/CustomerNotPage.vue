@@ -13,13 +13,28 @@
 
     <v-simple-table>
       <template v-slot:default>
-        <tbody v-for="(customer, index) in search_customers" :key="index">
-          <tr>
-            <td>{{ customer.name }}</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
+        <v-app>
+          <tbody v-for="(customer, index) in search_customers" :key="index">
+            <tr>
+              <td>{{ customer.name }}</td>
+              <td class="schedule_select">
+                <v-select
+                  v-model="schedule_id['customer_' + customer.id]"
+                  :items="stage.schedules"
+                  item-text="staging_date"
+                  item-value="id"
+                  filled
+                  label="日程を選択"
+                ></v-select>
+              </td>
+              <td>
+                <v-btn v-on:click="createCustomer(customer.name, schedule_id['customer_' + customer.id])">
+                  予約
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </v-app>
       </template>
     </v-simple-table>
   </div>
@@ -39,6 +54,7 @@ export default {
       stage: {},
       customers: {},
       keyword: "",
+      schedule_id: {},
     }
   },
 
@@ -68,13 +84,36 @@ export default {
       return this.customers.filter(customer => {
         return customer.name.includes(this.keyword)
       })
-    }
+    },
+  },
+
+  methods: {
+    createCustomer: function(name, schedule_id) {
+      const split_name = name.split(" ")
+      const customer = { family_name: split_name[0], first_name: split_name[1] }
+
+      axios
+        .post(`/customers`, { customer: customer, schedule: { id: schedule_id } })
+        .then(this.customers = this.customers.filter(
+          customer => customer.name != name
+        ))
+    },
   }
 }
 </script>
 
 <style scoped>
+  .schedule_select {
+    width: 12rem;
+    padding: 1rem 1rem 0 1rem;
+  }
+
   td {
     border-bottom: thin solid rgba(0,0,0,.12);
+  }
+
+  tr {
+    display: inline-block;
+    margin: 0.5rem 1rem;
   }
 </style>
