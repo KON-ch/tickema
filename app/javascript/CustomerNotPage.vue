@@ -16,12 +16,14 @@
         <v-app>
           <tbody v-for="(customer, index) in search_customers" :key="index">
             <tr>
-              <td>{{ customer.name }}</td>
+              <td class="customer_name">{{ customer.name }}</td>
+            </tr>
+            <tr>
               <td class="schedule_select">
                 <v-select
                   v-model="schedule_id['customer_' + customer.id]"
                   :items="stage.schedules"
-                  item-text="staging_date"
+                  :item-text="item => item.staging_date + ' ' + item.start_time"
                   item-value="id"
                   filled
                   label="日程を選択"
@@ -61,7 +63,7 @@ export default {
   watch: {
     $route(to) {
       axios
-        .get(`/customers`)
+        .get(`/customers`, { params: { stage_id: this.$route.params.id } })
         .then(response => (this.customers = response.data))
       axios
         .get(`/stages/${this.$route.params.id}`)
@@ -103,8 +105,12 @@ export default {
 </script>
 
 <style scoped>
+  .customer_name {
+    font-size: 1.25rem;
+  }
+
   .schedule_select {
-    width: 12rem;
+    width: 15rem;
     padding: 1rem 1rem 0 1rem;
   }
 
