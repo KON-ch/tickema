@@ -1,7 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  before { FactoryBot.create(:user) }
+  before do
+    FactoryBot.create(:user)
+    FactoryBot.create(:stage)
+    FactoryBot.create(:customer)
+    FactoryBot.create(:schedule)
+    FactoryBot.create(:stage_schedule)
+    FactoryBot.create(:stage_customer)
+  end
+
+    let(:stage) { Stage.first }
+    let(:customer) { Customer.first }
 
   describe "Customerモデルのバリデーションテスト" do
     it "正常に登録されること" do
@@ -25,17 +35,6 @@ RSpec.describe Customer, type: :model do
   end
 
   describe "data" do
-    before do
-      FactoryBot.create(:stage)
-      FactoryBot.create(:customer)
-      FactoryBot.create(:schedule)
-      FactoryBot.create(:stage_schedule)
-      FactoryBot.create(:stage_customer)
-    end
-
-    let(:stage) { Stage.first }
-    let(:customer) { Customer.first }
-
     it "顧客情報が取得できること" do
       expect(customer.data(stage.id)).to eq(
         [
@@ -51,4 +50,27 @@ RSpec.describe Customer, type: :model do
       )
     end
   end
+
+  describe "stage_ids" do
+    it "今までに観たStageのIDが取得できること" do
+      expect(customer.stage_ids).to eq ([1])
+    end
+  end
+
+  describe "watch?" do
+    subject { customer.watch?(stage_id) }
+
+    context "観たことのあるStageの場合" do
+      let(:stage_id) { 1 }
+
+      it { expect(subject).to eq true }
+    end
+
+    context "観たことのないStageの場合" do
+      let(:stage_id) { 999 }
+
+      it { expect(subject).to eq false }
+    end
+  end
+
 end

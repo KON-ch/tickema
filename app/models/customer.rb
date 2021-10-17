@@ -23,6 +23,14 @@ class Customer < ApplicationRecord
     end
   end
 
+  def stage_ids
+    stage_schedules.map(&:stage_id).uniq
+  end
+
+  def watch?(stage_id)
+    stage_ids.include?(stage_id)
+  end
+
   private
 
   def create_stage_customer

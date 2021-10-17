@@ -4,7 +4,11 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
-    render json: current_user.customers.select(:id, :name)
+    customers = current_user.customers.select(%i[id name]).reject do |customer|
+      customer.watch?(params[:stage_id].to_i)
+    end
+
+    render json: customers
   end
 
   def show

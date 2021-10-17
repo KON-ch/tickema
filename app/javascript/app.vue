@@ -11,6 +11,7 @@ import VueRouter       from 'vue-router'
 import UserPage        from './UserPage.vue'
 import StageDetailPage from './StageDetailPage.vue'
 import CustomerIndexPage from './CustomerIndexPage.vue'
+import CustomerNotPage from './CustomerNotPage.vue'
 
 const router = new VueRouter({
   routes: [
@@ -22,6 +23,9 @@ const router = new VueRouter({
     { path: '/customers/:id(\\d+)',
       name: 'CustomerIndexPage',
       component: CustomerIndexPage },
+    { path: '/customers/not/:id(\\d+)',
+      name: 'CustomerNotPage',
+      component: CustomerNotPage },
   ]
 })
 
@@ -32,5 +36,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  .content-title {
+    display: inline-block;
+    margin: 0 0 1rem 1.5rem;
+    font-size: 1rem;
+    color: lightgray;
+  }
+
+  .content-icon {
+    color: lightgray;
+  }
 </style>
