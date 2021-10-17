@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
-    customers = current_user.customers.select(%i[id name]).reject do |customer|
+    customers = current_user.customers.select(%i[id name]).includes(:stage_schedules, :stage_customers).reject do |customer|
       customer.watch?(params[:stage_id].to_i)
     end
 
