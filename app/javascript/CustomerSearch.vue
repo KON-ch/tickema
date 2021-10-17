@@ -32,6 +32,6 @@ export default {
 
 <style scoped>
 div {
-  padding: 0 1rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
 }
 </style>

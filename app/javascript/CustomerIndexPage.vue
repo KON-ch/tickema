@@ -2,12 +2,7 @@
   <div>
     <header-menu :stage="stage"></header-menu>
 
-    <h2 class="content-title">
-      <v-icon x-large class="content-icon">mdi-account-multiple</v-icon>
-      予約した人の一覧
-    </h2>
-
-    <v-text-field v-model="keyword" style="padding: 0 1rem;">
+    <v-text-field v-model="keyword" style="padding: 1rem 1rem 0 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
 

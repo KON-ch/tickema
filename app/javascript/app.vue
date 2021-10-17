@@ -35,16 +35,3 @@ export default {
   router
 }
 </script>
-
-<style>
-  .content-title {
-    display: inline-block;
-    margin: 0 0 1rem 1.5rem;
-    font-size: 1rem;
-    color: lightgray;
-  }
-
-  .content-icon {
-    color: lightgray;
-  }
-</style>

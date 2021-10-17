@@ -8,6 +8,29 @@
       <v-toolbar-title><h1 class="stage-title">{{ stage.title }}</h1></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <template v-slot:extension>
+        <v-tabs
+          fixed-tabs
+          align-with-title
+          optional
+        >
+          <v-tab>
+            <router-link :to="{ path: `/stages/${$route.params.id}`}" class="router-link">
+              <v-icon class="content-icon">mdi-calendar-edit</v-icon>TOP
+            </router-link>
+          </v-tab>
+          <v-tab>
+            <router-link :to="{ path: `/customers/${$route.params.id}` }" class="router-link">
+              <v-icon class="content-icon">mdi-account-multiple</v-icon>予約済み
+            </router-link>
+          </v-tab>
+          <v-tab>
+            <router-link :to="{ path: `/customers/not/${$route.params.id}` }" class="router-link">
+              <v-icon class="content-icon">mdi-account-off-outline</v-icon>未予約
+            </router-link>
+          </v-tab>
+        </v-tabs>
+      </template>
     </v-app-bar>
 
     <v-navigation-drawer
