@@ -22,6 +22,7 @@ RSpec.describe User, type: :model do
             name:        "テスト 太郎",
             schedule_id: 1,
             date:        "12月31日",
+            time:        "13:30",
             count:       2,
             contacted:   false,
           }

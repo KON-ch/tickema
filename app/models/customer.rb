@@ -17,6 +17,7 @@ class Customer < ApplicationRecord
         name:        name,
         schedule_id: stage_schedule.id,
         date:        stage_schedule.staging_date,
+        time:        stage_schedule.start_time,
         count:       stage_customer.count,
         contacted:   stage_customer.contacted,
       }

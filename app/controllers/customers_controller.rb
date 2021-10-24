@@ -58,9 +58,9 @@ class CustomersController < ApplicationController
 
   def csv
     csv_data = CSV.generate do |csv|
-      csv << %w[名前 日付 枚数 備考]
+      csv << %w[名前 日付 時間 枚数 備考]
       current_user.set_customers(params[:id].to_i).each do |customer_data|
-        csv << [customer_data[:name], customer_data[:date], customer_data[:count]]
+        csv << [customer_data[:name], customer_data[:date], customer_data[:time], customer_data[:count]]
       end
     end
 
