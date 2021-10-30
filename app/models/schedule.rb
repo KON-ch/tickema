@@ -1,6 +1,7 @@
 class Schedule < ApplicationRecord
   has_many :stage_schedules, dependent: :destroy
   has_many :stages, through: :stage_schedules
+  has_many :tickets, dependent: :nullify
 
   validates :start_time, presence: true
   validates :staging_date, presence: true
