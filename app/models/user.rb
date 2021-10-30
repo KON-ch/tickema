@@ -8,6 +8,7 @@ class User < ApplicationRecord
          :timeoutable # 自動ログアウト
 
   has_many :customers, dependent: :destroy
+  has_many :contact, dependent: :destroy
 
   def set_customers(stage_id)
     customers.map { |customer| customer.data(stage_id) }.flatten
