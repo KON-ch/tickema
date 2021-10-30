@@ -7,11 +7,11 @@ class StageSchedule < ApplicationRecord
   validates :stage_id, presence: true
   validates :schedule_id, presence: true
 
-  def staging_date
-    schedule.staging_date
+  def staged_on
+    schedule.staged_on
   end
 
-  def start_time
-    schedule.start_time
+  def staged_at
+    schedule.staged_at
   end
 end

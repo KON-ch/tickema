@@ -27,17 +27,17 @@ RSpec.describe StageSchedule, type: :model do
     end
   end
 
-  describe "staging_date" do
+  describe "staged_on" do
     it "公演日が取得できること" do
       stage_schedule = FactoryBot.build(:stage_schedule)
-      expect(stage_schedule.staging_date).to eq("12月31日")
+      expect(stage_schedule.staged_on).to eq("12月31日")
     end
   end
 
-  describe "start_time" do
+  describe "staged_at" do
     it "開演時間が取得できること" do
       stage_schedule = FactoryBot.build(:stage_schedule)
-      expect(stage_schedule.start_time).to eq("13:30")
+      expect(stage_schedule.staged_at).to eq("13:30")
     end
   end
 end

@@ -30,7 +30,7 @@ class SchedulesController < ApplicationController
 
   def schedule_params
     params.require(:schedule).map do |s|
-      s.permit(:staging_date, :start_time)
+      s.permit(:staged_on, :staged_at)
     end
   end
 

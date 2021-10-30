@@ -11,14 +11,14 @@ RSpec.describe Schedule, type: :model do
 
     context "開演時間が入力されていない場合" do
       it "登録されないこと" do
-        schedule = FactoryBot.build(:schedule, start_time: nil)
+        schedule = FactoryBot.build(:schedule, staged_at: nil)
         expect(schedule).not_to be_valid
       end
     end
 
     context "公演日が入力されていない場合" do
       it "登録されないこと" do
-        schedule = FactoryBot.build(:schedule, staging_date: nil)
+        schedule = FactoryBot.build(:schedule, staged_on: nil)
         expect(schedule).not_to be_valid
       end
     end
@@ -35,21 +35,21 @@ RSpec.describe Schedule, type: :model do
     let(:schedule) { Schedule.first}
 
     it "日程情報が取得できること" do
-      expect(schedule.data(stage_id: stage.id)).to eq ({ id: 1, staging_date: "12月31日", start_time: "13:30" })
+      expect(schedule.data(stage_id: stage.id)).to eq ({ id: 1, staged_on: "12月31日", staged_at: "13:30" })
     end
   end
 
-  describe "staging_date" do
+  describe "staged_on" do
     it "公演日が指定のフォーマットで出力されること" do
       schedule = FactoryBot.build(:schedule)
-      expect(schedule.staging_date).to eq("12月31日")
+      expect(schedule.staged_on).to eq("12月31日")
     end
   end
 
-  describe "start_time" do
+  describe "staged_at" do
     it "開演時間が指定のフォーマットで出力されること" do
       schedule = FactoryBot.build(:schedule)
-      expect(schedule.start_time).to eq("13:30")
+      expect(schedule.staged_at).to eq("13:30")
     end
   end
 end

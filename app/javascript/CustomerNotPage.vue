@@ -18,7 +18,7 @@
                 <v-select
                   v-model="schedule_id['customer_' + customer.id]"
                   :items="stage.schedules"
-                  :item-text="item => item.staging_date + ' ' + item.start_time"
+                  :item-text="item => item.staged_on + ' ' + item.staged_at"
                   item-value="id"
                   filled
                   label="日程を選択"

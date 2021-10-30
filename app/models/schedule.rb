@@ -3,8 +3,8 @@ class Schedule < ApplicationRecord
   has_many :stages, through: :stage_schedules
   has_many :tickets, dependent: :nullify
 
-  validates :start_time, presence: true
-  validates :staging_date, presence: true
+  validates :staged_at, presence: true
+  validates :staged_on, presence: true
 
   after_save :create_stage_schedule
 
@@ -13,16 +13,16 @@ class Schedule < ApplicationRecord
   def data(stage_id:)
     {
       id:           stage_schedules.find_by(stage_id: stage_id).id,
-      staging_date: staging_date,
-      start_time:   start_time
+      staged_on:    staged_on,
+      staged_at:    staged_at
     }
   end
 
-  def staging_date
+  def staged_on
     super&.strftime("%m月%d日")
   end
 
-  def start_time
+  def staged_at
     super&.strftime("%H:%M")
   end
 

@@ -12,7 +12,7 @@ RSpec.describe "Schedules", type: :request do
 
     context "全ての値が正しく入力されている場合" do
       let(:stage_id) { stage.id }
-      let(:schedule) { [{ staging_date: "2021/12/31", start_time: "14:00" }] }
+      let(:schedule) { [{ staged_on: "2021/12/31", staged_at: "14:00" }] }
 
       it "登録できること" do
         expect(response).to have_http_status(201)
@@ -21,7 +21,7 @@ RSpec.describe "Schedules", type: :request do
 
     context "公演IDが存在しない場合" do
       let(:stage_id) { 999999 }
-      let(:schedule) { [{ staging_date: "2021/12/31", start_time: "14:00" }] }
+      let(:schedule) { [{ staged_on: "2021/12/31", staged_at: "14:00" }] }
 
       it "登録できないこと" do
         expect(response).to have_http_status(422)
@@ -30,7 +30,7 @@ RSpec.describe "Schedules", type: :request do
 
     context "日時が入力されていない場合" do
       let(:stage_id) { stage.id }
-      let(:schedule) { [{ staging_date: nil, start_time: nil }] }
+      let(:schedule) { [{ staged_on: nil, staged_at: nil }] }
 
       it "登録できないこと" do
         expect(response).to have_http_status(422)

@@ -44,8 +44,8 @@ RSpec.describe Stage, type: :model do
       expect(stage.set_schedules).to eq ([
         {
           id:           1,
-          staging_date: "12月31日",
-          start_time:   "13:30"
+          staged_on: "12月31日",
+          staged_at:    "13:30"
         }
       ])
     end

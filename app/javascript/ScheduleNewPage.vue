@@ -37,9 +37,9 @@
     </table>
     <div v-for="schedule in schedules" :key="schedule.id">
       <label>日付</label>
-      <input v-model="schedule.staging_date" type="date">
+      <input v-model="schedule.staged_on" type="date">
       <label>時間</label>
-      <input v-model="schedule.start_time" type="time">
+      <input v-model="schedule.staged_at" type="time">
     </div>
     <div>
       <button type="submit">登録</button>
@@ -54,11 +54,11 @@
     data: function() {
       return {
         schedules: [{
-          staging_date: '',
-          start_time: '',
+          staged_on: '',
+          staged_at: '',
         },{
-          staging_date: '',
-          start_time: '',
+          staged_on: '',
+          staged_at: '',
         }],
         stage_id: this.$route.params.id,
         startDate: '',

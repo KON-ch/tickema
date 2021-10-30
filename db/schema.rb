@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_30_075647) do
+ActiveRecord::Schema.define(version: 2021_10_30_084928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,11 +32,11 @@ ActiveRecord::Schema.define(version: 2021_10_30_075647) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.time "start_time", null: false
-    t.date "staging_date", null: false
+    t.time "staged_at", null: false
+    t.date "staged_on", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["start_time", "staging_date"], name: "index_schedules_on_start_time_and_staging_date", unique: true
+    t.index ["staged_at", "staged_on"], name: "index_schedules_on_staged_at_and_staged_on", unique: true
   end
 
   create_table "stage_customers", force: :cascade do |t|

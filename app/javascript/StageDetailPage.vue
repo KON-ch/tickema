@@ -8,10 +8,10 @@
     <v-list>
       <v-list-group v-for="schedule in stage.schedules" :key="schedule.id">
         <template v-slot:activator>
-          <v-list-item-title :class="scheduleColor(schedule.start_time)">
+          <v-list-item-title :class="scheduleColor(schedule.staged_at)">
             <span class="schedule_list">
-              {{ schedule.staging_date }}
-              {{ schedule.start_time }}
+              {{ schedule.staged_on }}
+              {{ schedule.staged_at }}
             </span>
             <span class="customer_count">{{ scheduleCustomersCount(schedule.id) }}人</span>
           </v-list-item-title>
@@ -21,7 +21,7 @@
             <stage-schedule-detail-page
               :customers="stage.customers"
               :schedule_id="schedule.id"
-              :date="schedule.staging_date"
+              :date="schedule.staged_on"
               :stage_id="stage.id"
             ></stage-schedule-detail-page>
           </v-list-item-content>
