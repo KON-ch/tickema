@@ -34,24 +34,6 @@ RSpec.describe Customer, type: :model do
     end
   end
 
-  describe "data" do
-    it "顧客情報が取得できること" do
-      expect(customer.data(stage.id)).to eq(
-        [
-          {
-            id:          1,
-            name:        "テスト 太郎",
-            schedule_id: 1,
-            date:        "12月31日",
-            time:        "13:30",
-            count:       2,
-            contacted:   false
-          }
-        ]
-      )
-    end
-  end
-
   describe "stage_ids" do
     it "今までに観たStageのIDが取得できること" do
       expect(customer.stage_ids).to eq ([1])

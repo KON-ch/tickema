@@ -1,32 +1,30 @@
 <template>
-  <v-app>
-    <transition name="modal">
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
 
-            <div class="modal-header">
-              <slot name="header">
-              </slot>
-            </div>
+          <div class="modal-header">
+            <slot name="header">
+            </slot>
+          </div>
 
-            <div class="modal-body">
-              本当に削除しますか？
-            </div>
+          <div class="modal-body">
+            本当に削除しますか？
+          </div>
 
-            <div class="modal-footer">
-              <v-btn color="gray" text @click="$emit('cancel')">
-                Cancel
-              </v-btn>
-              <v-btn color="error" text @click="$emit('ok')">
-                OK
-              </v-btn>
-            </div>
+          <div class="modal-footer">
+            <v-btn color="gray" text @click="$emit('cancel')">
+              Cancel
+            </v-btn>
+            <v-btn color="error" text @click="$emit('ok')">
+              OK
+            </v-btn>
           </div>
         </div>
       </div>
-    </transition>
-  </v-app>
+    </div>
+  </transition>
 </template>
 
 <script>

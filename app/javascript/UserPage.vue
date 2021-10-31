@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <div v-for="stage in stages" :key="stage.id"><router-link :to="{ name: 'StageDetailPage', params: { id: stage.id } }">{{ stage.title }}</router-link></div>
+    <div v-for="stage in stages" :key="stage.id">
+      <router-link :to="{ name: 'StageDetailPage', params: { id: stage.id } }">
+        {{ stage.title }}
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -20,12 +24,4 @@ export default {
 </script>
 
 <style scoped>
-div{
-  text-align: center;
-  margin-top: 2rem;
-}
-a{
-  text-decoration: none;
-  color: blue;
-}
 </style>

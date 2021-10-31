@@ -2,44 +2,17 @@ class StagesController < ApplicationController
   rescue_from Exception, with: :render_status_500
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
-  def index
-    render json: Stage.select(:id, :title)
-  end
-
   def show
     stage = set_stage
 
     render json: {
-      id:        stage.id,
-      title:     stage.title,
-      schedules: stage.set_schedules,
-      customers: current_user.set_customers(stage.id)
+      id:                 stage.id,
+      title:              stage.title,
+      stages:             Stage.select(:id, :title).order(id: :desc),
+      schedules:          stage.schedules.select(:id, :staged_on, :staged_at),
+      tickets:            stage.tickets.filter_map { |t| t.data if t.customer.user_id == current_user.id },
+      unbooked_customers: current_user.customers.select(:id, :name).reject { |c| c.have_ticket?(stage.id) }
     }
-  end
-
-  def create
-    stage = Stage.new(stage_params)
-
-    if stage.save
-      render json: stage, status: 201
-    else
-      render_status_422(stage.errors.full_messages)
-    end
-  end
-
-  def update
-    stage = set_stage
-
-    if stage.update(stage_params)
-      head :no_content
-    else
-      render_status_422(stage.errors.full_messages)
-    end
-  end
-
-  def destroy
-    set_stage.destroy!
-    head :no_content
   end
 
   private

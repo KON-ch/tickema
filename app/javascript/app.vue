@@ -1,31 +1,26 @@
 <template>
-  <div>
+  <v-app>
     <router-view></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script>
-import Vue             from 'vue'
-import VueRouter       from 'vue-router'
+import Vue       from 'vue'
+import VueRouter from 'vue-router'
 
-import UserPage        from './UserPage.vue'
-import StageDetailPage from './StageDetailPage.vue'
-import CustomerIndexPage from './CustomerIndexPage.vue'
-import CustomerNotPage from './CustomerNotPage.vue'
+import StageMain from './StageMain.vue'
+import UserPage  from './UserPage.vue'
 
 const router = new VueRouter({
   routes: [
-    { path: `/`,
-      component: UserPage        },
-    { path: '/stages/:id(\\d+)',
-      name: 'StageDetailPage',
-      component: StageDetailPage },
-    { path: '/customers/:id(\\d+)',
-      name: 'CustomerIndexPage',
-      component: CustomerIndexPage },
-    { path: '/customers/not/:id(\\d+)',
-      name: 'CustomerNotPage',
-      component: CustomerNotPage },
+    {
+      path: `/`,
+      component: UserPage
+    },{
+      path: '/stages/:id(\\d+)',
+      name: 'StageMain',
+      component: StageMain
+    },
   ]
 })
 

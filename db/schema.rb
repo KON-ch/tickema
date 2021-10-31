@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_30_095023) do
+ActiveRecord::Schema.define(version: 2021_10_31_095928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,16 +39,6 @@ ActiveRecord::Schema.define(version: 2021_10_30_095023) do
     t.index ["staged_at", "staged_on"], name: "index_schedules_on_staged_at_and_staged_on", unique: true
   end
 
-  create_table "stage_customers", force: :cascade do |t|
-    t.bigint "stage_schedule_id", null: false
-    t.bigint "customer_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "count", default: 1, null: false
-    t.boolean "contacted", default: false, null: false
-    t.index ["stage_schedule_id", "customer_id"], name: "index_stage_customers_on_stage_schedule_id_and_customer_id", unique: true
-  end
-
   create_table "stage_schedules", force: :cascade do |t|
     t.bigint "stage_id", null: false
     t.bigint "schedule_id", null: false
@@ -71,6 +61,7 @@ ActiveRecord::Schema.define(version: 2021_10_30_095023) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "count", default: 1, null: false
+    t.index ["stage_id", "schedule_id", "customer_id"], name: "index_tickets_on_stage_id_and_schedule_id_and_customer_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -89,8 +80,6 @@ ActiveRecord::Schema.define(version: 2021_10_30_095023) do
   add_foreign_key "contacts", "tickets"
   add_foreign_key "contacts", "users"
   add_foreign_key "customers", "users"
-  add_foreign_key "stage_customers", "customers"
-  add_foreign_key "stage_customers", "stage_schedules"
   add_foreign_key "stage_schedules", "schedules"
   add_foreign_key "stage_schedules", "stages"
   add_foreign_key "tickets", "customers"

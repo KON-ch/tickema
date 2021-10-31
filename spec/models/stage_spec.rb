@@ -38,16 +38,4 @@ RSpec.describe Stage, type: :model do
       end
     end
   end
-
-  describe "set_schedules" do
-    it "日程情報が取得できること" do
-      expect(stage.set_schedules).to eq ([
-        {
-          id:           1,
-          staged_on: "12月31日",
-          staged_at:    "13:30"
-        }
-      ])
-    end
-  end
 end

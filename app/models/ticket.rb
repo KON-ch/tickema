@@ -5,12 +5,34 @@ class Ticket < ApplicationRecord
 
   has_one :contact, dependent: :destroy
 
-  after_save :_create_contact
+  delegate :name, to: :customer, prefix: true
+  delegate :staged_at, to: :schedule
+  delegate :staged_on, to: :schedule
+
+  after_create :_create_contact
+  after_destroy :_destroy_customer
+
+  def data
+    {
+      id:            id,
+      customer_id:   customer_id,
+      customer_name: customer_name,
+      schedule_id:   schedule_id,
+      date:          staged_on,
+      time:          staged_at,
+      count:         count,
+      contact_id:    contact.id,
+      status:        contact.status,
+    }
+  end
 
   private
 
+  def _destroy_customer
+    customer.destroy! if customer.tickets.blank?
+  end
+
   def _create_contact
-    user_id = customer.user.id
-    create_contact(user_id: user_id)
+    create_contact(user_id: customer.user.id)
   end
 end

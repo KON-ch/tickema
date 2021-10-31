@@ -5,11 +5,11 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: %i[registrations passwords]
 
-  resources :stages, except: %i[new edit]
-  resources :schedules, only: :create
-  resources :customers, except: %i[new edit]
-  put '/customers/:id/data', to: 'customers#data'
-  get '/customers/:id/csv', to: 'customers#csv'
+  resources :stages, only: %i[show]
+  resources :schedules, only: %i[create]
+  resources :customers, only: %i[create]
+  resources :tickets, only: %i[create update destroy]
+  resources :contacts, only: %i[update]
 
   get '/mypage', to: 'users#show'
 end

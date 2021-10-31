@@ -10,14 +10,6 @@ class Schedule < ApplicationRecord
 
   attr_accessor :stage_id
 
-  def data(stage_id:)
-    {
-      id:           stage_schedules.find_by(stage_id: stage_id).id,
-      staged_on:    staged_on,
-      staged_at:    staged_at
-    }
-  end
-
   def staged_on
     super&.strftime("%m月%d日")
   end
