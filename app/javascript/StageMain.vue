@@ -14,8 +14,6 @@
         <v-tabs
           v-model="tab"
           fixed-tabs
-          align-with-title
-          optional
         >
           <v-tab v-for="(item, index) in tab_items" :key="index">
             <v-icon class="content-icon">mdi-{{item.icon}}</v-icon>{{ item.title }}

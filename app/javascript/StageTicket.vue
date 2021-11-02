@@ -1,48 +1,53 @@
 <template>
   <div>
-    <v-text-field v-model="keyword" style="padding: 1rem 1rem 0 1rem;">
+    <v-text-field v-model="keyword" style="padding: 1rem 2rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
 
     <div v-for="ticket in searchTickets" :key="ticket.id">
       <v-row>
-        <v-col cols="4">
+        <v-col cols="6" class="customer_name">
           {{ ticket.customer_name }}
         </v-col>
-        <v-col cols="4">
+        <v-col cols="3" class="date_time">
           {{ ticket.date }}
         </v-col>
-        <v-col cols="4">
+        <v-col cols="3" class="date_time">
           {{ ticket.time }}
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="6">
+        <v-col cols="6" style="padding-right: 0">
           <count-ticket
             :id="ticket.id"
             :count="ticket.count"
             :tickets="tickets"
           ></count-ticket>
         </v-col>
-        <v-col cols="4">
-          <v-btn @click="updateStatus(ticket.contact_id, statusNum[ticket.status] + 1)">
-            {{ statusLocales[ticket.status] }}
+        <v-col cols="3" style="padding-left: 0;">
+          <v-btn
+            :color="setStatusColor(ticket.status)"
+            class="status_btn"
+            @click="updateStatus(ticket.contact_id, statusNum[ticket.status] + 1)"
+          >{{ statusLocales[ticket.status] }}
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="3" style="padding-left: 0;">
           <v-select
             v-model="submitStatus[`contact_${ticket.contact_id}`]"
             :items="selectStatus"
             :item-text="item => item.text"
             :item-value="item => item.num"
             filled
+            dense
+            rounded
             @input="updateStatus(ticket.contact_id, submitStatus[`contact_${ticket.contact_id}`])"
           ></v-select>
         </v-col>
       </v-row>
     </div>
 
-    <div style="text-align: center; margin-top: 2rem;">
+    <div style="text-align: center; margin: 1rem 0 3rem;">
       <v-btn elevation="2" @click="download">顧客一覧をダウンロードする</v-btn>
     </div>
   </div>
@@ -94,6 +99,21 @@
           return ticket.customer_name.includes(this.keyword)
         })
       },
+
+      setStatusColor: function() {
+        return function(status) {
+          switch(status) {
+            case "reserved":
+              return "indigo"
+            case "applied":
+              return "amber"
+            case "notified":
+              return "red";
+            case "finished":
+              return "teal"
+          }
+        }
+      },
     },
 
     methods: {
@@ -139,3 +159,20 @@
     }
   }
 </script>
+<style scoped>
+.customer_name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.date_time {
+  margin: auto 0;
+  padding-right: 0;
+}
+
+.status_btn {
+  color: white;
+  font-weight: bold;
+}
+</style>
