@@ -141,3 +141,9 @@
     },
   }
 </script>
+<style scoped>
+.stage-title {
+  font-size: 1.5rem;
+  color: #3636eb;
+}
+</style>
