@@ -4,7 +4,7 @@
       <template v-slot:label>検索</template>
     </v-text-field>
 
-    <div v-for="ticket in searchTickets" :key="ticket.id">
+    <div v-for="ticket in searchTickets" :key="ticket.id" style="padding-right: 1rem;">
       <v-row>
         <v-col cols="6" class="customer_name">
           {{ ticket.customer_name }}
@@ -40,6 +40,7 @@
             :item-value="item => item.num"
             filled
             dense
+            style="width: 4rem"
             rounded
             @input="updateStatus(ticket.contact_id, submitStatus[`contact_${ticket.contact_id}`])"
           ></v-select>
