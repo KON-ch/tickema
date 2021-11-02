@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-for="stage in stages" :key="stage.id">
-      <router-link :to="{ name: 'StageDetailPage', params: { id: stage.id } }">
+      <router-link :to="{ name: 'StageMain', params: { id: stage.id } }">
         {{ stage.title }}
       </router-link>
     </div>

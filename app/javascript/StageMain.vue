@@ -62,7 +62,7 @@
           v-for="stage in stages" :key="stage.id"
         >
           <v-list-item>
-            <router-link :to="{ path: `/stages/${stage.id}` }">
+            <router-link :to="{ name: 'StageMain', params: { id: stage.id } }">
               {{ stage.title }}
             </router-link>
           </v-list-item>
