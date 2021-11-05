@@ -16,7 +16,7 @@
           fixed-tabs
         >
           <v-tab v-for="(item, index) in tab_items" :key="index">
-            <v-icon class="content-icon">mdi-{{item.icon}}</v-icon>{{ item.title }}
+            <v-icon>mdi-{{item.icon}}</v-icon>{{ item.title }}
           </v-tab>
         </v-tabs>
       </template>
@@ -55,10 +55,10 @@
       <v-list
         nav
         dense
+        hegiht="100vh"
       >
         <v-list-item-group
           v-model="group"
-          active-class="deep-purple--text text--accent-4"
           v-for="stage in stages" :key="stage.id"
         >
           <v-list-item>

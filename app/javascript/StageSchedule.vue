@@ -1,16 +1,15 @@
 <template>
   <div>
-    <v-list>
-      <v-list-item v-for="ticket in scheduleTickets" :key="ticket.id">
-        <div class="customer_name">{{ ticket.customer_name }}</div>
-
+    <v-row v-for="ticket in scheduleTickets" :key="ticket.id" class="customer-data">
+      <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
+      <v-col cols="7" class="count-ticket">
         <count-ticket
           :id="ticket.id"
           :count="ticket.count"
           :tickets="tickets"
         ></count-ticket>
-      </v-list-item>
-    </v-list>
+      </v-col>
+    </v-row>
 
     <create-customer
       :id="id"
@@ -53,10 +52,16 @@ export default {
 </script>
 
 <style scoped>
-.customer_name {
-  min-width: 8rem;
+.customer-data {
+  padding: 0;
+  margin-top: 1rem;
 }
-.v-list-item {
-  justify-content: space-between;
+
+.customer-name {
+  font-weight: bold;
+}
+
+.count-ticket {
+  padding: 0;
 }
 </style>

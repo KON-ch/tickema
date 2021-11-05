@@ -1,12 +1,12 @@
 <template>
   <div>
     <span v-if="count > 1" >
-      <v-btn v-on:click="updateCount(id, count - 1)" class="minus_btn" icon>
+      <v-btn v-on:click="updateCount(id, count - 1)" class="minus-btn" icon>
         <v-icon>mdi-minus</v-icon>
       </v-btn>
     </span>
     <span v-else>
-      <v-icon class="minus_btn no_active">
+      <v-icon class="minus-btn no-active">
         mdi-minus
       </v-icon>
     </span>
@@ -18,9 +18,9 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </span>
-    <span class="trash_btn">
+    <span>
       <v-btn @click="deleteTarget = id; showModal = true" icon>
-        <v-icon>mdi-trash-can-outline</v-icon>
+        <v-icon class="trash-btn">mdi-trash-can-outline</v-icon>
       </v-btn>
     </span>
     <modal v-if="showModal" @cancel="showModal = false" @ok="deleteTicket(deleteTarget); showModal = false;">
@@ -84,13 +84,17 @@
 </script>
 
 <style scoped>
-.no_active {
+.no-active {
   min-width: 36px;
   color: lightgray;
   margin-left: 1rem
 }
 
-.minus_btn {
+.minus-btn {
   margin-left: 1rem;
+}
+
+.trash-btn {
+  margin-right: 1rem;
 }
 </style>

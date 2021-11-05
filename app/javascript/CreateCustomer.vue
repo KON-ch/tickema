@@ -1,11 +1,11 @@
 <template>
   <v-form @submit="createCustomer">
     <div v-if="errors.length">
-      <ul v-for="e in errors" :key="e">
-        <li><font color="red">{{ e }}</font></li>
-      </ul>
+      <div v-for="e in errors" :key="e">
+        <div><font color="red">{{ e }}</font></div>
+      </div>
     </div>
-    <v-row>
+    <v-row style="margin-left: 1rem">
       <v-col>
         <v-text-field v-model="lastName">
           <template v-slot:label>姓</template>
@@ -18,7 +18,7 @@
       </v-col>
       <v-col>
         <v-btn type="submit" icon>
-          <v-icon x-large>mdi-account-multiple-plus</v-icon>
+          <v-icon x-large class="customer-btn">mdi-account-multiple-plus</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -72,3 +72,9 @@
     }
   }
 </script>
+
+<style scoped>
+.customer-btn {
+  margin-top: 1rem;
+}
+</style>

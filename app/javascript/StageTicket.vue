@@ -1,22 +1,22 @@
 <template>
   <div>
-    <v-text-field v-model="keyword" style="padding: 1rem 2rem;">
+    <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
 
     <div v-for="ticket in searchTickets" :key="ticket.id" style="padding-right: 1rem;">
       <v-row>
-        <v-col cols="6" class="customer_name">
+        <v-col cols="6" class="customer-name">
           {{ ticket.customer_name }}
         </v-col>
-        <v-col cols="3" class="date_time">
+        <v-col cols="3" class="date-time">
           {{ ticket.date }}
         </v-col>
-        <v-col cols="3" class="date_time">
+        <v-col cols="3" class="date-time">
           {{ ticket.time }}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row style="margin: 0;">
         <v-col cols="6" style="padding-right: 0">
           <count-ticket
             :id="ticket.id"
@@ -27,12 +27,12 @@
         <v-col cols="3" style="padding-left: 0;">
           <v-btn
             :color="setStatusColor(ticket.status)"
-            class="status_btn"
+            class="status-btn"
             @click="updateStatus(ticket.contact_id, statusNum[ticket.status] + 1)"
           >{{ statusLocales[ticket.status] }}
           </v-btn>
         </v-col>
-        <v-col cols="3" style="padding-left: 0;">
+        <v-col cols="3" style="padding-left: 1rem;">
           <v-select
             v-model="submitStatus[`contact_${ticket.contact_id}`]"
             :items="selectStatus"
@@ -161,18 +161,18 @@
   }
 </script>
 <style scoped>
-.customer_name {
+.customer-name {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
 }
 
-.date_time {
+.date-time {
   margin: auto 0;
   padding-right: 0;
 }
 
-.status_btn {
+.status-btn {
   color: white;
   font-weight: bold;
 }

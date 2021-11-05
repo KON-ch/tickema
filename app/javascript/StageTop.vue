@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-text-field v-model="keyword">
+    <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
 
@@ -8,17 +8,19 @@
       {{ ticket.customer_name }}は{{ ticket.date }}の{{ ticket.time }}です
     </div>
 
-    <div class="total_count">合計 {{ totalCount }} 枚</div>
+    <div class="total-count">合計<span class="total-count_num" :class="countRank(totalCount)">{{ totalCount }}</span>枚</div>
 
-    <v-list>
-      <v-list-group v-for="schedule in schedules" :key="schedule.id">
+    <v-list height="100vh" class="top-body">
+      <v-list-group v-for="schedule in schedules" :key="schedule.id" class="schedule-list">
         <template v-slot:activator>
-          <v-list-item-title :class="setScheduleColor(schedule.staged_at)">
-            <span class="schedule_list">
+          <v-list-item-title class="schedule-list_title">
+            <span class="schedule-date">
               {{ schedule.staged_on }}
+            </span>
+            <span :class="setScheduleColor(schedule.staged_at)">
               {{ schedule.staged_at }}
             </span>
-            <span class="schedule_count">{{ countPerSchedule(schedule.id) }}人</span>
+            <span class="schedule-count">{{ countPerSchedule(schedule.id) }}人</span>
           </v-list-item-title>
         </template>
         <v-list-item>
@@ -85,13 +87,90 @@
       setScheduleColor: function() {
         return function(time) {
           if(time < '15:00') {
-            return "schedule_matinee"
+            return "schedule-matinee"
           } else {
-            return "schedule_soiree"
+            return "schedule-soiree"
           }
         }
       },
+
+      countRank: function() {
+        return function(count) {
+          if(count < 10) {
+            return ""
+          } else if( count < 20) {
+            return "count-rank_silver"
+          } else if( count < 30) {
+            return "count-rank_gold"
+          } else if( count < 50) {
+            return "count-rank_platinum"
+          } else {
+            return "count-rank_diamond"
+          }
+        }
+      }
     }
   }
 
 </script>
+
+<style scoped>
+.top-body {
+  padding: 0 1rem;
+}
+
+.total-count {
+  text-align: right;
+  margin: 0 2rem 1rem;
+}
+
+.total-count_num {
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  border-radius: 1rem;
+}
+
+.count-rank_silver {
+  background-color: silver
+}
+
+.count-rank_gold {
+  background-color: gold;
+}
+
+.count-rank_platinum {
+  background-color: blue;
+  color: white;
+}
+
+.count-rank_diamond {
+  background-color: black;
+  color: white;
+}
+
+.schedule-list {
+  margin-bottom: 1rem;
+}
+
+.schedule-list_title {
+  font-size: 1.25rem;
+}
+
+.schedule-date {
+  font-weight: bold;
+}
+
+.schedule-matinee {
+  color:orange;
+}
+
+.schedule-soiree {
+  color: blue;
+}
+
+.schedule-count {
+  margin-left: 1rem;
+}
+</style>
