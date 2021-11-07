@@ -10,7 +10,7 @@
 
     <div class="total-count">合計<span class="total-count_num" :class="countRank(totalCount)">{{ totalCount }}</span>枚</div>
 
-    <v-list height="100vh" class="top-body">
+    <v-list class="top-body">
       <v-list-group v-for="schedule in schedules" :key="schedule.id" class="schedule-list">
         <template v-slot:activator>
           <v-list-item-title class="schedule-list_title">
@@ -33,7 +33,6 @@
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
-
     </v-list>
   </div>
 </template>

@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <v-card>
     <v-app-bar
       height="64px"
-      prominent
     >
       <v-toolbar-title><h1 class="stage-title">{{ title }}</h1></v-toolbar-title>
 
@@ -69,7 +68,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-  </div>
+  </v-card>
 </template>
 
 <script>
