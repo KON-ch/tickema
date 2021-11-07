@@ -54,11 +54,14 @@ export default {
 <style scoped>
 .customer-data {
   padding: 0;
-  margin-top: 1rem;
+  margin: 1rem 0 1.5rem;
 }
 
 .customer-name {
   font-weight: bold;
+  font-size: 1.25rem;
+  padding-top: 0.5rem;
+  padding-right: 0;
 }
 
 .count-ticket {

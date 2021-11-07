@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit="createCustomer">
+  <v-form @submit="createCustomer" style="margin-top: 2rem">
     <div v-if="errors.length">
       <div v-for="e in errors" :key="e">
         <div><font color="red">{{ e }}</font></div>
