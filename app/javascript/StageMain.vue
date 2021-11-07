@@ -1,6 +1,7 @@
 <template>
-  <v-card>
+  <v-card class="main-body">
     <v-app-bar
+      absolute
       height="64px"
     >
       <v-toolbar-title><h1 class="stage-title">{{ title }}</h1></v-toolbar-title>
@@ -21,30 +22,32 @@
       </template>
     </v-app-bar>
 
-    <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <stage-top
-          :id="id"
-          :schedules="schedules"
-          :tickets="tickets"
-        ></stage-top>
-      </v-tab-item>
+    <v-card class="tab-items">
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <stage-top
+            :id="id"
+            :schedules="schedules"
+            :tickets="tickets"
+          ></stage-top>
+        </v-tab-item>
 
-      <v-tab-item>
-        <stage-ticket
-          :tickets="tickets"
-        ></stage-ticket>
-      </v-tab-item>
+        <v-tab-item>
+          <stage-ticket
+            :tickets="tickets"
+          ></stage-ticket>
+        </v-tab-item>
 
-      <v-tab-item>
-        <stage-unbooked
-          :id="id"
-          :schedules="schedules"
-          :customers="unbookedCustomers"
-          :tickets="tickets"
-        ></stage-unbooked>
-      </v-tab-item>
-    </v-tabs-items>
+        <v-tab-item>
+          <stage-unbooked
+            :id="id"
+            :schedules="schedules"
+            :customers="unbookedCustomers"
+            :tickets="tickets"
+          ></stage-unbooked>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
 
     <v-navigation-drawer
       v-model="drawer"
@@ -141,6 +144,23 @@
   }
 </script>
 <style scoped>
+.main-body {
+  position:fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.main-body::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-items {
+  height: 100vh;
+  overflow-y: scroll;
+  padding-top: 7rem;
+}
+
 .stage-title {
   font-size: 1.5rem;
   color: #3636eb;
