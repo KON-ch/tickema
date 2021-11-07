@@ -10,7 +10,9 @@ class StagesController < ApplicationController
       title:              stage.title,
       stages:             Stage.select(:id, :title).where.not(id: stage.id).order(id: :desc),
       schedules:          stage.schedules.select(:id, :staged_on, :staged_at),
-      tickets:            stage.tickets.filter_map { |t| t.data if t.customer.user_id == current_user.id },
+      tickets:            stage.tickets.includes(%i[contact schedule customer]).filter_map do |ticket|
+                            ticket.data if t.customer.user_id == current_user.id
+                          end,
       unbooked_customers: current_user.customers.select(:id, :name).reject { |c| c.have_ticket?(stage.id) }
     }
   end
