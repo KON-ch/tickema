@@ -8,7 +8,7 @@ class StagesController < ApplicationController
     render json: {
       id:                 stage.id,
       title:              stage.title,
-      stages:             Stage.select(:id, :title).order(id: :desc),
+      stages:             Stage.select(:id, :title).where.not(id: stage.id).order(id: :desc),
       schedules:          stage.schedules.select(:id, :staged_on, :staged_at),
       tickets:            stage.tickets.filter_map { |t| t.data if t.customer.user_id == current_user.id },
       unbooked_customers: current_user.customers.select(:id, :name).reject { |c| c.have_ticket?(stage.id) }

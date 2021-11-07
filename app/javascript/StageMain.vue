@@ -63,9 +63,18 @@
           v-model="group"
           v-for="stage in stages" :key="stage.id"
         >
+          <v-list-item-title
+            class="link-title"
+          >
+            別の公演
+          </v-list-item-title>
           <v-list-item>
-            <router-link :to="{ name: 'StageMain', params: { id: stage.id } }">
-              {{ stage.title }}
+            <router-link
+              :to="{ name: 'StageMain', params: { id: stage.id } }"
+              class="link-content"
+            >
+              <v-icon>mdi-hand-pointing-right</v-icon>
+              <span class="link-content_title">{{ stage.title }}</span>
             </router-link>
           </v-list-item>
         </v-list-item-group>
@@ -159,6 +168,22 @@
   height: 100vh;
   overflow-y: scroll;
   padding-top: 7rem;
+}
+
+.link-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem;
+  color: darkblue;
+}
+
+.link-content {
+  text-decoration: none;
+}
+
+.link-content_title {
+  font-weight: bold;
+  margin-left: 0.5rem;
 }
 
 .stage-title {
