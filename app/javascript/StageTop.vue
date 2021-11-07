@@ -4,9 +4,19 @@
       <template v-slot:label>検索</template>
     </v-text-field>
 
-    <div v-for="ticket in searchTickets" :key="ticket.id">
-      {{ ticket.customer_name }}は{{ ticket.date }}の{{ ticket.time }}です
-    </div>
+    <v-card v-for="ticket in searchTickets" :key="ticket.id" class="search-card">
+      <v-row class="search-content">
+        <v-col cols="5" class="search-name">
+            {{ ticket.customer_name }}
+        </v-col>
+        <v-col cols="4">
+          {{ ticket.date }}
+        </v-col>
+        <v-col cols="3">
+          {{ ticket.time }}
+        </v-col>
+      </v-row>
+    </v-card>
 
     <div class="total-count">合計<span class="total-count_num" :class="countRank(totalCount)">{{ totalCount }}</span>枚</div>
 
@@ -116,6 +126,21 @@
 <style scoped>
 .top-body {
   padding: 0 1rem;
+}
+
+.search-card {
+  text-align: center;
+  margin: 1rem;
+}
+
+.search-content {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.search-name {
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .total-count {
