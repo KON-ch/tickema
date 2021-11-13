@@ -3,8 +3,4 @@ class Customer < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true, length: { maximum: 10 }
-
-  def have_ticket?(stage_id)
-    tickets.where(stage_id: stage_id).present?
-  end
 end

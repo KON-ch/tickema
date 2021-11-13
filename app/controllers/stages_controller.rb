@@ -10,10 +10,8 @@ class StagesController < ApplicationController
       title:              stage.title,
       stages:             Stage.select(:id, :title).where.not(id: stage.id).order(id: :desc),
       schedules:          stage.schedules.select(:id, :staged_on, :staged_at),
-      tickets:            stage.tickets.includes(%i[contact schedule customer]).filter_map do |ticket|
-                            ticket.serializable_hash if ticket.manager?(current_user.id)
-                          end,
-      unbooked_customers: current_user.customers.select(:id, :name).reject { |c| c.have_ticket?(stage.id) }
+      tickets:            set_tickets,
+      unbooked_customers: set_unbooked_customers
     }
   end
 
@@ -25,6 +23,17 @@ class StagesController < ApplicationController
 
   def set_stage
     Stage.find_by(id: params[:id])
+  end
+
+  def set_tickets
+    @tickets = set_stage.tickets.includes(%i[contact schedule customer]).filter_map do |ticket|
+      ticket.serializable_hash if ticket.manager?(current_user.id)
+    end
+  end
+
+  def set_unbooked_customers
+    booked_customer_ids   = @tickets.map { |ticket| ticket["customer_id"] }.uniq
+    current_user.customers.select(:id, :name).where.not(id: booked_customer_ids)
   end
 
   def render_status_404(exception)

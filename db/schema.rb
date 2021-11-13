@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_31_095928) do
+ActiveRecord::Schema.define(version: 2021_11_13_081847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_10_31_095928) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["id"], name: "index_contacts_on_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -28,6 +29,8 @@ ActiveRecord::Schema.define(version: 2021_10_31_095928) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.index ["id", "user_id"], name: "index_customers_on_id_and_user_id"
+    t.index ["id"], name: "index_customers_on_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
@@ -37,6 +40,8 @@ ActiveRecord::Schema.define(version: 2021_10_31_095928) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["staged_at", "staged_on"], name: "index_schedules_on_staged_at_and_staged_on", unique: true
+    t.index ["staged_at"], name: "index_schedules_on_staged_at"
+    t.index ["staged_on"], name: "index_schedules_on_staged_on"
   end
 
   create_table "stage_schedules", force: :cascade do |t|
@@ -51,6 +56,7 @@ ActiveRecord::Schema.define(version: 2021_10_31_095928) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["id"], name: "index_stages_on_id"
     t.index ["title"], name: "index_stages_on_title", unique: true
   end
 
@@ -61,6 +67,7 @@ ActiveRecord::Schema.define(version: 2021_10_31_095928) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "count", default: 1, null: false
+    t.index ["id"], name: "index_tickets_on_id"
     t.index ["stage_id", "schedule_id", "customer_id"], name: "index_tickets_on_stage_id_and_schedule_id_and_customer_id", unique: true
   end
 

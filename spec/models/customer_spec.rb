@@ -34,21 +34,4 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
-
-  describe "have_ticket?" do
-    subject { customer.have_ticket?(stage_id) }
-
-    context "予約していた公演の場合" do
-      let(:stage_id) { 1 }
-
-      it { expect(subject).to eq true }
-    end
-
-    context "予約していない公演の場合" do
-      let(:stage_id) { 999 }
-
-      it { expect(subject).to eq false }
-    end
-  end
-
 end
