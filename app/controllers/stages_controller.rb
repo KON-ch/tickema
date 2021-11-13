@@ -11,7 +11,7 @@ class StagesController < ApplicationController
       stages:             Stage.select(:id, :title).where.not(id: stage.id).order(id: :desc),
       schedules:          stage.schedules.select(:id, :staged_on, :staged_at),
       tickets:            stage.tickets.includes(%i[contact schedule customer]).filter_map do |ticket|
-                            ticket.serializable_hash if ticket.manager?(current_user)
+                            ticket.serializable_hash if ticket.manager?(current_user.id)
                           end,
       unbooked_customers: current_user.customers.select(:id, :name).reject { |c| c.have_ticket?(stage.id) }
     }

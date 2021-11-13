@@ -22,7 +22,7 @@ RSpec.describe ContactsController, type: :request do
       let(:status) { "finished" }
 
       it "更新されること" do
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(201)
       end
     end
 

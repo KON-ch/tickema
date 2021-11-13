@@ -7,7 +7,7 @@ class ContactsController < ApplicationController
     rescue ArgumentError
       render_status_422("#{contact_params[:status]}は登録できません")
     else
-      render json: set_contact.status, status: 204
+      render json: set_contact.status, status: 201
     end
   end
 

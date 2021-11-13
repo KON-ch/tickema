@@ -15,16 +15,16 @@ RSpec.describe Ticket, type: :model do
     let(:contact) { ticket.contact }
 
     describe "manager?" do
-      subject { ticket.manager?(user)}
+      subject { ticket.manager?(user_id)}
 
       context "チケットの持ち主が自分の顧客の場合" do
-        let(:user) { User.first }
+        let(:user_id) { 1 }
 
         it { is_expected.to eq true }
       end
 
       context "チケットの持ち主が自分の顧客ではない場合" do
-        let(:user) { FactoryBot.build(:user, id: 2) }
+        let(:user_id) { 2 }
 
         it { is_expected.to eq false }
       end
