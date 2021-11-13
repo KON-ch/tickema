@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :stage do
     id { 1 }
-    title { 'ステージテストタイトル' }
+    title { "ステージテストタイトル" }
   end
 end

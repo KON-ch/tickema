@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
@@ -6,14 +8,13 @@ RSpec.describe Customer, type: :model do
     FactoryBot.create(:stage)
     FactoryBot.create(:customer)
     FactoryBot.create(:schedule)
-    FactoryBot.create(:stage_schedule)
-    FactoryBot.create(:stage_customer)
+    FactoryBot.create(:ticket)
   end
 
     let(:stage) { Stage.first }
     let(:customer) { Customer.first }
 
-  describe "Customerモデルのバリデーションテスト" do
+  describe "validates" do
     it "正常に登録されること" do
       customer = FactoryBot.build(:customer)
       expect(customer).to be_valid
@@ -34,22 +35,16 @@ RSpec.describe Customer, type: :model do
     end
   end
 
-  describe "stage_ids" do
-    it "今までに観たStageのIDが取得できること" do
-      expect(customer.stage_ids).to eq ([1])
-    end
-  end
+  describe "have_ticket?" do
+    subject { customer.have_ticket?(stage_id) }
 
-  describe "watch?" do
-    subject { customer.watch?(stage_id) }
-
-    context "観たことのあるStageの場合" do
+    context "予約していた公演の場合" do
       let(:stage_id) { 1 }
 
       it { expect(subject).to eq true }
     end
 
-    context "観たことのないStageの場合" do
+    context "予約していない公演の場合" do
       let(:stage_id) { 999 }
 
       it { expect(subject).to eq false }

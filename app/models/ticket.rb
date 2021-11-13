@@ -1,32 +1,48 @@
 class Ticket < ApplicationRecord
+  include ActiveModel::Serialization
+
   belongs_to :stage
   belongs_to :schedule
   belongs_to :customer
 
   has_one :contact, dependent: :destroy
 
+  validates :count, presence: true, numericality: { greater_than: 0 }
+
   delegate :name, to: :customer, prefix: true
-  delegate :staged_at, to: :schedule
+  delegate :user_id, to: :customer
+
   delegate :staged_on, to: :schedule
+  alias_method :date, :staged_on
+
+  delegate :staged_at, to: :schedule
+  alias_method :time, :staged_at
+
+  delegate :id, to: :contact, prefix: true
+  delegate :status, to: :contact
 
   after_create :_create_contact
   after_destroy :_destroy_customer
 
-  def data
-    {
-      id:            id,
-      customer_id:   customer_id,
-      customer_name: customer_name,
-      schedule_id:   schedule_id,
-      date:          staged_on,
-      time:          staged_at,
-      count:         count,
-      contact_id:    contact.id,
-      status:        contact.status,
-    }
+  def manager?(user)
+    user_id == user.id
   end
 
   private
+
+  def attributes
+    {
+      'id'            => nil,
+      'customer_id'   => nil,
+      'customer_name' => nil,
+      'schedule_id'   => nil,
+      'date'          => nil,
+      'time'          => nil,
+      'count'         => nil,
+      'contact_id'    => nil,
+      'status'        => nil,
+    }
+  end
 
   def _destroy_customer
     customer.destroy! if customer.tickets.blank?

@@ -1,5 +1,3 @@
-require 'csv'
-
 class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
@@ -8,14 +6,14 @@ class CustomersController < ApplicationController
 
     customer = Customer.find_or_initialize_by(customer_params)
 
-    customer.save
+    customer.save!
 
     begin
       ticket = customer.tickets.create(params.require(:ticket).permit(:stage_id, :schedule_id))
     rescue ActiveRecord::RecordNotUnique
       render_status_422("#{customer.name}は同日に登録されています")
     else
-      render json: ticket.data, status: 201
+      render json: ticket.serializable_hash, status: 201
     end
   end
 

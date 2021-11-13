@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
@@ -7,11 +9,20 @@ RSpec.describe "Users", type: :request do
       sign_in user
 
       stage = FactoryBot.create(:stage)
-      stage = [{ "id"=> stage.id, "title"=> stage.title }]
 
       get "/mypage"
       json = JSON.parse(response.body)
-      expect(json).to eq(stage)
+      expect(json).to eq(
+        {
+          "name" => "テスト",
+          "stages" => [
+            {
+              "id" => 1,
+              "title" => "ステージテストタイトル"
+            }
+          ]
+        }
+      )
       expect(response).to have_http_status(200)
     end
   end

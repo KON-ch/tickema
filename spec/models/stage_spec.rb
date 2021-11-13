@@ -3,15 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Stage, type: :model do
-  before do
-    FactoryBot.create(:stage)
-    FactoryBot.create(:schedule)
-    FactoryBot.create(:stage_schedule)
-  end
-
-  let(:stage) { Stage.first }
-
-  describe "Stageモデルのバリデーションテスト" do
+  describe "validates" do
     subject { Stage.new(title: title) }
 
     context "タイトルが入力されている場合" do

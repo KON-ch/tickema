@@ -1,20 +1,17 @@
 class TicketsController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid, with: :render_status_422
+
   def create
     ticket = Ticket.new(ticket_params)
 
-    if ticket.save
-      render json: ticket.data
-    else
-      render_status_422(ticket.errors.full_messages)
-    end
+    ticket.save!
+
+    render json: ticket.serializable_hash, status: 201
   end
 
   def update
-    if set_ticket.update!(ticket_params)
-      head :no_content
-    else
-      render_status_422(ticket.errors.full_messages)
-    end
+    set_ticket.update!(ticket_params)
+    head :no_content
   end
 
   def destroy

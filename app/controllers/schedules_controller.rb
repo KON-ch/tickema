@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
   rescue_from Exception, with: :render_status_500
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
+  rescue_from ActiveRecord::RecordInvalid, with: :render_status_422
 
   def create
     # status: 422
@@ -8,15 +9,14 @@ class SchedulesController < ApplicationController
 
     schedules = []
 
+
     schedule_params.each do |param|
       schedule          = Schedule.new(param)
       schedule.stage_id = stage.id
 
-      if schedule.save
-        schedules << schedule
-      else
-        return render json: { errors: schedule.errors.full_messages }, status: 422
-      end
+      schedule.save!
+
+      schedules << schedule
     end
 
     render json: schedules, status: 201
@@ -36,6 +36,10 @@ class SchedulesController < ApplicationController
 
   def render_status_404(exception)
     render json: { errors: [exception] }, status: 404
+  end
+
+  def render_status_422(exception)
+    render json: { errors: [exception] }, status: 422
   end
 
   def render_status_500(exception)
