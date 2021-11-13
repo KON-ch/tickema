@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   has_many :customers, dependent: :destroy
   has_many :contact, dependent: :destroy
+
+  has_many :user_stages, dependent: :destroy
+  has_many :stages, through: :user_stages
 end
