@@ -125,7 +125,7 @@
           .put(`/contacts/${id}`, { contact: { status: status }})
           .then(response => {
             this.tickets.map(ticket => {
-              if (ticket.contact_id == id) { ticket.status = response.data }
+              if (ticket.contact_id == id) { return ticket.status = response.data }
             })
           })
       },

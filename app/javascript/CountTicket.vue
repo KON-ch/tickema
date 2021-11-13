@@ -62,14 +62,14 @@
         axios
           .put(`/tickets/${id}`, { ticket: { count: count} })
           .then(this.tickets.map(ticket => {
-            if (ticket.id == id) { ticket.count = count }
+            if (ticket.id == id) { return ticket.count = count }
           }))
       },
 
       deleteTicket: function(id) {
-        const index = this.tickets.map((ticket, index) => { if(ticket.id == id){ return index } }).filter(Boolean)
+        const index = this.tickets.findIndex(ticket => { return ticket.id == id })
 
-        if (index.length != 1) {
+        if (index == -1) {
           const errorMessage = "削除できませんでした"
           console.log(errorMessage)
           return this.errors = errorMessage
@@ -77,7 +77,7 @@
 
         axios
           .delete(`/tickets/${id}`)
-          .then(this.tickets.splice(index[0], 1))
+          .then(this.tickets.splice(index, 1))
       },
     }
   }

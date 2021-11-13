@@ -80,15 +80,19 @@
 
     methods: {
       createTicket: function(count, customer_id, schedule_id) {
-        const index = this.customers.map((customer, index) => { if(customer.id == customer_id){ return index } }).filter(Boolean)
+        const index = this.customers.findIndex(customer => { return customer.id == customer_id })
+
+        if (index == -1) {
+          const errorMessage = "削除できませんでした"
+          console.log(errorMessage)
+          return this.errors = errorMessage
+        }
 
         axios
           .post(`/tickets`, { ticket: { count: count, stage_id: this.id, customer_id: customer_id, schedule_id: schedule_id } })
-          .then(response => {
-            this.tickets.push(response.data)
-          })
+          .then(response => { this.tickets.push(response.data) })
 
-        this.customers.splice(index[0], 1)
+        this.customers.splice(index, 1)
       },
     }
   }

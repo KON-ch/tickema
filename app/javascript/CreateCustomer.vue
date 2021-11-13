@@ -48,15 +48,19 @@
         const name = this.lastName + " " + this.firstName
 
         axios
-          .post(`/customers`, {
-            customer: { name: name },
-            ticket: { stage_id: this.id, schedule_id: this.schedule_id }
-          })
+          .post(`/customers`,
+            {
+              customer: { name: name },
+              ticket:   { stage_id: this.id, schedule_id: this.schedule_id }
+            }
+          )
           .then(response => {
             this.tickets.push(response.data);
+
             if (this.$route.params.id != this.id ){
               this.$router.push({ path: `/stages/${this.stage_id}` });
             };
+
             this.errors = '';
           })
           .catch(error => {
