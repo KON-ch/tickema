@@ -2,6 +2,8 @@ class ContactsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def update
+    return if current_user.email == ENV['TEST_USER_EMAIL']
+
     begin
       set_contact.update!(contact_params)
     rescue ArgumentError

@@ -2,6 +2,8 @@ class TicketsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_status_422
 
   def create
+    return if current_user.email == ENV['TEST_USER_EMAIL']
+
     ticket = Ticket.new(ticket_params)
 
     ticket.save!
@@ -10,11 +12,15 @@ class TicketsController < ApplicationController
   end
 
   def update
+    return if current_user.email == ENV['TEST_USER_EMAIL']
+
     set_ticket.update!(ticket_params)
     head :no_content
   end
 
   def destroy
+    return if current_user.email == ENV['TEST_USER_EMAIL']
+    
     set_ticket.destroy!
     head :no_content
   end
