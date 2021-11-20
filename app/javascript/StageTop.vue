@@ -126,6 +126,7 @@
 <style scoped>
 .top-body {
   padding: 0 1rem;
+  margin-bottom: 10rem;
 }
 
 .search-card {

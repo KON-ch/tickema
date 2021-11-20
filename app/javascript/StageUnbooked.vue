@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 10rem;">
     <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>

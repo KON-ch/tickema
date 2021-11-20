@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ticket-body">
     <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
       <template v-slot:label>検索</template>
     </v-text-field>
@@ -161,6 +161,10 @@
   }
 </script>
 <style scoped>
+.ticket-body {
+  margin-bottom: 10rem;
+}
+
 .customer-name {
   font-size: 1.5rem;
   font-weight: bold;
