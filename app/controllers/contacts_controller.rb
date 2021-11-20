@@ -2,7 +2,11 @@ class ContactsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def update
-    return if current_user.email == ENV['TEST_USER_EMAIL']
+    if current_user.email == ENV['TEST_USER_EMAIL']
+      status = Contact::STATUS.key(contact_params[:status])
+      render json: status
+      return
+    end
 
     begin
       set_contact.update!(contact_params)
