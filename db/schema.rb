@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_051711) do
+ActiveRecord::Schema.define(version: 2021_11_20_053050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 2021_11_20_051711) do
     t.index ["id", "user_id"], name: "index_customers_on_id_and_user_id"
     t.index ["id"], name: "index_customers_on_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "schedule_id", null: false
+    t.bigint "customer_id", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "count", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -89,6 +98,8 @@ ActiveRecord::Schema.define(version: 2021_11_20_051711) do
   add_foreign_key "contacts", "tickets"
   add_foreign_key "contacts", "users"
   add_foreign_key "customers", "users"
+  add_foreign_key "reservations", "customers"
+  add_foreign_key "reservations", "schedules"
   add_foreign_key "schedules", "stages"
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "schedules"
