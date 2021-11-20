@@ -19,7 +19,7 @@ end
 month = 4
 
 TITLES.each do |title|
-  dates  = Date.new(2021, month, 10)..Date.new(2021, month, 24)
+  dates  = Date.new(2021, month, 10)..Date.new(2021, month, 20)
 
   dates.each_with_index do |date, idx|
     if idx.odd?
@@ -36,7 +36,7 @@ end
 
 # Customer
 LAST_NAMES = %w[佐藤 鈴木 高橋 田中 渡辺 伊藤 山本 中村 山田 小林]
-FIRST_NAMES  = %w[正一 清 正雄 茂 武雄 愛 彩 美里 成美 沙織]
+FIRST_NAMES  = %w[正一 正雄 茂 愛 美里 成美]
 
 LAST_NAMES.each do |last_name|
   FIRST_NAMES.each do |first_name|
@@ -45,7 +45,7 @@ LAST_NAMES.each do |last_name|
 end
 
 # Ticket
-customer_size = 25
+customer_size = 20
 
 TITLES.each do |title|
   stage = Stage.find_by(title: title)
@@ -61,7 +61,7 @@ TITLES.each do |title|
 end
 
 # Contact
-user.contacts.shuffle.first(50).each do |contact|
+user.contacts.shuffle.first(30).each do |contact|
   status = (0..3).to_a.sample
   contact.update!(status: status)
 end
