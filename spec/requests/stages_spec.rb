@@ -8,7 +8,6 @@ RSpec.describe "Stages", type: :request do
     sign_in user
     FactoryBot.create(:stage)
     FactoryBot.create(:schedule)
-    StageSchedule.create(stage_id: 1, schedule_id: 1)
     FactoryBot.create(:customer)
     FactoryBot.create(:ticket)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_043250) do
+ActiveRecord::Schema.define(version: 2021_11_20_051711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,14 +44,6 @@ ActiveRecord::Schema.define(version: 2021_11_20_043250) do
     t.index ["staged_at", "staged_on"], name: "index_schedules_on_staged_at_and_staged_on", unique: true
     t.index ["staged_at"], name: "index_schedules_on_staged_at"
     t.index ["staged_on"], name: "index_schedules_on_staged_on"
-  end
-
-  create_table "stage_schedules", force: :cascade do |t|
-    t.bigint "stage_id", null: false
-    t.bigint "schedule_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["stage_id", "schedule_id"], name: "index_stage_schedules_on_stage_id_and_schedule_id", unique: true
   end
 
   create_table "stages", force: :cascade do |t|
@@ -98,8 +90,6 @@ ActiveRecord::Schema.define(version: 2021_11_20_043250) do
   add_foreign_key "contacts", "users"
   add_foreign_key "customers", "users"
   add_foreign_key "schedules", "stages"
-  add_foreign_key "stage_schedules", "schedules"
-  add_foreign_key "stage_schedules", "stages"
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "schedules"
   add_foreign_key "tickets", "stages"

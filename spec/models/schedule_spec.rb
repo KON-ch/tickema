@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Schedule, type: :model do
   describe "validates" do
+    before { FactoryBot.create(:stage) }
+
     it "正常に登録されること" do
       schedule = FactoryBot.build(:schedule)
       expect(schedule).to be_valid
