@@ -2,13 +2,13 @@ class TicketsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_status_422
 
   def create
-    return if current_user.email == ENV['TEST_USER_EMAIL']
-
     ticket = Ticket.new(ticket_params)
 
     ticket.save!
 
     render json: ticket.serializable_hash, status: 201
+
+    ticket.destroy! if current_user.email == ENV['TEST_USER_EMAIL']
   end
 
   def update
@@ -20,7 +20,7 @@ class TicketsController < ApplicationController
 
   def destroy
     return if current_user.email == ENV['TEST_USER_EMAIL']
-    
+
     set_ticket.destroy!
     head :no_content
   end
