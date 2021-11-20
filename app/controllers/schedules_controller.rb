@@ -12,7 +12,6 @@ class SchedulesController < ApplicationController
 
     schedule_params.each do |param|
       schedule          = Schedule.new(param)
-      schedule.stage_id = stage.id
 
       schedule.save!
 

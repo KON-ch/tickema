@@ -6,9 +6,6 @@ class Schedule < ApplicationRecord
   validates :staged_at, presence: true
   validates :staged_on, presence: true
 
-  after_save :create_stage_schedule
-
-  attr_accessor :stage_id
 
   def staged_on
     super&.strftime("%m月%d日")
@@ -16,11 +13,5 @@ class Schedule < ApplicationRecord
 
   def staged_at
     super&.strftime("%H:%M")
-  end
-
-  private
-
-  def create_stage_schedule
-    stage_schedules.create(schedule_id: id, stage_id: stage_id)
   end
 end
