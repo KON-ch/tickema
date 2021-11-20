@@ -5,17 +5,10 @@ class SchedulesController < ApplicationController
 
   def create
     # status: 422
-    return head :unprocessable_entity unless stage = Stage.find_by(id: stage_params[:id])
+    return head :unprocessable_entity unless stage = Stage.find_by(id: stage_params[:id].to_i)
 
-    schedules = []
-
-
-    schedule_params.each do |param|
-      schedule          = Schedule.new(param)
-
-      schedule.save!
-
-      schedules << schedule
+    schedules = schedule_params.map do |param|
+      stage.schedules.create!(param)
     end
 
     render json: schedules, status: 201
