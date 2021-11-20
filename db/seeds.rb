@@ -65,3 +65,8 @@ user.contacts.shuffle.first(30).each do |contact|
   status = (0..3).to_a.sample
   contact.update!(status: status)
 end
+
+# Remove Customer
+user.customers.each do |customer|
+  customer.destroy! if customer.tickets.blank?
+end
