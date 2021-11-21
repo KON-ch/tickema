@@ -1,18 +1,18 @@
 <template>
   <v-form @submit="createCustomer" style="margin-top: 2rem">
-    <div v-if="errors.length">
+    <template v-if="errors.length">
       <div v-for="e in errors" :key="e">
         <div><font color="red">{{ e }}</font></div>
       </div>
-    </div>
+    </template>
     <v-row style="margin-left: 1rem">
       <v-col>
-        <v-text-field v-model="lastName">
+        <v-text-field v-model.trim="lastName">
           <template v-slot:label>姓</template>
         </v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="firstName">
+        <v-text-field v-model.trim="firstName">
           <template v-slot:label>名</template>
         </v-text-field>
       </v-col>

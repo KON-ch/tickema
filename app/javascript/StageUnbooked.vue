@@ -1,50 +1,48 @@
 <template>
-  <div style="margin-bottom: 10rem;">
-    <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
+  <div class="unbooked-body">
+    <v-text-field v-model="keyword" class="search-form">
       <template v-slot:label>検索</template>
     </v-text-field>
 
-    <div>
-      <v-simple-table>
-        <template v-slot:default>
-          <div v-for="customer in searchCustomers" :key="customer.id" class="unbooked-body">
-            <v-row>
-              <v-col class="customer-name">{{ customer.name }}</v-col>
-            </v-row>
-            <v-row class="select-form">
-              <v-col cols="8" class="select-schedule">
-                <v-select
-                  v-model="scheduleIds[`schedule_${customer.id}`]"
-                  :items="schedules"
-                  :item-text="schedule => schedule.staged_on + ' ' + schedule.staged_at"
-                  item-value="id"
-                  filled
-                  label="公演日時"
-                ></v-select>
-              </v-col>
-              <v-col cols="4" class="select-count">
-                <v-select
-                  v-model="ticketsCount[`count_${customer.id}`]"
-                  :items="counts"
-                  filled
-                  label="枚数"
-                ></v-select>
-              </v-col>
-            </v-row>
-            <v-row style="margin: 0;">
-              <v-col class="reserved-btn">
-                <v-btn
-                  block
-                  color="blue"
-                  class="reserved-btn_content"
-                  @click="createTicket(ticketsCount[`count_${customer.id}`], customer.id, scheduleIds[`schedule_${customer.id}`])"
-                >予約</v-btn>
-              </v-col>
-            </v-row>
-          </div>
-        </template>
-      </v-simple-table>
-    </div>
+    <v-simple-table>
+      <template v-slot:default>
+        <div v-for="customer in searchCustomers" :key="customer.id" class="unbooked-user">
+          <v-row>
+            <v-col class="customer-name">{{ customer.name }}</v-col>
+          </v-row>
+          <v-row class="select-form">
+            <v-col cols="8" class="select-schedule">
+              <v-select
+                v-model="scheduleIds[`schedule_${customer.id}`]"
+                :items="schedules"
+                :item-text="schedule => schedule.staged_on + ' ' + schedule.staged_at"
+                item-value="id"
+                filled
+                label="公演日時"
+              ></v-select>
+            </v-col>
+            <v-col cols="4" class="select-count">
+              <v-select
+                v-model="ticketsCount[`count_${customer.id}`]"
+                :items="counts"
+                filled
+                label="枚数"
+              ></v-select>
+            </v-col>
+          </v-row>
+          <v-row style="margin: 0;">
+            <v-col class="reserved-btn">
+              <v-btn
+                block
+                color="blue"
+                class="reserved-btn_content"
+                @click="createTicket(ticketsCount[`count_${customer.id}`], customer.id, scheduleIds[`schedule_${customer.id}`])"
+              >予約</v-btn>
+            </v-col>
+          </v-row>
+        </div>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 
@@ -98,7 +96,15 @@
   }
 </script>
 <style scoped>
+.search-form {
+  padding: 2rem 2rem 1rem;
+}
+
 .unbooked-body {
+  margin-bottom: 10rem;
+}
+
+.unbooked-user {
   padding: 0 1rem;
 }
 .customer-name{

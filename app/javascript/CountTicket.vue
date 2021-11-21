@@ -1,15 +1,15 @@
 <template>
   <div>
-    <span v-if="count > 1" >
+    <template v-if="count > 1" >
       <v-btn v-on:click="updateCount(id, count - 1)" class="minus-btn" icon>
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-    </span>
-    <span v-else>
+    </template>
+    <template v-else>
       <v-icon class="minus-btn no-active">
         mdi-minus
       </v-icon>
-    </span>
+    </template>
     <span style="font-weight: bold;">
       {{ count }}枚
     </span>

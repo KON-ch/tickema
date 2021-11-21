@@ -1,6 +1,6 @@
 <template>
   <div class="ticket-body">
-    <v-text-field v-model="keyword" style="padding: 2rem 2rem 1rem;">
+    <v-text-field v-model="keyword" class="search-form">
       <template v-slot:label>検索</template>
     </v-text-field>
 
@@ -163,6 +163,10 @@
 <style scoped>
 .ticket-body {
   margin-bottom: 10rem;
+}
+
+.search-form {
+  padding: 2rem 2rem 1rem;
 }
 
 .customer-name {
