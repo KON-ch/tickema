@@ -22,7 +22,7 @@ RSpec.describe Ticket, type: :model do
           "count"         => 2,
           "customer_id"   => 1,
           "customer_name" => "テスト 太郎",
-          "date"          => "12月31日(木)",
+          "date"          => "12月31日",
           "id"            => 1,
           "schedule_id"   => 1,
           "status"        => "reserved",

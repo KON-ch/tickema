@@ -9,7 +9,7 @@ ja:
         name: "名前"
   date:
     formats:
-      default: "%-m月%-d日(%a)"
+      default: "%-m月%-d日"
   time:
     formats:
       default: "%H:%M"

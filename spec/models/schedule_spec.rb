@@ -29,7 +29,7 @@ RSpec.describe Schedule, type: :model do
   describe "staged_on" do
     it "公演日が指定のフォーマットで出力されること" do
       schedule = FactoryBot.build(:schedule)
-      expect(schedule.staged_on).to eq("12月31日(木)")
+      expect(schedule.staged_on).to eq("12月31日")
     end
   end
 
