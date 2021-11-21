@@ -24,10 +24,6 @@ class Ticket < ApplicationRecord
   after_create :_create_contact
   after_destroy :_comfirm_customer_exist
 
-  def manager?(current_user_id)
-    user_id == current_user_id
-  end
-
   private
 
   def attributes

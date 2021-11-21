@@ -26,14 +26,14 @@ class StagesController < ApplicationController
   end
 
   def set_tickets
-    @tickets = set_stage.tickets.includes(%i[contact schedule customer]).filter_map do |ticket|
-      ticket.serializable_hash if ticket.manager?(current_user.id)
-    end
+    @user_customers = current_user.customers.select(:id, :name)
+    @tickets = Ticket.where(stage_id: params[:id].to_i).where(customer_id: @user_customers.pluck(:id))
+    @tickets.includes(%i[customer schedule contact]).map(&:serializable_hash)
   end
 
   def set_unbooked_customers
-    booked_customer_ids   = @tickets.map { |ticket| ticket["customer_id"] }.uniq
-    current_user.customers.select(:id, :name).where.not(id: booked_customer_ids)
+    booked_customer_ids = @tickets.pluck(:customer_id).uniq
+    @user_customers.where.not(id: booked_customer_ids)
   end
 
   def render_status_404(exception)
