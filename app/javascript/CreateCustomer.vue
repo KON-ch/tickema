@@ -45,6 +45,11 @@
 
     methods: {
       createCustomer: function() {
+        if(!this.lastName && !this.firstName) {
+          this.errors = []
+          return this.errors.push("名前を入力してください")
+        }
+
         const name = this.lastName + " " + this.firstName
 
         axios

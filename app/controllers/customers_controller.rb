@@ -2,8 +2,6 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def create
-    return if current_user.email == ENV['TEST_USER_EMAIL']
-
     return render_status_422("名前を入力してください") if customer_params[:name].blank?
 
     customer = Customer.find_or_initialize_by(customer_params)
@@ -17,6 +15,8 @@ class CustomersController < ApplicationController
     else
       render json: ticket.serializable_hash, status: 201
     end
+
+    ticket.destroy! if current_user.email == ENV['TEST_USER_EMAIL']
   end
 
   private
