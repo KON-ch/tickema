@@ -22,7 +22,7 @@ class Ticket < ApplicationRecord
   delegate :status, to: :contact
 
   after_create :_create_contact
-  after_destroy :_destroy_customer
+  after_destroy :_comfirm_customer_exist
 
   def manager?(current_user_id)
     user_id == current_user_id
@@ -44,7 +44,7 @@ class Ticket < ApplicationRecord
     }
   end
 
-  def _destroy_customer
+  def _comfirm_customer_exist
     customer.destroy! if customer.tickets.blank?
   end
 
