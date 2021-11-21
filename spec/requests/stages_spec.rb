@@ -27,7 +27,7 @@ RSpec.describe "Stages", type: :request do
             {
               "id" => 1,
               "staged_at" => "13:30",
-              "staged_on" => "12月31日"
+              "staged_on" => "12月31日(木)"
             }
           ],
           "tickets" => [
@@ -36,7 +36,7 @@ RSpec.describe "Stages", type: :request do
               "customer_id" => 1,
               "customer_name" => "テスト 太郎",
               "schedule_id" => 1,
-              "date" => "12月31日",
+              "date" => "12月31日(木)",
               "time" => "13:30",
               "count" => 2,
               "contact_id" => contact.id,

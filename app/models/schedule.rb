@@ -7,10 +7,10 @@ class Schedule < ApplicationRecord
 
 
   def staged_on
-    super&.strftime("%m月%d日")
+    I18n.l(super) if super
   end
 
   def staged_at
-    super&.strftime("%H:%M")
+    I18n.l(super) if super
   end
 end
