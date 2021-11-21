@@ -81,7 +81,7 @@
         const index = this.customers.findIndex(customer => { return customer.id == customer_id })
 
         if (index == -1) {
-          const errorMessage = "削除できませんでした"
+          const errorMessage = "登録できませんでした"
           console.log(errorMessage)
           return this.errors = errorMessage
         }

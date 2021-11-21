@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-row v-for="ticket in scheduleTickets" :key="ticket.id" class="customer-data">
+    <v-row
+      v-for="ticket in scheduleTickets"
+      :key="ticket.id"
+      class="customer-data"
+    >
       <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
       <v-col cols="7" class="count-ticket">
         <count-ticket

@@ -80,7 +80,7 @@
         return function(schedule_id) {
           let count = 0
           this.tickets.forEach(ticket => {
-            if (ticket.schedule_id == schedule_id) count += ticket.count
+            if (ticket.schedule_id == schedule_id) { count += ticket.count }
           })
           return count
         }
