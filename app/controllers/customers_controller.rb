@@ -14,9 +14,9 @@ class CustomersController < ApplicationController
       render_status_422("#{customer.name}は同日に登録されています")
     else
       render json: ticket.serializable_hash, status: 201
+      ticket.destroy! if current_user.email == ENV['TEST_USER_EMAIL']
     end
 
-    ticket.destroy! if current_user.email == ENV['TEST_USER_EMAIL']
   end
 
   private
