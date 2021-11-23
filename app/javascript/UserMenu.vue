@@ -3,7 +3,7 @@
     :value="value"
     absolute
     temporary
-    @imput="$emit('input', $event)"
+    @input="$emit('input', $event)"
   >
     <v-list
       nav
