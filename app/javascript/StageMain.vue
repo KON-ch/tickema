@@ -49,49 +49,11 @@
       </v-tabs-items>
     </v-card>
 
-    <v-navigation-drawer
+    <user-menu
       v-model="drawer"
-      absolute
-      temporary
-    >
-      <v-list
-        nav
-        dense
-        hegiht="100vh"
-      >
-        <v-list-item-group
-          v-model="group"
-          v-for="stage in stages" :key="stage.id"
-        >
-          <v-list-item-title class="link-title">
-            公演ページ
-          </v-list-item-title>
-          <v-list-item>
-            <router-link
-              :to="{ name: 'StageMain', params: { id: stage.id } }"
-              class="link-content"
-            >
-              <v-icon>mdi-hand-pointing-right</v-icon>
-              <span class="link-content_title">{{ stage.title }}</span>
-            </router-link>
-          </v-list-item>
-        </v-list-item-group>
-        <v-list-item-group>
-          <v-list-item-title class="link-title">
-            設定
-          </v-list-item-title>
-          <v-list-item>
-            <router-link
-              :to="{ name: 'CustomerIndex' }"
-              class="link-content"
-            >
-              <v-icon>mdi-account-edit</v-icon>
-              <span class="link-content_title">顧客名編集</span>
-            </router-link>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
+      :stages="stages"
+    ></user-menu>
+
   </v-card>
 </template>
 
@@ -100,6 +62,7 @@
   import StageTop from './StageTop.vue'
   import StageTicket from './StageTicket.vue'
   import StageUnbooked from './StageUnbooked.vue'
+  import UserMenu from './UserMenu.vue'
   import { csrfToken } from '@rails/ujs';
 
   axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
@@ -109,7 +72,8 @@
     components: {
       StageTop,
       StageTicket,
-      StageUnbooked
+      StageUnbooked,
+      UserMenu
     },
 
     data: function() {
@@ -121,7 +85,6 @@
         tickets: [],
         unbookedCustomers: [],
         drawer: false,
-        group: null,
         tab_items: [
           { title: "TOP", icon: "calendar-edit" },
           { title: "予約済み", icon: "account-multiple" },
@@ -144,10 +107,6 @@
             this.unbookedCustomers = response.data.unbooked_customers
           ))
       },
-
-      group () {
-        this.drawer = false
-      }
     },
 
     mounted() {
@@ -180,22 +139,6 @@
   height: 100vh;
   overflow-y: scroll;
   padding-top: 7rem;
-}
-
-.link-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1rem;
-  color: darkblue;
-}
-
-.link-content {
-  text-decoration: none;
-}
-
-.link-content_title {
-  font-weight: bold;
-  margin-left: 0.5rem;
 }
 
 .stage-title {
