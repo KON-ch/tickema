@@ -1,5 +1,4 @@
 class StagesController < ApplicationController
-  rescue_from Exception, with: :render_status_500
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def show
@@ -17,17 +16,13 @@ class StagesController < ApplicationController
 
   private
 
-  def stage_params
-    params.require(:stage).permit(:title)
-  end
-
   def set_stage
     Stage.find_by(id: params[:id])
   end
 
   def set_tickets
     @user_customers = current_user.customers.select(:id, :name)
-    @tickets = Ticket.where(stage_id: params[:id].to_i).where(customer_id: @user_customers.pluck(:id))
+    @tickets = Ticket.where(stage_id: params[:id].to_i).where(customer_id: @user_customers.ids)
     @tickets.includes(%i[customer schedule contact]).map(&:serializable_hash)
   end
 
@@ -38,13 +33,5 @@ class StagesController < ApplicationController
 
   def render_status_404(exception)
     render json: { errors: [exception] }, status: 404
-  end
-
-  def render_status_500(exception)
-    render json: { errors: [exception] }, status: 500
-  end
-
-  def render_status_422(exception)
-    render json: { errors: [exception] }, status: 422
   end
 end
