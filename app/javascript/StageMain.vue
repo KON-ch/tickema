@@ -63,10 +63,8 @@
           v-model="group"
           v-for="stage in stages" :key="stage.id"
         >
-          <v-list-item-title
-            class="link-title"
-          >
-            別の公演
+          <v-list-item-title class="link-title">
+            公演ページ
           </v-list-item-title>
           <v-list-item>
             <router-link
@@ -75,6 +73,20 @@
             >
               <v-icon>mdi-hand-pointing-right</v-icon>
               <span class="link-content_title">{{ stage.title }}</span>
+            </router-link>
+          </v-list-item>
+        </v-list-item-group>
+        <v-list-item-group>
+          <v-list-item-title class="link-title">
+            設定
+          </v-list-item-title>
+          <v-list-item>
+            <router-link
+              :to="{ name: 'CustomerIndex' }"
+              class="link-content"
+            >
+              <v-icon>mdi-account-edit</v-icon>
+              <span class="link-content_title">顧客名編集</span>
             </router-link>
           </v-list-item>
         </v-list-item-group>

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :stages, only: %i[show]
   resources :schedules, only: %i[create]
-  resources :customers, only: %i[create]
+  resources :customers, only: %i[index create]
   resources :tickets, only: %i[create update destroy]
   resources :contacts, only: %i[update]
 

@@ -94,7 +94,7 @@
 
     computed: {
       searchTickets: function(){
-        if (this.keyword == "") return this.tickets
+        if (this.keyword == "") { return this.tickets }
 
         return this.tickets.filter(ticket => {
           return ticket.customer_name.includes(this.keyword)

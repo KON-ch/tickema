@@ -1,6 +1,11 @@
 class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
+  def index
+    customers = current_user.customers.select(:id, :name)
+    render json: customers, status: 200
+  end
+
   def create
     return render_status_422("名前を入力してください") if customer_params[:name].blank?
 
