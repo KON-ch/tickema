@@ -61,9 +61,7 @@
 
         axios
           .put(`/tickets/${id}`, { ticket: { count: count} })
-          .then(this.tickets.map(ticket => {
-            if (ticket.id == id) { return ticket.count = count }
-          }))
+          .then(this.tickets.find(ticket => ticket.id == id).count = count)
       },
 
       deleteTicket: function(id) {

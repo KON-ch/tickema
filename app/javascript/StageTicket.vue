@@ -124,9 +124,7 @@
         axios
           .put(`/contacts/${id}`, { contact: { status: status }})
           .then(response => {
-            this.tickets.map(ticket => {
-              if (ticket.contact_id == id) { return ticket.status = response.data }
-            })
+            this.tickets.find(ticket => ticket.contact_id == id).status = response.data
           })
       },
 

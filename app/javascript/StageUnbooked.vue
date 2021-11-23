@@ -78,7 +78,7 @@
 
     methods: {
       createTicket: function(count, customer_id, schedule_id) {
-        const index = this.customers.findIndex(customer => { return customer.id == customer_id })
+        const index = this.customers.findIndex(customer => customer.id == customer_id)
 
         if (index == -1) {
           const errorMessage = "登録できませんでした"

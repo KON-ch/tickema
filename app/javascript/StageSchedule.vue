@@ -1,19 +1,21 @@
 <template>
   <div>
-    <v-row
-      v-for="ticket in scheduleTickets"
-      :key="ticket.id"
-      class="customer-data"
-    >
-      <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
-      <v-col cols="7" class="count-ticket">
-        <count-ticket
-          :id="ticket.id"
-          :count="ticket.count"
-          :tickets="tickets"
-        ></count-ticket>
-      </v-col>
-    </v-row>
+    <template v-for="ticket in tickets">
+      <v-row
+        v-if="ticket.schedule_id == schedule_id"
+        :key="ticket.id"
+        class="customer-data"
+      >
+        <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
+        <v-col cols="7" class="count-ticket">
+          <count-ticket
+            :id="ticket.id"
+            :count="ticket.count"
+            :tickets="tickets"
+          ></count-ticket>
+        </v-col>
+      </v-row>
+    </template>
 
     <create-customer
       :id="id"
@@ -43,15 +45,7 @@ export default {
     id: 0,
     schedule_id: 0,
     tickets: [],
-  },
-
-  computed: {
-    scheduleTickets: function(){
-      return this.tickets.filter(ticket => {
-        return ticket.schedule_id == this.schedule_id
-      })
-    }
-  },
+  }
 }
 </script>
 
