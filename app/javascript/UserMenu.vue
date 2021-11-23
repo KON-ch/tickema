@@ -34,7 +34,7 @@
             class="link-content"
           >
             <v-icon>mdi-account-edit</v-icon>
-            <span class="link-content_title">顧客名編集</span>
+            <span class="link-content_title">顧客情報</span>
           </router-link>
         </v-list-item>
       </v-list-item-group>

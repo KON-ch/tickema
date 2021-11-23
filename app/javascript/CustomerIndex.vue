@@ -1,48 +1,58 @@
 <template>
-  <div>
+  <v-card class="edit-body">
     <v-app-bar
       absolute
       height="64px"
     >
-      <v-toolbar-title><h1>顧客名編集</h1></v-toolbar-title>
+      <v-toolbar-title><h1 class="edit-title">顧客名編集</h1></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-text-field v-model="keyword" class="search-form">
-      <template v-slot:label>検索</template>
-    </v-text-field>
+    <v-card class="edit-items">
+      <v-text-field v-model="keyword" class="search-form">
+        <template v-slot:label>検索</template>
+      </v-text-field>
 
-    <v-form v-for="customer in searchCustomers" :key="customer.id">
-      <template v-if="errors[`customer_${customer.id}`]">
-        <div v-for="e in errors[`customer_${customer.id}`]" :key="e">
-          <div><font color="red">{{ e }}</font></div>
-        </div>
-      </template>
+      <v-form v-for="customer in searchCustomers" :key="customer.id">
+        <template v-if="errors[`customer_${customer.id}`]">
+          <div v-for="e in errors[`customer_${customer.id}`]" :key="e">
+            <div><font color="red">{{ e }}</font></div>
+          </div>
+        </template>
 
-      <v-text-field
-        v-model="customer.name"
-        solo
-        :background-color="formColor(customer.id)"
-        :readonly="!editable[`customer_${customer.id}`]"
-        :rules="[rules.name]"
-      ></v-text-field>
+        <v-row>
+          <v-col cols="6" class="edit-form">
+            <v-text-field
+              v-model="customer.name"
+              solo
+              :background-color="formColor(customer.id)"
+              :readonly="!editable[`customer_${customer.id}`]"
+              :rules="[rules.name]"
+            ></v-text-field>
+          </v-col>
 
-      <v-btn @click="switchEditbale(customer.id)">編集</v-btn>
+          <v-col cols="2" class="edit-btn">
+            <v-btn @click="switchEditbale(customer.id)">編集</v-btn>
+          </v-col>
 
-      <v-btn
-        @click="updateName(customer)"
-        :disabled="!editable[`customer_${customer.id}`]"
-      >保存</v-btn>
-    </v-form>
+          <v-col cols="2" class="edit-save">
+            <v-btn
+              @click="updateName(customer)"
+              :disabled="!editable[`customer_${customer.id}`]"
+            >保存</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card>
 
     <user-menu
       :stages="stages"
       v-model="drawer"
     ></user-menu>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -120,5 +130,46 @@
       },
     }
   }
-
 </script>
+
+<style scoped>
+.edit-body {
+  position:fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.edit-body::-webkit-scrollbar {
+  display: none;
+}
+
+.edit-items {
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 6rem 1rem 10rem 1rem;
+}
+
+.edit-title {
+  font-size: 1.5rem;
+  color: #458d24;
+}
+
+.search-form {
+  padding: 1rem 1rem 2rem;
+}
+
+.edit-form {
+  font-size: 1.5rem;
+  padding: 1rem 0 0 1.5rem;
+}
+
+.edit-btn {
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
+.edit-save {
+  margin-top: 0.5rem;
+}
+</style>
