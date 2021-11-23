@@ -9,14 +9,14 @@ class CustomersController < ApplicationController
     customer.save!
 
     begin
-      ticket = customer.tickets.create(params.require(:ticket).permit(:stage_id, :schedule_id))
+      ticket = customer.tickets.create(ticket_params)
     rescue ActiveRecord::RecordNotUnique
-      render_status_422("#{customer.name}は同日に登録されています")
+      return render_status_422("#{customer.name}は同日に登録されています")
     else
       render json: ticket.serializable_hash, status: 201
     end
 
-    customer.destroy! if current_user.email == ENV['TEST_USER_EMAIL'] && customer.tickets == Array(ticket)
+    customer.destroy! if sample_user_action? && customer.tickets == Array(ticket)
   end
 
   private
@@ -25,8 +25,8 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(:name).merge(user_id: current_user.id)
   end
 
-  def set_customer
-    Customer.find_by(id: params[:id])
+  def ticket_params
+    params.require(:ticket).permit(:stage_id, :schedule_id)
   end
 
   def render_status_404(exception)

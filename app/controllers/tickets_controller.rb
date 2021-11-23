@@ -8,18 +8,18 @@ class TicketsController < ApplicationController
 
     render json: ticket.serializable_hash, status: 201
 
-    ticket.destroy! if current_user.email == ENV['TEST_USER_EMAIL']
+    ticket.destroy! if sample_user_action?
   end
 
   def update
-    return if current_user.email == ENV['TEST_USER_EMAIL']
+    return if sample_user_action?
 
     set_ticket.update!(ticket_params)
     head :no_content
   end
 
   def destroy
-    return if current_user.email == ENV['TEST_USER_EMAIL']
+    return if sample_user_action?
 
     set_ticket.destroy!
     head :no_content
