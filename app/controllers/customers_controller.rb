@@ -24,7 +24,18 @@ class CustomersController < ApplicationController
     customer.destroy! if sample_user_action? && customer.tickets == Array(ticket)
   end
 
+  def update
+    return if sample_user_action?
+
+    set_customer.update!(customer_params)
+    head :no_content
+  end
+
   private
+
+  def set_customer
+    Customer.find_by(id: params[:id])
+  end
 
   def customer_params
     params.require(:customer).permit(:name).merge(user_id: current_user.id)
