@@ -49,7 +49,7 @@ export default {
 
 .user-name {
   font-size: 1.5rem;
-  color: darkorange;
+  color: #af6200;
 }
 
 .my-stage {
