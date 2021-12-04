@@ -8,8 +8,8 @@
 import Vue       from 'vue'
 import VueRouter from 'vue-router'
 
-import StageMain     from './StageMain.vue'
 import UserPage      from './UserPage.vue'
+import StageMain     from './StageMain.vue'
 
 const router = new VueRouter({
   routes: [
