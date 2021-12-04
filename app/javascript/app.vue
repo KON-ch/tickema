@@ -25,7 +25,10 @@ const router = new VueRouter({
       path: '/customers',
       name: 'CustomerIndex',
       component: CustomerIndex
-    },
+    },{
+      path: '*',
+      redirect: '/'
+    }
   ]
 })
 
