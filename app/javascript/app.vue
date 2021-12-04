@@ -8,6 +8,7 @@
 import Vue       from 'vue'
 import VueRouter from 'vue-router'
 
+import StageMain     from './StageMain.vue'
 import UserPage      from './UserPage.vue'
 
 const router = new VueRouter({
@@ -18,7 +19,7 @@ const router = new VueRouter({
     },{
       path: '/stages/:id(\\d+)',
       name: 'StageMain',
-      component: () => import('./StageMain.vue')
+      component: StageMain
     },{
       path: '/customers',
       name: 'CustomerIndex',
