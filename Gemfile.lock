@@ -67,7 +67,7 @@ GEM
     bootsnap (1.9.3)
       msgpack (~> 1.0)
     builder (3.2.4)
-    bullet (6.1.5)
+    bullet (7.0.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.1.3)
@@ -105,7 +105,7 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.11.3)
+    jbuilder (2.11.4)
       activesupport (>= 5.0.0)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -251,30 +251,30 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bootsnap (>= 1.4.4)
+  bootsnap
   bullet
   byebug
-  capybara (>= 3.26)
+  capybara
   devise
   dotenv-rails
   factory_bot_rails
-  jbuilder (~> 2.7)
-  listen (~> 3.3)
+  jbuilder
+  listen
   nokogiri
-  pg (~> 1.1)
-  puma (~> 5.0)
-  rack-mini-profiler (~> 2.0)
-  rails (~> 6.1)
+  pg
+  puma
+  rack-mini-profiler
+  rails
   rails-i18n
   rexml
   rspec-rails
-  sass-rails (>= 6)
+  sass-rails
   selenium-webdriver
   spring
-  turbolinks (~> 5)
-  web-console (>= 4.1.0)
+  turbolinks
+  web-console
   webdrivers
-  webpacker (~> 5.0)
+  webpacker
 
 RUBY VERSION
    ruby 3.0.3p157
