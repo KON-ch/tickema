@@ -31,7 +31,7 @@
 
 <script>
   import axios from 'axios';
-  import Modal from 'Modal.vue'
+  import Modal from './Modal.vue'
 
   export default {
     components: {
