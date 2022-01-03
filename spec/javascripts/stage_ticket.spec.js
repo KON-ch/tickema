@@ -87,4 +87,33 @@ describe("searchTickets", () => {
 
     expect(StageTicket.computed.searchTickets.call(localThis)).toEqual([])
   });
-})
+});
+
+// describeの前に設定する必要がある
+jest.mock("axios", () => ({
+  put: jest.fn(() => Promise.resolve({ data: "applied" }))
+}))
+
+describe("updateStatus", () => {
+
+  it("予約ステータスが更新されること", async () => {
+    const wrapper = shallowMount(StageTicket, {
+      propsData: {
+        tickets: [
+          {
+            contact_id: 1,
+            customer_name: "テスト タロウ",
+            status: "reserved"
+          }
+        ]
+      }
+    })
+
+    const button = wrapper.find("v-btn-stub")
+    expect(button.text()).toMatch("予約済み")
+
+    button.trigger("click")
+    await wrapper.vm.$nextTick();
+    expect(button.text()).toMatch("申請済み")
+  })
+});

@@ -25,10 +25,11 @@
           ></count-ticket>
         </v-col>
         <v-col cols="3" style="padding-left: 0;">
+          <!-- Jestでclickイベントをテストする為に@click.nativeとしている -->
           <v-btn
             :color="setStatusColor(ticket.status)"
             class="status-btn"
-            @click="updateStatus(ticket.contact_id, statusNum[ticket.status] + 1)"
+            @click.native="updateStatus(ticket.contact_id, statusNum[ticket.status] + 1)"
           >{{ statusLocales[ticket.status] }}
           </v-btn>
         </v-col>
