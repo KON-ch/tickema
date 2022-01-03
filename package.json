@@ -31,26 +31,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "test": "jest"
-  },
-  "jest": {
-    "roots": [
-      "spec/javascripts"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app/javascript"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "vue"
-    ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "testEnvironment": "jsdom"
+    "test": "jest --config ./spec/javascripts/jest.config.js"
   },
   "babel": {
     "plugins": [
