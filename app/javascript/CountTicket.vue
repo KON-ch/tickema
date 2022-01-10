@@ -14,18 +14,20 @@
       {{ count }}枚
     </span>
     <span>
-      <v-btn v-on:click="updateCount(id, count + 1)" icon>
+      <v-btn v-on:click="updateCount(id, count + 1)" class="plus-btn" icon>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </span>
     <span>
-      <v-btn @click="deleteTarget = id; showModal = true" icon>
-        <v-icon class="trash-btn">mdi-trash-can-outline</v-icon>
+      <v-btn @click="deleteTarget = id; showModal = true" class="trash-btn" icon>
+        <v-icon>mdi-trash-can-outline</v-icon>
       </v-btn>
     </span>
-    <modal v-if="showModal" @cancel="showModal = false" @ok="deleteTicket(deleteTarget); showModal = false;">
-      <div slot="body">Are you sure?</div>
-    </modal>
+    <modal
+      v-if="showModal"
+      @cancel="showModal = false"
+      @ok="deleteTicket(deleteTarget); showModal = false;"
+    />
   </div>
 </template>
 

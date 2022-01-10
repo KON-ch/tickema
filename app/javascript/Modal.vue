@@ -14,10 +14,10 @@
           </div>
 
           <div class="modal-footer">
-            <v-btn color="gray" text @click="$emit('cancel')">
+            <v-btn color="gray" text @click="$emit('cancel')" class="cancel-btn">
               Cancel
             </v-btn>
-            <v-btn color="error" text @click="$emit('ok')">
+            <v-btn color="error" text @click="$emit('ok')" class="ok-btn">
               OK
             </v-btn>
           </div>
