@@ -7,17 +7,17 @@
     </template>
     <v-row style="margin-left: 1rem">
       <v-col>
-        <v-text-field v-model.trim="lastName">
+        <v-text-field v-model.trim="lastName" class="form-last_name">
           <template v-slot:label>姓</template>
         </v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model.trim="firstName">
+        <v-text-field v-model.trim="firstName" class="form-first_name">
           <template v-slot:label>名</template>
         </v-text-field>
       </v-col>
       <v-col>
-        <v-btn type="submit" icon>
+        <v-btn type="submit" class="create-btn" icon>
           <v-icon x-large class="customer-btn">mdi-account-multiple-plus</v-icon>
         </v-btn>
       </v-col>
