@@ -31,17 +31,22 @@
               :background-color="formColor(customer.id)"
               :readonly="!editable[`customer_${customer.id}`]"
               :rules="[rules.name]"
+              class="edit-form__name"
             ></v-text-field>
           </v-col>
 
-          <v-col cols="2">
-            <v-btn @click="switchEditbale(customer.id)" class="edit-btn">編集</v-btn>
+          <v-col cols="2" class="edit-btn">
+            <v-btn
+              @click="switchEditbale(customer.id)"
+              class="edit-btn__btn"
+            >編集</v-btn>
           </v-col>
 
-          <v-col cols="2" class="edit-save">
+          <v-col cols="2" class="save-btn">
             <v-btn
               @click="updateName(customer)"
               :disabled="!editable[`customer_${customer.id}`]"
+              class="save-btn__btn"
             >保存</v-btn>
           </v-col>
         </v-row>
@@ -171,7 +176,7 @@
   margin-top: 0.5rem;
 }
 
-.edit-save {
+.save-btn {
   margin-top: 0.5rem;
 }
 </style>
