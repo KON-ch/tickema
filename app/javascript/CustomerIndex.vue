@@ -82,10 +82,12 @@
       axios
         .get(`/customers`)
         .then(response => (this.customers = response.data))
+        .catch(error => { console.error(error); });
 
       axios
         .get(`/mypage`)
         .then(response => (this.stages = response.data.stages))
+        .catch(error => { console.error(error); });
     },
 
     computed: {
