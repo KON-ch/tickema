@@ -34,8 +34,8 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="2" class="edit-btn">
-            <v-btn @click="switchEditbale(customer.id)">編集</v-btn>
+          <v-col cols="2">
+            <v-btn @click="switchEditbale(customer.id)" class="edit-btn">編集</v-btn>
           </v-col>
 
           <v-col cols="2" class="edit-save">
