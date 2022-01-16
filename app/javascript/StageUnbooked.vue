@@ -59,14 +59,25 @@
       }
     },
 
-    props: {
-      id: 0,
-      schedules: [],
-      customers: [],
-      tickets: [],
-    },
-
     computed: {
+      id: {
+        get() {
+          return this.$store.state.id
+        }
+      },
+
+      schedules: {
+        get() {
+          return this.$store.state.schedules
+        }
+      },
+
+      customers: {
+        get() {
+          return this.$store.state.unbookedCustomers
+        }
+      },
+
       searchCustomers: function(){
         if (this.keyword == "") return this.customers
 
@@ -77,6 +88,7 @@
     },
 
     methods: {
+      // todo: outside mutation
       createTicket: function(count, customer_id, schedule_id) {
         const index = this.customers.findIndex(customer => customer.id == customer_id)
 
@@ -88,7 +100,7 @@
 
         axios
           .post(`/tickets`, { ticket: { count: count, stage_id: this.id, customer_id: customer_id, schedule_id: schedule_id } })
-          .then(response => { this.tickets.push(response.data) })
+          .then(response => { this.$store.state.tickets.push(response.data) })
 
         this.customers.splice(index, 1)
       },

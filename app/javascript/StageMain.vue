@@ -33,12 +33,7 @@
         </v-tab-item>
 
         <v-tab-item>
-          <stage-unbooked
-            :id="id"
-            :schedules="schedules"
-            :customers="unbookedCustomers"
-            :tickets="tickets"
-          ></stage-unbooked>
+          <stage-unbooked/>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
