@@ -87,7 +87,7 @@
       },
 
       searchTickets: function(){
-        if (this.keyword == "") return {}
+        if (this.keyword == "") return []
         return this.tickets.filter(ticket => {
           return ticket.customer_name.includes(this.keyword)
         })

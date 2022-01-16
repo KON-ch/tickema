@@ -1,4 +1,4 @@
-import { shallowMount, mount } from "@vue/test-utils"
+import { mount } from "@vue/test-utils"
 import StageUnbooked from "StageUnbooked"
 import Vuetify from "vuetify"
 
