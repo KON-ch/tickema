@@ -11,16 +11,13 @@
           <count-ticket
             :id="ticket.id"
             :count="ticket.count"
-            :tickets="tickets"
           ></count-ticket>
         </v-col>
       </v-row>
     </template>
 
     <create-customer
-      :id="id"
       :schedule_id="schedule_id"
-      :tickets="tickets"
     ></create-customer>
   </div>
 </template>
@@ -42,9 +39,18 @@ export default {
   },
 
   props: {
-    id: 0,
-    schedule_id: 0,
-    tickets: [],
+    schedule_id: {
+      type: Number,
+      default: 0,
+    }
+  },
+
+  computed: {
+    tickets: {
+      get(){
+        return this.$store.state.tickets
+      }
+    }
   }
 }
 </script>

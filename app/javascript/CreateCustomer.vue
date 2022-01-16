@@ -38,12 +38,22 @@
     },
 
     props: {
-      id: 0,
-      schedule_id: 0,
-      tickets: []
+      schedule_id: {
+        type: Number,
+        default: 0,
+      }
+    },
+
+    computed: {
+      id: {
+        get() {
+          return this.$store.state.id
+        }
+      }
     },
 
     methods: {
+      // todo: outside mutation
       createCustomer: function() {
         if(!this.lastName && !this.firstName) {
           this.errors = []
@@ -60,10 +70,10 @@
             }
           )
           .then(response => {
-            this.tickets.push(response.data);
+            this.$store.state.tickets.push(response.data);
 
             if (this.$route.params.id != this.id ){
-              this.$router.push({ path: `/stages/${this.stage_id}` });
+              this.$router.push({ path: `/stages/${this.id}` });
             };
 
             this.errors = '';

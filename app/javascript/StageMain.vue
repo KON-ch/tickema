@@ -25,11 +25,7 @@
     <v-card class="tab-items">
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <stage-top
-            :id="id"
-            :schedules="schedules"
-            :tickets="tickets"
-          ></stage-top>
+          <stage-top/>
         </v-tab-item>
 
         <v-tab-item>
@@ -93,27 +89,6 @@
         const id = to.params.id
         this.$store.commit("fetchCustomersInfo", { id })
       },
-    },
-
-    computed: {
-      id(){
-        return this.$store.state.id
-      },
-      title(){
-        return this.$store.state.title
-      },
-      stages(){
-        return this.$store.state.stages
-      },
-      schedules(){
-        return this.$store.state.schedules
-      },
-      tickets(){
-        return this.$store.state.tickets
-      },
-      unbookedCustomers(){
-        return this.$store.state.unbookedCustomers
-      }
     },
 
     mounted() {

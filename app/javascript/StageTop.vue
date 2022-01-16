@@ -36,9 +36,7 @@
         <v-list-item>
           <v-list-item-content>
             <stage-schedule
-              :id="id"
               :schedule_id="schedule.id"
-              :tickets="tickets"
             ></stage-schedule>
           </v-list-item-content>
         </v-list-item>
@@ -61,13 +59,19 @@
       }
     },
 
-    props: {
-      id: 0,
-      schedules: [],
-      tickets: []
-    },
-
     computed: {
+      schedules: {
+        get(){
+          return this.$store.state.schedules
+        }
+      },
+
+      tickets: {
+        get(){
+          return this.$store.state.tickets
+        }
+      },
+
       totalCount: function() {
         let count = 0
         this.tickets.forEach(ticket => {
@@ -87,7 +91,7 @@
       },
 
       searchTickets: function(){
-        if (this.keyword == "") return []
+        if (this.keyword == ""){ return [] }
         return this.tickets.filter(ticket => {
           return ticket.customer_name.includes(this.keyword)
         })

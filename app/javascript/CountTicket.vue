@@ -48,12 +48,28 @@
     },
 
     props: {
-      id: 0,
-      count: 0,
-      tickets: []
+      // ticket_id
+      id: {
+        type: Number,
+        default: 0
+      },
+      // ticket_count
+      count: {
+        type: Number,
+        default: 0
+      },
+    },
+
+    computed: {
+      tickets: {
+        get() {
+          return this.$store.state.tickets
+        }
+      }
     },
 
     methods: {
+      // todo: outside mutation
       updateCount: function(id, count) {
         if (!isFinite(count)) {
           const errorMessage = "枚数に不正な値が入力されています"
@@ -63,9 +79,10 @@
 
         axios
           .put(`/tickets/${id}`, { ticket: { count: count} })
-          .then(this.tickets.find(ticket => ticket.id == id).count = count)
+          .then(this.$store.state.tickets.find(ticket => ticket.id == id).count = count)
       },
 
+      // todo: outside mutation
       deleteTicket: function(id) {
         const index = this.tickets.findIndex(ticket => { return ticket.id == id })
 
@@ -77,7 +94,7 @@
 
         axios
           .delete(`/tickets/${id}`)
-          .then(this.tickets.splice(index, 1))
+          .then(this.$store.state.tickets.splice(index, 1))
       },
     }
   }
