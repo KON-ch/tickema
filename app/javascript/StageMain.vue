@@ -47,7 +47,6 @@
 
     <user-menu
       v-model="drawer"
-      :stages="stages"
     ></user-menu>
 
   </v-card>

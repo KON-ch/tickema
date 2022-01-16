@@ -43,14 +43,16 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     props: {
-      stages: [],
       value: {
         type: Boolean,
         default: false
       }
     },
+
+    computed: mapState(["stages"])
   }
 </script>
 
