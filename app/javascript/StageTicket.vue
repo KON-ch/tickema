@@ -21,7 +21,6 @@
           <count-ticket
             :id="ticket.id"
             :count="ticket.count"
-            :tickets="tickets"
           ></count-ticket>
         </v-col>
         <v-col cols="3" style="padding-left: 0;">
@@ -89,11 +88,13 @@
       }
     },
 
-    props: {
-      tickets: []
-    },
-
     computed: {
+      tickets: {
+        get() {
+          return this.$store.state.tickets
+        }
+      },
+
       searchTickets: function(){
         if (this.keyword == "") { return this.tickets }
 
@@ -119,16 +120,18 @@
     },
 
     methods: {
+      // todo: outside mutation
       updateStatus: function(id, status){
         if (status > 3) { return }
 
         axios
           .put(`/contacts/${id}`, { contact: { status: status }})
           .then(response => {
-            this.tickets.find(ticket => ticket.contact_id == id).status = response.data
+            this.$store.state.tickets.find(ticket => ticket.contact_id == id).status = response.data
           })
       },
 
+      // todo: only chrome
       download: function() {
         const today = new Date();
         let month = today.getMonth()

@@ -29,9 +29,7 @@
         </v-tab-item>
 
         <v-tab-item>
-          <stage-ticket
-            :tickets="tickets"
-          ></stage-ticket>
+          <stage-ticket/>
         </v-tab-item>
 
         <v-tab-item>
