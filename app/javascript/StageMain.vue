@@ -52,9 +52,9 @@
   import StageUnbooked from './StageUnbooked.vue'
   import UserMenu from './UserMenu.vue'
   import { csrfToken } from '@rails/ujs';
+  import { mapState } from 'vuex';
 
   axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
-
 
   export default {
     components: {
@@ -86,7 +86,9 @@
     mounted() {
       const id = this.$route.params.id
       this.$store.commit("fetchCustomersInfo", { id })
-    }
+    },
+
+    computed: mapState(["title"])
   }
 </script>
 <style scoped>
