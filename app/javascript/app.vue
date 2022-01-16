@@ -7,7 +7,7 @@
 <script>
 import Vue       from 'vue'
 import VueRouter from 'vue-router'
-
+import store      from "./packs/store"
 import UserPage      from './UserPage.vue'
 import StageMain     from './StageMain.vue'
 
@@ -34,6 +34,7 @@ const router = new VueRouter({
 Vue.use(VueRouter)
 
 export default {
-  router
+  router,
+  store
 }
 </script>

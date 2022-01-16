@@ -78,12 +78,6 @@
 
     data: function() {
       return {
-        id: 0,
-        title: "",
-        stages: [],
-        schedules: [],
-        tickets: [],
-        unbookedCustomers: [],
         drawer: false,
         tab_items: [
           { title: "TOP", icon: "calendar-edit" },
@@ -96,31 +90,36 @@
 
     watch: {
       $route(to) {
-        axios
-          .get(`/stages/${to.params.id}`)
-          .then(response => (
-            this.id = response.data.id,
-            this.title = response.data.title,
-            this.stages = response.data.stages,
-            this.schedules = response.data.schedules,
-            this.tickets = response.data.tickets,
-            this.unbookedCustomers = response.data.unbooked_customers
-          ))
+        const id = to.params.id
+        this.$store.commit("fetchCustomersInfo", { id })
       },
     },
 
-    mounted() {
-      axios
-        .get(`/stages/${this.$route.params.id}`)
-        .then(response => (
-          this.id = response.data.id,
-          this.title = response.data.title,
-          this.stages = response.data.stages,
-          this.schedules = response.data.schedules,
-          this.tickets = response.data.tickets,
-          this.unbookedCustomers = response.data.unbooked_customers
-        ))
+    computed: {
+      id(){
+        return this.$store.state.id
+      },
+      title(){
+        return this.$store.state.title
+      },
+      stages(){
+        return this.$store.state.stages
+      },
+      schedules(){
+        return this.$store.state.schedules
+      },
+      tickets(){
+        return this.$store.state.tickets
+      },
+      unbookedCustomers(){
+        return this.$store.state.unbookedCustomers
+      }
     },
+
+    mounted() {
+      const id = this.$route.params.id
+      this.$store.commit("fetchCustomersInfo", { id })
+    }
   }
 </script>
 <style scoped>
