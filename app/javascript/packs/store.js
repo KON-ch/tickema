@@ -61,8 +61,16 @@ export default new Vuex.Store({
         })
     },
 
-    addCustomer(state, payload) {
-      state.tickets.push(payload.data);
+    addCustomer(state, res) {
+      state.tickets.push(res.data);
+    },
+
+    updateCount(state, payload) {
+      state.tickets.find(ticket => ticket.id == payload.id).count = payload.count
+    },
+
+    deleteTicket(state, index) {
+      state.tickets.splice(index, 1)
     }
   }
 })
