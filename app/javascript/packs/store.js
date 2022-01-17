@@ -71,6 +71,10 @@ export default new Vuex.Store({
 
     deleteTicket(state, index) {
       state.tickets.splice(index, 1)
+    },
+
+    updateStatus(state, payload) {
+      state.tickets.find(ticket => ticket.contact_id == payload.id).status = payload.status
     }
   }
 })

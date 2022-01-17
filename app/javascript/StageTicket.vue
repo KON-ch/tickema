@@ -33,6 +33,7 @@
           </v-btn>
         </v-col>
         <v-col cols="3" style="padding-left: 1rem;">
+          <!-- todo: updateStatusのbuttonに合わせて値が更新されない -->
           <v-select
             v-model="submitStatus[`contact_${ticket.contact_id}`]"
             :items="selectStatus"
@@ -92,12 +93,9 @@
     computed: {
       ...mapState(["tickets"]),
 
-      searchTickets: function(){
-        if (this.keyword == "") { return this.tickets }
-
-        return this.tickets.filter(ticket => {
-          return ticket.customer_name.includes(this.keyword)
-        })
+      searchTickets() {
+        if (this.keyword == ""){ return this.tickets }
+        return this.$store.getters.searchTickets(this.keyword)
       },
 
       setStatusColor: function() {
@@ -117,14 +115,13 @@
     },
 
     methods: {
-      // todo: outside mutation
       updateStatus: function(id, status){
         if (status > 3) { return }
 
         axios
           .put(`/contacts/${id}`, { contact: { status: status }})
-          .then(response => {
-            this.$store.state.tickets.find(ticket => ticket.contact_id == id).status = response.data
+          .then(res => {
+            this.$store.commit("updateStatus", { id: id, status: res.data })
           })
       },
 
