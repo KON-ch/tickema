@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
   import StageSchedule from './StageSchedule.vue';
 
   export default {
@@ -63,29 +63,17 @@
     computed: {
       ...mapState(["schedules", "tickets"]),
 
-      totalCount: function() {
-        let count = 0
-        this.tickets.forEach(ticket => {
-          count += ticket.count
-        })
-        return count
-      },
+      ...mapGetters(["totalCount"]),
 
-      countPerSchedule: function(){
+      countPerSchedule() {
         return function(schedule_id) {
-          let count = 0
-          this.tickets.forEach(ticket => {
-            if (ticket.schedule_id == schedule_id) { count += ticket.count }
-          })
-          return count
+          return this.$store.getters.countPerSchedule(schedule_id)
         }
       },
 
-      searchTickets: function(){
+      searchTickets() {
         if (this.keyword == ""){ return [] }
-        return this.tickets.filter(ticket => {
-          return ticket.customer_name.includes(this.keyword)
-        })
+        return this.$store.getters.searchTickets(this.keyword)
       },
 
       setScheduleColor: function() {

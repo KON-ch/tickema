@@ -5,6 +5,7 @@ import Vuex from "vuex"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  // todo: 本番環境ではfalseにする
   strict: true,
   state: {
     id: 0,
@@ -14,6 +15,35 @@ export default new Vuex.Store({
     tickets: [],
     unbookedCustomers: [],
   },
+
+  getters: {
+    totalCount(state) {
+      let count = 0
+      state.tickets.forEach(ticket => {
+        count += ticket.count
+      })
+      return count
+    },
+
+    countPerSchedule(state){
+      return schedule_id => {
+        let count = 0
+        state.tickets.forEach(ticket => {
+          if (ticket.schedule_id == schedule_id) { count += ticket.count }
+        })
+        return count
+      }
+    },
+
+    searchTickets(state){
+      return keyword => {
+        return state.tickets.filter(ticket => {
+          return ticket.customer_name.includes(keyword)
+        })
+      }
+    },
+  },
+
   mutations: {
     fetchCustomersInfo(state, { id }) {
       axios
