@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   import StageSchedule from './StageSchedule.vue';
 
   export default {
@@ -60,17 +61,7 @@
     },
 
     computed: {
-      schedules: {
-        get(){
-          return this.$store.state.schedules
-        }
-      },
-
-      tickets: {
-        get(){
-          return this.$store.state.tickets
-        }
-      },
+      ...mapState(["schedules", "tickets"]),
 
       totalCount: function() {
         let count = 0

@@ -48,6 +48,7 @@
 
 <script>
   import axios from 'axios';
+import { mapState } from 'vuex';
 
   export default {
     data: function() {
@@ -60,23 +61,8 @@
     },
 
     computed: {
-      id: {
-        get() {
-          return this.$store.state.id
-        }
-      },
-
-      schedules: {
-        get() {
-          return this.$store.state.schedules
-        }
-      },
-
-      customers: {
-        get() {
-          return this.$store.state.unbookedCustomers
-        }
-      },
+      ...mapState(["id", "schedules"]),
+      ...mapState({ customers: "unbookedCustomers"}),
 
       searchCustomers: function(){
         if (this.keyword == "") return this.customers

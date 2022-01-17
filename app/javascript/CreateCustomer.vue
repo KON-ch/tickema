@@ -27,6 +27,7 @@
 
 <script>
   import axios from 'axios';
+  import { mapState } from "vuex"
 
   export default {
     data: function() {
@@ -44,13 +45,7 @@
       }
     },
 
-    computed: {
-      id: {
-        get() {
-          return this.$store.state.id
-        }
-      }
-    },
+    computed: mapState(["id"]),
 
     methods: {
       // todo: outside mutation

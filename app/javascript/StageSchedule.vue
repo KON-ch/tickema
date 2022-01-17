@@ -25,6 +25,7 @@
 <script>
 import CreateCustomer from './CreateCustomer.vue';
 import CountTicket from './CountTicket.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -45,13 +46,7 @@ export default {
     }
   },
 
-  computed: {
-    tickets: {
-      get(){
-        return this.$store.state.tickets
-      }
-    }
-  }
+  computed: mapState(["tickets"])
 }
 </script>
 

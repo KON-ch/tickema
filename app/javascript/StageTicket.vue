@@ -57,6 +57,7 @@
 <script>
   import axios from 'axios'
   import CountTicket from './CountTicket.vue';
+  import { mapState } from 'vuex';
 
   export default {
     components: {
@@ -89,11 +90,7 @@
     },
 
     computed: {
-      tickets: {
-        get() {
-          return this.$store.state.tickets
-        }
-      },
+      ...mapState(["tickets"]),
 
       searchTickets: function(){
         if (this.keyword == "") { return this.tickets }

@@ -34,6 +34,7 @@
 <script>
   import axios from 'axios';
   import Modal from './Modal.vue'
+  import { mapState } from 'vuex';
 
   export default {
     components: {
@@ -60,13 +61,7 @@
       },
     },
 
-    computed: {
-      tickets: {
-        get() {
-          return this.$store.state.tickets
-        }
-      }
-    },
+    computed: mapState(["tickets"]),
 
     methods: {
       // todo: outside mutation
