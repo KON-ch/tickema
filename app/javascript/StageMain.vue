@@ -72,20 +72,36 @@
           { title: "予約済み", icon: "account-multiple" },
           { title: "未予約", icon: "account-off-outline" },
         ],
-        tab: null,
+        tab: 0,
       }
     },
 
     watch: {
       $route(to) {
-        const id = to.params.id
-        this.$store.commit("fetchCustomersInfo", { id })
+        axios
+        .get(`/stages/${to.params.id}`)
+        .then((res) =>{
+          this.$store.commit("fetchCustomersInfo", res)
+        })
+        .catch((e) => {
+          console.error(e)
+        })
       },
     },
 
     mounted() {
-      const id = this.$route.params.id
-      this.$store.commit("fetchCustomersInfo", { id })
+      axios
+        .get(`/stages/${this.$route.params.id}`)
+        .then((res) =>{
+          this.$store.commit("fetchCustomersInfo", res)
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    },
+
+    methods: {
+
     },
 
     computed: mapState(["title"])

@@ -64,7 +64,7 @@
             }
           )
           .then(res => {
-            this.$store.commit("addCustomer", res)
+            this.$store.commit("addTicket", res)
 
             if (this.$route.params.id != this.id ){
               this.$router.push({ path: `/stages/${this.id}` });

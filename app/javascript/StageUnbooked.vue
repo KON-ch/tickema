@@ -64,17 +64,13 @@ import { mapState } from 'vuex';
       ...mapState(["id", "schedules"]),
       ...mapState({ customers: "unbookedCustomers"}),
 
-      searchCustomers: function(){
-        if (this.keyword == "") return this.customers
-
-        return this.customers.filter(customer => {
-          return customer.name.includes(this.keyword)
-        })
+      searchCustomers() {
+        if (this.keyword == ""){ return this.customers }
+        return this.$store.getters.searchCustomers(this.keyword)
       },
     },
 
     methods: {
-      // todo: outside mutation
       createTicket: function(count, customer_id, schedule_id) {
         const index = this.customers.findIndex(customer => customer.id == customer_id)
 
@@ -86,9 +82,9 @@ import { mapState } from 'vuex';
 
         axios
           .post(`/tickets`, { ticket: { count: count, stage_id: this.id, customer_id: customer_id, schedule_id: schedule_id } })
-          .then(response => { this.$store.state.tickets.push(response.data) })
+          .then(res => { this.$store.commit("addTicket", res) })
 
-        this.customers.splice(index, 1)
+        this.$store.commit("deleteCustomer", index)
       },
     }
   }

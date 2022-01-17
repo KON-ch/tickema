@@ -1,4 +1,3 @@
-import axios from "axios";
 import Vue from "vue"
 import Vuex from "vuex"
 
@@ -42,26 +41,27 @@ export default new Vuex.Store({
         })
       }
     },
+
+    searchCustomers(state){
+      return keyword => {
+        return state.unbookedCustomers.filter(customer => {
+          return customer.name.includes(keyword)
+        })
+      }
+    }
   },
 
   mutations: {
-    fetchCustomersInfo(state, { id }) {
-      axios
-        .get(`/stages/${id}`)
-        .then((res) =>{
-          state.id = res.data.id
-          state.title = res.data.title
-          state.stages = res.data.stages
-          state.schedules = res.data.schedules
-          state.tickets = res.data.tickets
-          state.unbookedCustomers = res.data.unbooked_customers
-        })
-        .catch((e) => {
-          console.error(e)
-        })
+    fetchCustomersInfo(state, res) {
+      state.id = res.data.id
+      state.title = res.data.title
+      state.stages = res.data.stages
+      state.schedules = res.data.schedules
+      state.tickets = res.data.tickets
+      state.unbookedCustomers = res.data.unbooked_customers
     },
 
-    addCustomer(state, res) {
+    addTicket(state, res) {
       state.tickets.push(res.data);
     },
 
@@ -75,6 +75,10 @@ export default new Vuex.Store({
 
     updateStatus(state, payload) {
       state.tickets.find(ticket => ticket.contact_id == payload.id).status = payload.status
+    },
+
+    deleteCustomer(state, index) {
+      state.unbookedCustomers.splice(index, 1)
     }
   }
 })
