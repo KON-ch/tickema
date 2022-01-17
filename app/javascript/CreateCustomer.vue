@@ -48,7 +48,6 @@
     computed: mapState(["id"]),
 
     methods: {
-      // todo: outside mutation
       createCustomer: function() {
         if(!this.lastName && !this.firstName) {
           this.errors = []
@@ -64,8 +63,8 @@
               ticket:   { stage_id: this.id, schedule_id: this.schedule_id }
             }
           )
-          .then(response => {
-            this.$store.state.tickets.push(response.data);
+          .then(res => {
+            this.$store.commit("addCustomer", res)
 
             if (this.$route.params.id != this.id ){
               this.$router.push({ path: `/stages/${this.id}` });

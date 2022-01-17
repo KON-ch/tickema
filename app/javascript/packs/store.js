@@ -59,6 +59,10 @@ export default new Vuex.Store({
         .catch((e) => {
           console.error(e)
         })
+    },
+
+    addCustomer(state, payload) {
+      state.tickets.push(payload.data);
     }
   }
 })
