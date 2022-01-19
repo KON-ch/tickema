@@ -37,9 +37,9 @@
 
           <v-col cols="2" class="edit-btn">
             <v-btn
-              @click="switchEditbale(customer.id)"
+              @click="switchEditbale(customer.id, customer.name)"
               class="edit-btn__btn"
-            >編集</v-btn>
+            >{{editButton(customer.id)}}</v-btn>
           </v-col>
 
           <v-col cols="2" class="save-btn">
@@ -72,9 +72,10 @@
     data: function() {
       return {
         customers: [],
+        srcCustomerName: [],
         drawer: false,
         keyword: "",
-        editable: {},
+        editable: [],
         rules: {
           name: value => !!value || "名前を入力してください"
         },
@@ -110,6 +111,16 @@
           return this.editable[`customer_${id}`] ? "#FCE4EC" : "white"
         }
       },
+
+      editButton: function(){
+        return function(id){
+          if(this.editable[`customer_${id}`]){
+            return "取消"
+            } else {
+            return "編集"
+          }
+        }
+      }
     },
 
     methods: {
@@ -132,8 +143,19 @@
         this.$set(this.editable, `customer_${id}`, false)
       },
 
-      switchEditbale: function(id) {
+      switchEditbale: function(id, name) {
+        const customer_name = this.srcCustomerName[`customer_${id}`]
         const editable = this.editable[`customer_${id}`]
+
+        if(editable){
+          const customer = this.customers.find(customer => {
+            return customer.id == id;
+          })
+          customer.name = customer_name
+          } else {
+          this.$set(this.srcCustomerName, `customer_${id}`, name)
+        }
+
         this.$set(this.editable, `customer_${id}`, !editable)
       },
     }
