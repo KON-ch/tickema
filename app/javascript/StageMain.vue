@@ -100,10 +100,6 @@
         })
     },
 
-    methods: {
-
-    },
-
     computed: mapState(["title"])
   }
 </script>

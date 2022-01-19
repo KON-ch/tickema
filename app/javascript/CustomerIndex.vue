@@ -54,7 +54,6 @@
     </v-card>
 
     <user-menu
-      :stages="stages"
       v-model="drawer"
     ></user-menu>
   </v-card>
@@ -63,6 +62,7 @@
 <script>
   import axios from 'axios';
   import UserMenu from './UserMenu.vue'
+  import { mapState } from "vuex"
 
   export default {
     components: {
@@ -73,7 +73,6 @@
       return {
         customers: [],
         drawer: false,
-        stages: [],
         keyword: "",
         editable: {},
         rules: {
@@ -86,16 +85,18 @@
     mounted() {
       axios
         .get(`/customers`)
-        .then(response => (this.customers = response.data))
+        .then(res => { this.customers = res.data })
         .catch(error => { console.error(error); });
 
       axios
         .get(`/mypage`)
-        .then(response => (this.stages = response.data.stages))
+        .then(res => { this.$store.commit("fetchStages", res) })
         .catch(error => { console.error(error); });
     },
 
     computed: {
+      ...mapState(["stages"]),
+
       searchCustomers: function(){
         if(this.keyword == "") { return this.customers }
 

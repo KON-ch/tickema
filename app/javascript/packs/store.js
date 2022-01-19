@@ -61,6 +61,10 @@ export default new Vuex.Store({
       state.unbookedCustomers = res.data.unbooked_customers
     },
 
+    fetchStages(state, res) {
+      state.stages = res.data.stages
+    },
+
     addTicket(state, res) {
       state.tickets.push(res.data);
     },
