@@ -33,7 +33,6 @@
           </v-btn>
         </v-col>
         <v-col cols="3" style="padding-left: 1rem;">
-          <!-- todo: updateStatusのbuttonに合わせて値が更新されない -->
           <v-select
             v-model="submitStatus[`contact_${ticket.contact_id}`]"
             :items="selectStatus"
@@ -122,6 +121,7 @@
           .put(`/contacts/${id}`, { contact: { status: status }})
           .then(res => {
             this.$store.commit("updateStatus", { id: id, status: res.data })
+            this.$set(this.submitStatus, `contact_${id}`, this.statusNum[res.data])
           })
       },
 
