@@ -4,7 +4,7 @@ import Vuex from "vuex"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== "production",
+  strict: process.env.RAILS_ENV !== "production",
   state: {
     id: 0,
     title: "",
