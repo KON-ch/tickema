@@ -10,6 +10,11 @@
           <v-row>
             <v-col class="customer-name">{{ customer.name }}</v-col>
           </v-row>
+          <template v-if="errors[`customer_${customer.id}`]">
+            <v-row v-for="e in errors[`customer_${customer.id}`]" :key="e" style="margin-bottom: 0.5rem">
+              <div style="margin-left: 2rem"><font color="red">{{ e }}</font></div>
+            </v-row>
+          </template>
           <v-row class="select-form">
             <v-col cols="8" class="select-schedule">
               <v-select
@@ -56,7 +61,8 @@ import { mapState } from 'vuex';
         keyword: "",
         scheduleIds: {},
         ticketsCount: {},
-        counts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        counts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        errors: {}
       }
     },
 
@@ -72,12 +78,18 @@ import { mapState } from 'vuex';
 
     methods: {
       createTicket: function(count, customer_id, schedule_id) {
+        const errors = []
+
+        if (!count) { errors.push("枚数を選択して下さい") }
+
+        if (!schedule_id) { errors.push("日時をを選択して下さい") }
+
         const index = this.customers.findIndex(customer => customer.id == customer_id)
 
-        if (index == -1) {
-          const errorMessage = "登録できませんでした"
-          console.log(errorMessage)
-          return this.errors = errorMessage
+        if (index == -1) { errors.push("登録できませんでした") }
+
+        if (errors.length) {
+          return this.$set(this.errors, `customer_${customer_id}`, errors)
         }
 
         axios
