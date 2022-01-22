@@ -1,6 +1,7 @@
 import { shallowMount, mount } from "@vue/test-utils"
 import CustomerIndex from "CustomerIndex"
 import Vuetify from "vuetify"
+import Vuex from "vuex"
 
 describe("searchCustomers", () => {
   const customers_data = [
@@ -48,7 +49,20 @@ jest.mock("axios", () => ({
 }))
 
 describe("formColor", () => {
-  const wrapper = shallowMount(CustomerIndex)
+  let mutations
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    mutations = { fetchStages: jest.fn() }
+
+    store = new Vuex.Store({
+      state: { stages: [] },
+      mutations
+    })
+
+    wrapper = shallowMount(CustomerIndex, { store })
+  })
 
   it("待機状態は色が白色であること", () => {
     wrapper.setData({ editable: { customer_1: false } })
@@ -62,9 +76,23 @@ describe("formColor", () => {
 })
 
 describe("updateName", () => {
-  const wrapper = mount(CustomerIndex, {
-    vuetify: new Vuetify(),
-    stubs: ["router-link"],
+  let mutations
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    mutations = { fetchStages: jest.fn() }
+
+    store = new Vuex.Store({
+      state: { stages: [] },
+      mutations
+    })
+
+    wrapper = wrapper = mount(CustomerIndex, {
+      vuetify: new Vuetify(),
+      store,
+      stubs: ["router-link"],
+    })
   })
 
   it("顧客名が更新されること", async () => {
@@ -79,9 +107,23 @@ describe("updateName", () => {
 })
 
 describe("switchEditbale", () => {
-  const wrapper = mount(CustomerIndex, {
-    vuetify: new Vuetify(),
-    stubs: ["router-link"],
+  let mutations
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    mutations = { fetchStages: jest.fn() }
+
+    store = new Vuex.Store({
+      state: { stages: [] },
+      mutations
+    })
+
+    wrapper = wrapper = mount(CustomerIndex, {
+      vuetify: new Vuetify(),
+      store,
+      stubs: ["router-link"],
+    })
   })
 
   it("待機状態の場合は編集可能となること", () => {

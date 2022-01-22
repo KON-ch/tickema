@@ -1,13 +1,22 @@
 import { shallowMount } from "@vue/test-utils"
 import StageSchedule from "StageSchedule"
+import Vuex from "vuex"
 
 describe("props", () => {
-  const wrapper = shallowMount(StageSchedule, {
-    propsData: {
-      id: 1,
-      schedule_id: 1,
-      tickets: [{ schedule_id: 1, customer_name: "テスト タロウ" }],
-    }
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      state: { tickets: [{ schedule_id: 1, customer_name: "テスト タロウ" }] }
+    })
+
+    wrapper = shallowMount(StageSchedule, {
+      store,
+      propsData: {
+        schedule_id: 1
+      }
+    })
   })
 
   it("顧客名が表示されていること", () => {

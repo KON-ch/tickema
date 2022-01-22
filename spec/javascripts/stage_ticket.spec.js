@@ -1,18 +1,24 @@
 import { shallowMount } from "@vue/test-utils"
 import StageTicket from "StageTicket";
+import Vuex from "vuex"
 
 describe("props", () => {
-  const wrapper = shallowMount(StageTicket, {
-    propsData: {
-      tickets: [
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      state: { tickets: [
         {
           customer_name: "テスト タロウ",
           date: "1月1日",
           status: "reserved",
           time: "18:30"
         }
-      ]
-    }
+      ] },
+    })
+
+    wrapper = shallowMount(StageTicket, { store })
   });
 
   it("名前が表示されていること", () => {
@@ -35,7 +41,16 @@ describe("props", () => {
 });
 
 describe("setStatusColor", () => {
-  const wrapper = shallowMount(StageTicket)
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      state: { tickets: [] },
+    })
+
+    wrapper = shallowMount(StageTicket, { store })
+  });
 
   it("予約ステータスの色に変換されること", () => {
     // StageTicket.computed.setStatusColor()では、引数を渡したテストができない
@@ -47,27 +62,13 @@ describe("setStatusColor", () => {
 })
 
 describe("searchTickets", () => {
-  const tickets_data = [
-    { customer_name: "テスト タロウ" },
-    { customer_name: "テスト ジロウ" },
-  ]
-  it("一致する顧客名が取得できること", () => {
+  // 入力があった場合はstore/gettersのテストとする
+  it("未入力の場合は顧客名が表示されていること", () => {
     const localThis = {
-      tickets: tickets_data,
-      keyword: "テスト タロウ"
-    }
-
-    // toBe()ではオブジェクトまたは配列の値を確認できない
-    expect(StageTicket.computed.searchTickets.call(localThis)).toEqual(
-      [
-        { customer_name: "テスト タロウ" }
-      ]
-    )
-  });
-
-  it("未入力の場合は全ての顧客を取得すること", () => {
-    const localThis = {
-      tickets: tickets_data,
+      tickets: [
+        { customer_name: "テスト タロウ"},
+        { customer_name: "テスト ジロウ"}
+      ],
       keyword: ""
     }
 
@@ -78,15 +79,6 @@ describe("searchTickets", () => {
       ]
     )
   });
-
-  it("一致しない場合は場合は空の配列が返ること", () => {
-    const localThis = {
-      tickets: tickets_data,
-      keyword: "ジェスト"
-    }
-
-    expect(StageTicket.computed.searchTickets.call(localThis)).toEqual([])
-  });
 });
 
 // describeの前に設定する必要がある
@@ -95,25 +87,29 @@ jest.mock("axios", () => ({
 }))
 
 describe("updateStatus", () => {
+  let store
+  let wrapper
+  let mutations
 
-  it("予約ステータスが更新されること", async () => {
-    const wrapper = shallowMount(StageTicket, {
-      propsData: {
-        tickets: [
-          {
-            contact_id: 1,
-            customer_name: "テスト タロウ",
-            status: "reserved"
-          }
-        ]
-      }
+  beforeEach(() => {
+    mutations = { updateStatus: jest.fn() }
+
+    store = new Vuex.Store({
+      state: { tickets: [
+        {
+          contact_id: 1,
+          customer_name: "テスト タロウ",
+          status: "reserved",
+        }
+      ] },
+      mutations,
     })
 
-    const button = wrapper.find("v-btn-stub")
-    expect(button.text()).toMatch("予約済み")
+    wrapper = shallowMount(StageTicket, { store })
+  });
 
-    button.trigger("click")
-    await wrapper.vm.$nextTick();
-    expect(button.text()).toMatch("申請済み")
+  it("ステータスをクリックするとupdateStatusが呼ばれること", async () => {
+    await wrapper.find(".status-btn").trigger("click")
+    expect(mutations.updateStatus).toBeCalled();
   })
 });

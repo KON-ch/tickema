@@ -1,5 +1,6 @@
 import { shallowMount } from "@vue/test-utils"
 import StageMain from "StageMain"
+import Vuex from "vuex"
 
 jest.mock("axios", () => ({
   get: jest.fn(() => Promise.resolve(
@@ -19,10 +20,25 @@ jest.mock("axios", () => ({
 
 describe("props", () => {
   const $route = { params: 1 }
-  const wrapper = shallowMount(StageMain, {
-    mocks: {
-      $route
-    }
+
+  let mutations
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    mutations = { fetchCustomersInfo: jest.fn() }
+
+    store = new Vuex.Store({
+      state: { title: "サンプル・デビュー" },
+      mutations
+    })
+
+    wrapper = wrapper = shallowMount(StageMain, {
+      store,
+      mocks: {
+        $route
+      }
+    })
   })
 
   it("タイトルが表示されていること", () => {
