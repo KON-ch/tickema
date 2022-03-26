@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_062540) do
+ActiveRecord::Schema.define(version: 2022_03_26_124438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 2021_11_20_062540) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.integer "count", default: 1, null: false
+    t.bigint "user_id", null: false
+    t.bigint "ticket_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["status"], name: "index_reservations_on_status"
+  end
+
   create_table "schedules", force: :cascade do |t|
     t.time "staged_at", null: false
     t.date "staged_on", null: false
@@ -50,8 +60,10 @@ ActiveRecord::Schema.define(version: 2021_11_20_062540) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.index ["id"], name: "index_stages_on_id"
     t.index ["title"], name: "index_stages_on_title", unique: true
+    t.index ["user_id"], name: "index_stages_on_user_id"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -89,7 +101,10 @@ ActiveRecord::Schema.define(version: 2021_11_20_062540) do
   add_foreign_key "contacts", "tickets"
   add_foreign_key "contacts", "users"
   add_foreign_key "customers", "users"
+  add_foreign_key "reservations", "tickets"
+  add_foreign_key "reservations", "users"
   add_foreign_key "schedules", "stages"
+  add_foreign_key "stages", "users"
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "schedules"
   add_foreign_key "tickets", "stages"
