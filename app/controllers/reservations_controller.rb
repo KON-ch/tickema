@@ -4,16 +4,16 @@ class ReservationsController < ApplicationController
   # PATCH
   def status
     if sample_user_action?
-      render json: Reservation::STATUS.key(status_params)
+      render json: Reservation::STATUS.key(status_params[:status])
       return
     end
 
     reservation = set_reservation
 
     begin
-      reservation.update!(status: status_params)
+      reservation.update!(status_params)
     rescue ArgumentError
-      render_status_422("#{status_params}は登録できません")
+      render_status_422("#{status_params[:status]}は登録できません")
     else
       render json: reservation.status, status: 200
     end
