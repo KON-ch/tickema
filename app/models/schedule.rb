@@ -7,10 +7,12 @@ class Schedule < ApplicationRecord
 
 
   def staged_on
+    # "4月1日"
     I18n.l(super) if super
   end
 
   def staged_at
+    # "13:30"
     I18n.l(super) if super
   end
 end

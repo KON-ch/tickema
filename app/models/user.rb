@@ -8,8 +8,7 @@ class User < ApplicationRecord
          :timeoutable # 自動ログアウト
 
   has_many :customers, dependent: :destroy
-  has_many :contacts, dependent: :destroy
+  has_many :reservations, dependent: :destroy
 
-  has_many :user_stages, dependent: :destroy
-  has_many :stages, through: :user_stages
+  has_many :stages, dependent: :destroy
 end
