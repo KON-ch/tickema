@@ -3,7 +3,7 @@ class StagesController < ApplicationController
 
   def index
     stages = current_user.stages.select(:id, :title)
-    render json: stages, status: 200
+    render json: {stages: stages}, status: 200
   end
 
   def show
@@ -24,13 +24,13 @@ class StagesController < ApplicationController
         TicketSerializer.new(ticket)
       end
 
-    render json: tickets, status: 200
+    render json: { tickets: tickets}, status: 200
   end
 
   # GET
   def candidates
     candidates = current_user.customers.select(:id, :name).not_reserved(params[:id])
-    render json: candidates, status: 200
+    render json: { candidates: candidates}, status: 200
   end
 
   private
