@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_26_124438) do
+ActiveRecord::Schema.define(version: 2022_03_27_014704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,22 +67,12 @@ ActiveRecord::Schema.define(version: 2022_03_26_124438) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.bigint "stage_id", null: false
     t.bigint "schedule_id", null: false
     t.bigint "customer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "count", default: 1, null: false
     t.index ["id"], name: "index_tickets_on_id"
-    t.index ["stage_id", "schedule_id", "customer_id"], name: "index_tickets_on_stage_id_and_schedule_id_and_customer_id", unique: true
-  end
-
-  create_table "user_stages", force: :cascade do |t|
-    t.bigint "stage_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["stage_id", "user_id"], name: "index_user_stages_on_stage_id_and_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,7 +97,4 @@ ActiveRecord::Schema.define(version: 2022_03_26_124438) do
   add_foreign_key "stages", "users"
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "schedules"
-  add_foreign_key "tickets", "stages"
-  add_foreign_key "user_stages", "stages"
-  add_foreign_key "user_stages", "users"
 end
