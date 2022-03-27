@@ -2,26 +2,10 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
-    customers = current_user.customers.select(:id, :name)
-    render json: customers, status: 200
-  end
-
-  def create
-    return render_status_422("名前を入力してください") if customer_params[:name].blank?
-
-    customer = Customer.find_or_initialize_by(customer_params)
-
-    customer.save!
-
-    begin
-      ticket = customer.tickets.create(ticket_params)
-    rescue ActiveRecord::RecordNotUnique
-      return render_status_422("#{customer.name}は同日に登録されています")
-    else
-      render json: ticket.serializable_hash, status: 201
+    customers = current_user.customers.map do |customer|
+      { id: customer.id, name: customer.name, stage_ids: customer.stage_ids }
     end
-
-    customer.destroy! if sample_user_action? && customer.tickets == Array(ticket)
+    render json: customers, status: 200
   end
 
   def update
