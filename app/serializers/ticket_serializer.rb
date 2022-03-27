@@ -2,7 +2,7 @@ class TicketSerializer
   def initialize(ticket)
     @id = ticket.id
     @customer_id = ticket.customer_id
-    @cusotmer_name = ticket.customer_name
+    @customer_name = ticket.customer_name
     @schedule_id = ticket.schedule_id
     @date = ticket.date
     @time = ticket.time
