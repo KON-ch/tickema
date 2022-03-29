@@ -29,7 +29,10 @@ class StagesController < ApplicationController
 
   # GET
   def candidates
-    candidates = current_user.customers.select(:id, :name).not_reserved(params[:id])
+    reserved_customers =
+      Customer.joins(:tickets)
+              .merge(Ticket.for_stage(current_user.id, params[:id]))
+    candidates = current_user.customers.select(:id, :name) - reserved_customers
     render json: { candidates: candidates}, status: 200
   end
 
