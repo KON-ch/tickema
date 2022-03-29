@@ -2,37 +2,50 @@ class TicketsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_status_422
 
   def create
-    ticket = Ticket.new(ticket_params)
+    customer_name = params.require(:customer).permit(:name)[:name]
 
-    ticket.save!
+    return render_status_422("名前を入力してください") if customer_name.blank?
 
-    render json: ticket.serializable_hash, status: 201
+    customer = Customer.find_or_initialize_by(name: customer_name, user_id: current_user.id)
 
-    ticket.destroy! if sample_user_action?
-  end
+    customer.save!
 
-  def update
-    return if sample_user_action?
+    begin
+      ticket = customer.tickets.create(ticket_params)
+    rescue ActiveRecord::RecordNotUnique
+      return render_status_422("#{customer.name}は同日に登録されています")
+    else
+      if count_params.present?
+        ticket.reservation.update!(count_params)
+      end
+      render json: TicketSerializer.new(ticket), status: 201
+    end
 
-    set_ticket.update!(ticket_params)
-    head :no_content
+    return unless sample_user_action?
+
+    ticket.destroy!
+    return if customer.tickets != Array(ticket)
+
+    customer.destroy!
   end
 
   def destroy
     return if sample_user_action?
 
-    set_ticket.destroy!
+    Ticket.find_by(id: params[:id]).destroy!
     head :no_content
   end
 
   private
 
-  def set_ticket
-    Ticket.find_by(id: params[:id])
+  def ticket_params
+    params.require(:ticket).permit(:schedule_id)
   end
 
-  def ticket_params
-    params.require(:ticket).permit(:count, :stage_id, :schedule_id, :customer_id)
+  def count_params
+    return unless params[:reservation]
+
+    params.require(:reservation).permit(:count)
   end
 
   def render_status_422(exception)
