@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_014704) do
+ActiveRecord::Schema.define(version: 2022_03_29_151556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "contacts", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.bigint "ticket_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["id"], name: "index_contacts_on_id"
-  end
 
   create_table "customers", force: :cascade do |t|
     t.string "name", null: false
@@ -71,7 +62,6 @@ ActiveRecord::Schema.define(version: 2022_03_27_014704) do
     t.bigint "customer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "count", default: 1, null: false
     t.index ["id"], name: "index_tickets_on_id"
   end
 
@@ -88,8 +78,6 @@ ActiveRecord::Schema.define(version: 2022_03_27_014704) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "contacts", "tickets"
-  add_foreign_key "contacts", "users"
   add_foreign_key "customers", "users"
   add_foreign_key "reservations", "tickets"
   add_foreign_key "reservations", "users"
