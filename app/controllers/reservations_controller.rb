@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
   def count
     return head :no_content if sample_user_action?
 
-    set_reservation.update!(count: count_params)
+    set_reservation.update!(count_params)
     head :no_content
   end
 
