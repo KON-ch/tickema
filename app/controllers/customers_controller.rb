@@ -2,9 +2,7 @@ class CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
   def index
-    customers = current_user.customers.map do |customer|
-      { id: customer.id, name: customer.name, stage_ids: customer.stage_ids }
-    end
+    customers = current_user.customers.select(:id, :name)
     render json: customers, status: 200
   end
 
