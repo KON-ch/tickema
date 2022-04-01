@@ -12,7 +12,7 @@ class Ticket < ApplicationRecord
 
   scope :for_stage,
     -> (user_id, stage_id) do
-      joins(:customer, :schedule)
+      joins(:customer).includes(:schedule)
       .where("customer.user_id" => user_id, "schedule.stage_id" => stage_id)
     end
 
