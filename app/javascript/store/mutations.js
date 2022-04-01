@@ -1,11 +1,10 @@
 export const mutations = {
-  fetchCustomersInfo(state, res) {
+  fetchStagesInfo(state, res) {
     state.id = res.data.id
     state.title = res.data.title
-    state.stages = res.data.stages
     state.schedules = res.data.schedules
     state.tickets = res.data.tickets
-    state.unbookedCustomers = res.data.unbooked_customers
+    state.candidates = res.data.candidates
   },
 
   fetchStages(state, res) {
@@ -25,10 +24,10 @@ export const mutations = {
   },
 
   updateStatus(state, payload) {
-    state.tickets.find(ticket => ticket.contact_id == payload.id).status = payload.status
+    state.tickets.find(ticket => ticket.id == payload.id).status = payload.status
   },
 
   deleteCustomer(state, index) {
-    state.unbookedCustomers.splice(index, 1)
+    state.candidates.splice(index, 1)
   }
 }

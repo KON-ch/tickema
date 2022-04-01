@@ -22,7 +22,7 @@ export const getters = {
   },
 
   searchCustomers: (state) => (keyword) => {
-    return state.unbookedCustomers.filter(customer => {
+    return state.candidates.filter(customer => {
       return customer.name.includes(keyword)
     })
   }

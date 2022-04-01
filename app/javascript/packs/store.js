@@ -13,7 +13,7 @@ export default new Vuex.Store({
     stages: [],
     schedules: [],
     tickets: [],
-    unbookedCustomers: [],
+    candidates: [],
   },
 
   getters,
