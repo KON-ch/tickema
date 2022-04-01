@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   devise_for :users, skip: %i[registrations passwords]
 
   resources :stages, only: %i[index show]
-  get "stages/:id/tickets" => "stages#tickets"
-  get "stages/:id/candidates" => "stages#candidates"
 
   resources :customers, only: %i[index update]
   resources :tickets, only: %i[create destroy]
