@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="count > 1" >
-      <v-btn v-on:click="updateCount(id, count - 1)" class="minus-btn" icon>
+      <v-btn v-on:click="updateCount(id, reservationId, count - 1)" class="minus-btn" icon>
         <v-icon>mdi-minus</v-icon>
       </v-btn>
     </template>
@@ -14,7 +14,7 @@
       {{ count }}枚
     </span>
     <span>
-      <v-btn v-on:click="updateCount(id, count + 1)" class="plus-btn" icon>
+      <v-btn v-on:click="updateCount(id, reservationId, count + 1)" class="plus-btn" icon>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </span>
@@ -54,6 +54,11 @@
         type: Number,
         default: 0
       },
+      // reservation_id
+      reservationId: {
+        type: Number,
+        default: 0
+      },
       // ticket_count
       count: {
         type: Number,
@@ -64,7 +69,7 @@
     computed: mapState(["tickets"]),
 
     methods: {
-      updateCount: function(id, count) {
+      updateCount: function(id, reservationId, count) {
         if (!isFinite(count)) {
           const errorMessage = "枚数に不正な値が入力されています"
           console.log(errorMessage)
@@ -72,7 +77,7 @@
         }
 
         axios
-          .put(`/tickets/${id}`, { ticket: { count: count} })
+          .patch(`/reservations/${reservationId}/count`, { reservation: { count: count} })
           .then(this.$store.commit("updateCount", { id: id, count: count }))
       },
 

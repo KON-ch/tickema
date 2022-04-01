@@ -57,10 +57,10 @@
         const name = this.lastName + " " + this.firstName
 
         axios
-          .post(`/customers`,
+          .post(`/tickets`,
             {
               customer: { name: name },
-              ticket:   { stage_id: this.id, schedule_id: this.schedule_id }
+              ticket:   { schedule_id: this.schedule_id }
             }
           )
           .then(res => {
