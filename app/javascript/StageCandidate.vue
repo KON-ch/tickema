@@ -41,7 +41,7 @@
                 block
                 color="blue"
                 class="reserved-btn_content"
-                @click="createTicket(ticketsCount[`count_${customer.id}`], customer.id, scheduleIds[`schedule_${customer.id}`])"
+                @click="createTicket(ticketsCount[`count_${customer.id}`], customer.id, customer.name, scheduleIds[`schedule_${customer.id}`])"
               >予約</v-btn>
             </v-col>
           </v-row>
@@ -68,7 +68,7 @@ import { mapState } from 'vuex';
 
     computed: {
       ...mapState(["id", "schedules"]),
-      ...mapState({ customers: "unbookedCustomers"}),
+      ...mapState({ customers: "candidates"}),
 
       searchCustomers() {
         if (this.keyword == ""){ return this.customers }
@@ -77,7 +77,7 @@ import { mapState } from 'vuex';
     },
 
     methods: {
-      createTicket: function(count, customer_id, schedule_id) {
+      createTicket: function(count, customer_id, customer_name, schedule_id) {
         const errors = []
 
         if (!count) { errors.push("枚数を選択して下さい") }
@@ -93,7 +93,7 @@ import { mapState } from 'vuex';
         }
 
         axios
-          .post(`/tickets`, { ticket: { count: count, stage_id: this.id, customer_id: customer_id, schedule_id: schedule_id } })
+          .post(`/tickets`, { ticket: { schedule_id: schedule_id }, reservation: { count: count }, customer: { name: customer_name } })
           .then(res => { this.$store.commit("addTicket", res) })
 
         this.$store.commit("deleteCustomer", index)

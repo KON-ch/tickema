@@ -9,31 +9,20 @@ class StagesController < ApplicationController
   def show
     stage = set_stage
 
+    # 予約済
+    tickets = Ticket.for_stage(current_user.id, params[:id])
+
+    # 未予約
+    candidates =
+      current_user.customers.select(:id, :name) - tickets.unscoped.includes(:customer).map(&:customer)
+
     render json: {
       id: stage.id,
       title: stage.title,
       schedules: stage.schedules.select(:id, :staged_on, :staged_at),
+      tickets: tickets.unscoped.includes(:reservation, :schedule, :customer).map { |ticket| TicketSerializer.new(ticket) },
+      candidates: candidates
     }
-  end
-
-  # GET
-  def tickets
-    tickets =
-      Ticket.includes(:customer, :schedule, :reservation)
-            .for_stage(current_user.id, params[:id]).map do |ticket|
-        TicketSerializer.new(ticket)
-      end
-
-    render json: { tickets: tickets}, status: 200
-  end
-
-  # GET
-  def candidates
-    reserved_customers =
-      Customer.joins(:tickets)
-              .merge(Ticket.for_stage(current_user.id, params[:id]))
-    candidates = current_user.customers.select(:id, :name) - reserved_customers
-    render json: { candidates: candidates}, status: 200
   end
 
   private

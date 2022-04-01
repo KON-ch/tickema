@@ -33,7 +33,7 @@
         </v-tab-item>
 
         <v-tab-item>
-          <stage-unbooked/>
+          <stage-candidate/>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -49,7 +49,7 @@
   import axios from 'axios';
   import StageTop from './StageTop.vue'
   import StageTicket from './StageTicket.vue'
-  import StageUnbooked from './StageUnbooked.vue'
+  import StageCandidate from './StageCandidate.vue'
   import UserMenu from './UserMenu.vue'
   import { csrfToken } from '@rails/ujs';
   import { mapState } from 'vuex';
@@ -60,7 +60,7 @@
     components: {
       StageTop,
       StageTicket,
-      StageUnbooked,
+      StageCandidate,
       UserMenu
     },
 
@@ -79,25 +79,25 @@
     watch: {
       $route(to) {
         axios
-        .get(`/stages/${to.params.id}`)
-        .then((res) =>{
-          this.$store.commit("fetchCustomersInfo", res)
-        })
-        .catch((e) => {
-          console.error(e)
-        })
+          .get(`/stages/${to.params.id}`)
+          .then((res) =>{ this.$store.commit("fetchStagesInfo", res) })
+          .catch((e) => { console.error(e) })
+        axios
+          .get(`/stages`)
+          .then((res) =>{ this.$store.commit("fetchStages", res) })
+          .catch((e) => { console.error(e) })
       },
     },
 
     mounted() {
       axios
         .get(`/stages/${this.$route.params.id}`)
-        .then((res) =>{
-          this.$store.commit("fetchCustomersInfo", res)
-        })
-        .catch((e) => {
-          console.error(e)
-        })
+        .then((res) =>{ this.$store.commit("fetchStagesInfo", res) })
+        .catch((e) => { console.error(e) })
+      axios
+        .get(`/stages`)
+        .then((res) =>{ this.$store.commit("fetchStages", res) })
+        .catch((e) => { console.error(e) })
     },
 
     computed: mapState(["title"])
