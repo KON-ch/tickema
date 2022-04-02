@@ -24,9 +24,6 @@ class Reservation < ApplicationRecord
 
   after_destroy :confirm_reservation
 
-  private
-
-  def confirm_reservation
-    customer.confirm_reservation
-  end
+  # customer.destory! if customer.reservation.blank?
+  delegate :confirm_reservation, to: :customer
 end

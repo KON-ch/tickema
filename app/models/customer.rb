@@ -11,8 +11,6 @@ class Customer < ApplicationRecord
   scope :reserved, -> (stage_id) { joins(:stages).where(stages: { id: stage_id }) }
 
   def confirm_reservation
-    return if reservations.present?
-
-    self.destroy!
+    self.destroy! if reservations.blank?
   end
 end

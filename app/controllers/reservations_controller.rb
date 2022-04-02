@@ -18,12 +18,7 @@ class ReservationsController < ApplicationController
       render json: TicketSerializer.new(reservation), status: 201
     end
 
-    return unless sample_user_action?
-
-    reservation.destroy!
-    return if customer.reservations.present?
-
-    customer.destroy!
+    reservation.destroy! if sample_user_action?
   end
 
   def destroy
