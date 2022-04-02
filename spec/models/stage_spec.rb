@@ -3,8 +3,10 @@
 require "rails_helper"
 
 RSpec.describe Stage, type: :model do
+  before { create(:user) }
+
   describe "validates" do
-    subject { Stage.new(title: title) }
+    subject { Stage.new(title: title, user: build(:user)) }
 
     context "タイトルが入力されている場合" do
       let(:title) { "テストタイトル" }

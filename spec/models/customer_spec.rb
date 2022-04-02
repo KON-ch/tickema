@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  before { FactoryBot.create(:user) }
+  before { create(:user) }
 
-  let(:customer) { FactoryBot.create(:customer) }
+  let(:customer) { create(:customer) }
 
   describe "confirm_reservation" do
     subject { Customer.find_by(id: customer.id) }
@@ -19,7 +19,7 @@ RSpec.describe Customer, type: :model do
     end
 
     context "予約がある場合" do
-      before { FactoryBot.create(:reservation) }
+      before { create(:reservation) }
 
       it "顧客が登録されていること" do
         expect(subject).to eq nil
@@ -29,20 +29,20 @@ RSpec.describe Customer, type: :model do
 
   describe "validates" do
     it "正常に登録されること" do
-      customer = FactoryBot.build(:customer)
+      customer = build(:customer)
       expect(customer).to be_valid
     end
 
     context "名前が入力されていない場合" do
       it "登録されないこと" do
-        customer = FactoryBot.build(:customer, name: nil)
+        customer = build(:customer, name: nil)
         expect(customer).not_to be_valid
       end
     end
 
     context "名前が10文字以上の場合" do
       it "登録されないこと" do
-        customer = FactoryBot.build(:customer, name: "テストです 名前が長すぎる")
+        customer = build(:customer, name: "テストです 名前が長すぎる")
         expect(customer).not_to be_valid
       end
     end
