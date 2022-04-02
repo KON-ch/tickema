@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   resources :customers, only: %i[index update]
   resources :tickets, only: %i[create destroy]
 
-  patch "reservations/:id/count" => "reservations#count"
-  patch "reservations/:id/status" => "reservations#status"
+  resources :reservations, only: %i[create] do
+    patch :count
+    patch :status
+  end
 
   get '/mypage', to: 'users#show'
 end

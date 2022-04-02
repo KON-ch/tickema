@@ -10,17 +10,20 @@ class StagesController < ApplicationController
     stage = set_stage
 
     # 予約済
-    tickets = Ticket.for_stage(current_user.id, params[:id])
+    reservations = Reservation.for_stage(params[:id], current_user.id)
 
     # 未予約
-    candidates =
-      current_user.customers.select(:id, :name) - tickets.unscoped.includes(:customer).map(&:customer)
+    candidates = current_user.customers.select(:id, :name).not_reserved(reservations)
+
+    tickets = reservations.includes(:customer, :schedule).map do |reservation|
+      TicketSerializer.new(reservation)
+    end
 
     render json: {
       id: stage.id,
       title: stage.title,
       schedules: stage.schedules.select(:id, :staged_on, :staged_at),
-      tickets: tickets.unscoped.includes(:reservation, :schedule, :customer).map { |ticket| TicketSerializer.new(ticket) },
+      tickets: tickets,
       candidates: candidates
     }
   end

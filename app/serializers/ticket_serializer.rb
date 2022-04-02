@@ -1,13 +1,12 @@
 class TicketSerializer
-  def initialize(ticket)
-    @id = ticket.id
-    @customer_id = ticket.customer_id
-    @customer_name = ticket.customer_name
-    @schedule_id = ticket.schedule_id
-    @date = ticket.date
-    @time = ticket.time
-    @reservation_id = ticket.reservation.id
-    @count = ticket.reservation.count
-    @status = ticket.reservation.status
+  def initialize(reservation)
+    @id = reservation.id
+    @customer_id = reservation.customer_id
+    @customer_name = reservation.customer_name
+    @schedule_id = reservation.schedule_id
+    @date = reservation.date
+    @time = reservation.time
+    @count = reservation.count
+    @status = reservation.status
   end
 end
