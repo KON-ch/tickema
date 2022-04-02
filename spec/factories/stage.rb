@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :stage do
-    id { 1 }
     title { "ステージテストタイトル" }
+    user { User.find_by(email: "test@example.com" ) }
   end
 end

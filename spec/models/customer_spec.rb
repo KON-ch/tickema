@@ -3,16 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  before do
-    FactoryBot.create(:user)
-    FactoryBot.create(:stage)
-    FactoryBot.create(:customer)
-    FactoryBot.create(:schedule)
-    FactoryBot.create(:ticket)
-  end
+  before { FactoryBot.create(:user) }
 
-    let(:stage) { Stage.first }
-    let(:customer) { Customer.first }
+  let(:customer) { FactoryBot.create(:customer) }
+
+  describe "confirm_reservation" do
+    subject { Customer.find_by(id: customer.id) }
+
+    before { customer.confirm_reservation }
+
+    context "予約がない場合" do
+      it "顧客が削除されること" do
+        expect(subject).to be_falsey
+      end
+    end
+
+    context "予約がある場合" do
+      before { FactoryBot.create(:reservation) }
+
+      it "顧客が登録されていること" do
+        expect(subject).to eq nil
+      end
+    end
+  end
 
   describe "validates" do
     it "正常に登録されること" do
