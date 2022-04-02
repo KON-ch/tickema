@@ -27,10 +27,6 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(:name).merge(user_id: current_user.id)
   end
 
-  def ticket_params
-    params.require(:ticket).permit(:stage_id, :schedule_id)
-  end
-
   def render_status_404(exception)
     render json: { errors: [exception] }, status: 404
   end
