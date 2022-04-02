@@ -1,10 +1,10 @@
 class Reservation < ApplicationRecord
   STATUS = { reserved: 0, applied: 1, notified: 2, finished: 3 }
 
+  enum status: STATUS
+
   belongs_to :schedule
   belongs_to :customer
-
-  enum status: STATUS
 
   validates :status, presence: true
   validates :count, presence: true,
