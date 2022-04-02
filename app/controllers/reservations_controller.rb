@@ -15,9 +15,6 @@ class ReservationsController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
       return render_status_422("#{customer.name}は同日に登録されています")
     else
-      if count_params.present?
-        reservation.update!(count_params)
-      end
       render json: TicketSerializer.new(reservation), status: 201
     end
 
@@ -70,7 +67,7 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:schedule_id, :customer_id)
+    params.require(:reservation).permit(:schedule_id, :count)
   end
 
   def status_params

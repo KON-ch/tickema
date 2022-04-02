@@ -93,7 +93,7 @@ import { mapState } from 'vuex';
         }
 
         axios
-          .post(`/tickets`, { ticket: { schedule_id: schedule_id }, reservation: { count: count }, customer: { name: customer_name } })
+          .post(`/reservations`, { reservation: { schedule_id: schedule_id, count: count }, customer: { name: customer_name } })
           .then(res => { this.$store.commit("addTicket", res) })
 
         this.$store.commit("deleteCustomer", index)

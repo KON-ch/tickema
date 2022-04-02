@@ -10,7 +10,6 @@
         <v-col cols="7" class="count-ticket">
           <count-ticket
             :id="ticket.id"
-            :reservationId="ticket.reservation_id"
             :count="ticket.count"
           ></count-ticket>
         </v-col>

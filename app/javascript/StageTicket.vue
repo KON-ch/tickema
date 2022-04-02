@@ -20,7 +20,6 @@
         <v-col cols="6" style="padding-right: 0">
           <count-ticket
             :id="ticket.id"
-            :reservationId="ticket.reservation_id"
             :count="ticket.count"
           ></count-ticket>
         </v-col>
@@ -29,13 +28,13 @@
           <v-btn
             :color="setStatusColor(ticket.status)"
             class="status-btn"
-            @click.native="updateStatus(ticket.id, ticket.reservation_id, statusNum[ticket.status] + 1)"
+            @click.native="updateStatus(ticket.id, statusNum[ticket.status] + 1)"
           >{{ statusLocales[ticket.status] }}
           </v-btn>
         </v-col>
         <v-col cols="3" style="padding-left: 1rem;">
           <v-select
-            v-model="submitStatus[`status_${ticket.reservation_id}`]"
+            v-model="submitStatus[`status_${ticket.id}`]"
             :items="selectStatus"
             :item-text="item => item.text"
             :item-value="item => item.num"
@@ -43,7 +42,7 @@
             dense
             style="width: 4rem"
             rounded
-            @input="updateStatus(ticket.id, ticket.reservation_id, submitStatus[`status_${ticket.reservation_id}`])"
+            @input="updateStatus(ticket.id, submitStatus[`status_${ticket.id}`])"
           ></v-select>
         </v-col>
       </v-row>
@@ -115,14 +114,14 @@
     },
 
     methods: {
-      updateStatus: function(id, reservationId, status){
+      updateStatus: function(id, status){
         if (status > 3) { return }
 
         axios
-          .patch(`/reservations/${reservationId}/status`, { reservation: { status: status }})
+          .patch(`/reservations/${idd}/status`, { reservation: { status: status }})
           .then(res => {
             this.$store.commit("updateStatus", { id: id, status: res.data })
-            this.$set(this.submitStatus, `status_${reservationId}`, this.statusNum[res.data])
+            this.$set(this.submitStatus, `status_${id}`, this.statusNum[res.data])
           })
       },
 

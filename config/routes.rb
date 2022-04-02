@@ -8,9 +8,8 @@ Rails.application.routes.draw do
   resources :stages, only: %i[index show]
 
   resources :customers, only: %i[index update]
-  resources :tickets, only: %i[create destroy]
 
-  resources :reservations, only: %i[create] do
+  resources :reservations, only: %i[create destroy] do
     patch :count
     patch :status
   end
