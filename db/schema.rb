@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_02_024055) do
+ActiveRecord::Schema.define(version: 2022_04_02_094605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
     t.bigint "stage_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id", "stage_id"], name: "index_customer_stage_histories_on_customer_id_and_stage_id"
+    t.index ["stage_id", "customer_id"], name: "index_customer_stage_histories_on_stage_id_and_customer_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -27,8 +29,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
-    t.index ["id", "user_id"], name: "index_customers_on_id_and_user_id"
-    t.index ["id"], name: "index_customers_on_id"
+    t.index ["name", "user_id"], name: "index_customers_on_name_and_user_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
@@ -39,7 +40,8 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "schedule_id"
     t.bigint "customer_id"
-    t.index ["status"], name: "index_reservations_on_status"
+    t.index ["customer_id", "schedule_id"], name: "index_reservations_on_customer_id_and_schedule_id"
+    t.index ["schedule_id", "customer_id"], name: "index_reservations_on_schedule_id_and_customer_id"
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -49,9 +51,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "stage_id"
     t.index ["stage_id"], name: "index_schedules_on_stage_id"
-    t.index ["staged_at", "staged_on"], name: "index_schedules_on_staged_at_and_staged_on", unique: true
-    t.index ["staged_at"], name: "index_schedules_on_staged_at"
-    t.index ["staged_on"], name: "index_schedules_on_staged_on"
+    t.index ["staged_on", "staged_at"], name: "index_schedules_on_staged_on_and_staged_at"
   end
 
   create_table "stages", force: :cascade do |t|
@@ -59,17 +59,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
-    t.index ["id"], name: "index_stages_on_id"
-    t.index ["title"], name: "index_stages_on_title", unique: true
     t.index ["user_id"], name: "index_stages_on_user_id"
-  end
-
-  create_table "tickets", force: :cascade do |t|
-    t.bigint "schedule_id", null: false
-    t.bigint "customer_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["id"], name: "index_tickets_on_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -92,6 +82,4 @@ ActiveRecord::Schema.define(version: 2022_04_02_024055) do
   add_foreign_key "reservations", "schedules"
   add_foreign_key "schedules", "stages"
   add_foreign_key "stages", "users"
-  add_foreign_key "tickets", "customers"
-  add_foreign_key "tickets", "schedules"
 end
