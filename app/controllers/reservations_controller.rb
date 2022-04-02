@@ -63,7 +63,7 @@ class ReservationsController < ApplicationController
   private
 
   def set_reservation
-    Reservation.find_by(id: params[:id])
+    Reservation.find_by(id: params[:reservation_id])
   end
 
   def reservation_params
