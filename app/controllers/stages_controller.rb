@@ -5,17 +5,19 @@ class StagesController < ApplicationController
     user_stages = current_user.stages.select(:id, :title)
     stage = user_stages.find_by(id: params[:id])
 
-    # 予約済
+    # 予約
     reservations = Reservation.for_stage(params[:id], current_user.id)
 
-    # 未予約
-    candidates = current_user.customers.select(:id, :name).not_reserved(reservations)
+    # 未予約 = 全顧客 - 予約済顧客
+    user_customers = current_user.customers.select(:id, :name)
+    candidates = user_customers - user_customers.reserved(params[:id])
 
-    tickets = reservations.includes(:customer, :schedule).map do |reservation|
-      TicketSerializer.new(reservation)
-    end
+    tickets =
+      reservations.includes(:customer, :schedule).map do |reservation|
+        TicketSerializer.new(reservation)
+      end
 
-    other_stages = user_stages - [stage]
+    other_stages = user_stages - Array(stage)
 
     render json: {
       id: stage.id,

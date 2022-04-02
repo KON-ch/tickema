@@ -8,7 +8,7 @@ class Customer < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 10 }
 
-  scope :not_reserved, -> (reservations) { where.not(reservations: reservations) }
+  scope :reserved, -> (stage_id) { joins(:stages).where(stages: { id: stage_id }) }
 
   def confirm_reservation
     return if reservations.present?
