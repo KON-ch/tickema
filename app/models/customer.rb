@@ -9,4 +9,10 @@ class Customer < ApplicationRecord
   validates :name, presence: true, length: { maximum: 10 }
 
   scope :not_reserved, -> (reservations) { where.not(reservations: reservations) }
+
+  def confirm_reservation
+    return if reservations.present?
+
+    self.destroy!
+  end
 end

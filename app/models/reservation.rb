@@ -21,4 +21,12 @@ class Reservation < ApplicationRecord
 
   # def customer_name; customer.name; end
   delegate :name, to: :customer, prefix: true
+
+  after_destroy :confirm_reservation
+
+  private
+
+  def confirm_reservation
+    customer.confirm_reservation
+  end
 end
