@@ -118,7 +118,7 @@
         if (status > 3) { return }
 
         axios
-          .patch(`/reservations/${idd}/status`, { reservation: { status: status }})
+          .patch(`/reservations/${id}/status`, { reservation: { status: status }})
           .then(res => {
             this.$store.commit("updateStatus", { id: id, status: res.data })
             this.$set(this.submitStatus, `status_${id}`, this.statusNum[res.data])
