@@ -82,10 +82,6 @@
           .get(`/stages/${to.params.id}`)
           .then((res) =>{ this.$store.commit("fetchStagesInfo", res) })
           .catch((e) => { console.error(e) })
-        axios
-          .get(`/stages`)
-          .then((res) =>{ this.$store.commit("fetchStages", res) })
-          .catch((e) => { console.error(e) })
       },
     },
 
@@ -93,10 +89,6 @@
       axios
         .get(`/stages/${this.$route.params.id}`)
         .then((res) =>{ this.$store.commit("fetchStagesInfo", res) })
-        .catch((e) => { console.error(e) })
-      axios
-        .get(`/stages`)
-        .then((res) =>{ this.$store.commit("fetchStages", res) })
         .catch((e) => { console.error(e) })
     },
 

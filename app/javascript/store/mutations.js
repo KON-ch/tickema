@@ -5,6 +5,7 @@ export const mutations = {
     state.schedules = res.data.schedules
     state.tickets = res.data.tickets
     state.candidates = res.data.candidates
+    state.stages = res.data.otherStages
   },
 
   fetchStages(state, res) {

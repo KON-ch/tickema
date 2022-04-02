@@ -1,13 +1,9 @@
 class StagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
 
-  def index
-    stages = current_user.stages.select(:id, :title)
-    render json: {stages: stages}, status: 200
-  end
-
   def show
-    stage = set_stage
+    user_stages = current_user.stages.select(:id, :title)
+    stage = user_stages.find_by(id: params[:id])
 
     # 予約済
     reservations = Reservation.for_stage(params[:id], current_user.id)
@@ -19,20 +15,19 @@ class StagesController < ApplicationController
       TicketSerializer.new(reservation)
     end
 
+    other_stages = user_stages - [stage]
+
     render json: {
       id: stage.id,
       title: stage.title,
       schedules: stage.schedules.select(:id, :staged_on, :staged_at),
       tickets: tickets,
-      candidates: candidates
+      candidates: candidates,
+      otherStages: other_stages
     }
   end
 
   private
-
-  def set_stage
-    Stage.find_by(id: params[:id])
-  end
 
   def render_status_404(exception)
     render json: { errors: [exception] }, status: 404

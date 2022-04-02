@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: %i[registrations passwords]
 
-  resources :stages, only: %i[index show]
+  resources :stages, only: %i[show]
 
   resources :customers, only: %i[index update]
 
