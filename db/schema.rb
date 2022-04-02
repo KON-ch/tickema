@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_162841) do
+ActiveRecord::Schema.define(version: 2022_04_02_024055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,8 +35,6 @@ ActiveRecord::Schema.define(version: 2022_04_01_162841) do
   create_table "reservations", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.integer "count", default: 1, null: false
-    t.bigint "user_id", null: false
-    t.bigint "ticket_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "schedule_id"
@@ -92,8 +90,6 @@ ActiveRecord::Schema.define(version: 2022_04_01_162841) do
   add_foreign_key "customers", "users"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "schedules"
-  add_foreign_key "reservations", "tickets"
-  add_foreign_key "reservations", "users"
   add_foreign_key "schedules", "stages"
   add_foreign_key "stages", "users"
   add_foreign_key "tickets", "customers"
