@@ -18,7 +18,7 @@ describe("props", () => {
 // describeの前に設定する必要がある
 // 複数回設定すると最後しか適用されない為、一度に設定する
 jest.mock("axios", () => ({
-  put: jest.fn(() => Promise.resolve()),
+  patch: jest.fn(() => Promise.resolve()),
   delete: jest.fn(() => Promise.resolve())
 }))
 

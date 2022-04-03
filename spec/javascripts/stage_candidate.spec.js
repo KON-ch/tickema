@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils"
-import StageUnbooked from "StageUnbooked"
+import StageCandidate from "StageCandidate"
 import Vuetify from "vuetify"
 import Vuex from "vuex"
 
@@ -14,7 +14,7 @@ describe("searchCustomers", () => {
       keyword: ""
     }
 
-    expect(StageUnbooked.computed.searchCustomers.call(localThis)).toEqual(
+    expect(StageCandidate.computed.searchCustomers.call(localThis)).toEqual(
       [
         { name: "テスト タロウ" },
         { name: "テスト ジロウ" }
@@ -49,12 +49,12 @@ describe("createTicket", () => {
         id: 1,
         schedules: [],
         tickets: [],
-        unbookedCustomers: [{ id: 1, name: "テスト タロウ" }]
+        candidates: [{ id: 1, name: "テスト タロウ" }]
       },
       mutations,
     })
 
-    wrapper = mount(StageUnbooked, {
+    wrapper = mount(StageCandidate, {
       vuetify: new Vuetify(),
       store
     });
@@ -68,7 +68,7 @@ describe("createTicket", () => {
     expect(wrapper.vm.ticketsCount).toEqual({ count_1: "1" })
 
     expect(store.state.tickets).toEqual([])
-    expect(store.state.unbookedCustomers).toEqual([{ id: 1, name: "テスト タロウ" }])
+    expect(store.state.candidates).toEqual([{ id: 1, name: "テスト タロウ" }])
 
     wrapper.find(".reserved-btn_content").trigger("click")
     await wrapper.vm.$nextTick()

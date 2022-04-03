@@ -26,7 +26,7 @@ describe("props", () => {
   let wrapper
 
   beforeEach(() => {
-    mutations = { fetchCustomersInfo: jest.fn() }
+    mutations = { fetchStagesInfo: jest.fn() }
 
     store = new Vuex.Store({
       state: { title: "サンプル・デビュー" },

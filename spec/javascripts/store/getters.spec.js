@@ -7,7 +7,7 @@ describe("getters", () => {
       { customer_name: "テスト ジロウ", count: 2, schedule_id: 1 },
       { customer_name: "てすと はなこ",  count: 3, schedule_id: 2 }
     ],
-    unbookedCustomers: [
+    candidates: [
       { name: "サンプル タロウ" },
       { name: "サンプル ジロウ" }
     ]

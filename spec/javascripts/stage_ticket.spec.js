@@ -83,7 +83,7 @@ describe("searchTickets", () => {
 
 // describeの前に設定する必要がある
 jest.mock("axios", () => ({
-  put: jest.fn(() => Promise.resolve({ data: "applied" }))
+  patch: jest.fn(() => Promise.resolve({ data: "applied" }))
 }))
 
 describe("updateStatus", () => {
