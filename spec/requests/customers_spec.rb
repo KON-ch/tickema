@@ -4,47 +4,42 @@ require 'rails_helper'
 
 RSpec.describe CustomersController, type: :request do
   before do
-    user = FactoryBot.create(:user)
+    user = create(:user)
     sign_in user
-    FactoryBot.create(:stage)
-    FactoryBot.create(:schedule)
-    FactoryBot.create(:customer)
-    FactoryBot.create(:ticket)
   end
 
-  describe "POST #create" do
-    before do
-      post "/customers", params: {
-        customer: name,
-        ticket: {
-          stage_id: 1,
-          schedule_id: 1
-        }
-      }
+  let(:customer) { create(:customer) }
+
+  describe "GET #index" do
+    before { get "/customers" }
+
+    it { expect(response).to have_http_status(200) }
+  end
+
+  describe "PUT #update" do
+    context "変更する名前が既に登録されている場合" do
+      before do
+        create(:customer, name: "テスト 花子")
+        put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
+      end
+
+      it { expect(response).to have_http_status(422) }
     end
 
-    context "名前が入力されている場合" do
-      let(:name) { { name: "テスト 花子" } }
-
-      it "登録できること" do
-        expect(response).to have_http_status(201)
+    context "変更する名前が登録されていない場合" do
+      before do
+        put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
       end
+
+      it { expect(response).to have_http_status(204) }
     end
 
-    context "名前が入力されていない場合" do
-      let(:name) { { name: nil } }
-
-      it "登録できないこと" do
-        expect(response).to have_http_status(422)
+    context "変更する名前が入力されていない場合" do
+      before do
+        put "/customers/#{customer.id}", params: { customer: { name: "" } }
       end
-    end
 
-    context "既に登録されている場合" do
-      let(:name) { { name: "テスト 太郎" } }
-
-      it "登録できないこと" do
-        expect(response).to have_http_status(422)
-      end
+      it { expect(response).to have_http_status(422) }
     end
   end
 end

@@ -1,6 +1,4 @@
 class CustomersController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
-
   def index
     customers = current_user.customers.select(:id, :name)
     render json: customers, status: 200
@@ -13,7 +11,12 @@ class CustomersController < ApplicationController
 
     return if sample_user_action?
 
-    set_customer.update!(customer_params)
+    begin
+      set_customer.update!(customer_params)
+    rescue ActiveRecord::RecordInvalid
+      return render_status_422("名前を入力して下さい")
+    end
+
     head :no_content
   end
 
@@ -25,10 +28,6 @@ class CustomersController < ApplicationController
 
   def customer_params
     params.require(:customer).permit(:name).merge(user_id: current_user.id)
-  end
-
-  def render_status_404(exception)
-    render json: { errors: [exception] }, status: 404
   end
 
   def render_status_422(exception)
