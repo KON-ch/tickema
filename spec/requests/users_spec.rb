@@ -3,28 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /show" do
-    it "status 200" do
-      user = FactoryBot.create(:user)
-      sign_in user
+  describe "GET /mypage" do
+    it_behaves_like "not logged in user is redirect" do
+      before { get "/mypage" }
+    end
 
-      stage = FactoryBot.create(:stage)
-      UserStage.create(stage_id: stage.id, user_id: user.id)
+    context "ログインしている場合" do
+      include_context "user is logged in"
 
-      get "/mypage"
-      json = JSON.parse(response.body)
-      expect(json).to eq(
-        {
-          "name" => "テスト",
-          "stages" => [
-            {
-              "id" => 1,
-              "title" => "ステージテストタイトル"
-            }
-          ]
-        }
-      )
-      expect(response).to have_http_status(200)
+      before { get "/mypage" }
+
+      it { expect(response).to have_http_status(200) }
     end
   end
 

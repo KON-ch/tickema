@@ -3,40 +3,54 @@
 require 'rails_helper'
 
 RSpec.describe CustomersController, type: :request do
-  include_context "user is logged in"
-
   let(:customer) { create(:customer) }
 
   describe "GET #index" do
-    before { get "/customers" }
+    it_behaves_like "not logged in user is redirect" do
+      before { get "/customers" }
+    end
 
-    it { expect(response).to have_http_status(200) }
+    context "ログインしている場合" do
+      include_context "user is logged in"
+
+      before { get "/customers" }
+
+      it { expect(response).to have_http_status(200) }
+    end
   end
 
   describe "PUT #update" do
-    context "変更する名前が既に登録されている場合" do
-      before do
-        create(:customer, name: "テスト 花子")
-        put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
-      end
-
-      it { expect(response).to have_http_status(422) }
+    it_behaves_like "not logged in user is redirect" do
+      before { put "/customers/#{customer.id}" }
     end
 
-    context "変更する名前が登録されていない場合" do
-      before do
-        put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
+    context "ログインしている場合" do
+      include_context "user is logged in"
+
+      context "変更する名前が既に登録されている場合" do
+        before do
+          create(:customer, name: "テスト 花子")
+          put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
+        end
+
+        it { expect(response).to have_http_status(422) }
       end
 
-      it { expect(response).to have_http_status(204) }
-    end
+      context "変更する名前が登録されていない場合" do
+        before do
+          put "/customers/#{customer.id}", params: { customer: { name: "テスト 花子" } }
+        end
 
-    context "変更する名前が入力されていない場合" do
-      before do
-        put "/customers/#{customer.id}", params: { customer: { name: "" } }
+        it { expect(response).to have_http_status(204) }
       end
 
-      it { expect(response).to have_http_status(422) }
+      context "変更する名前が入力されていない場合" do
+        before do
+          put "/customers/#{customer.id}", params: { customer: { name: "" } }
+        end
+
+        it { expect(response).to have_http_status(422) }
+      end
     end
   end
 end
