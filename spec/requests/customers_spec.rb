@@ -3,10 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CustomersController, type: :request do
-  before do
-    user = create(:user)
-    sign_in user
-  end
+  include_context "user is logged in"
 
   let(:customer) { create(:customer) }
 
