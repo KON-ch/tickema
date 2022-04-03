@@ -1,6 +1,4 @@
 class ReservationsController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
-
   def create
     customer_name = params.require(:customer).permit(:name)[:name]
 
@@ -14,9 +12,9 @@ class ReservationsController < ApplicationController
       reservation = customer.reservations.create(reservation_params)
     rescue ActiveRecord::RecordNotUnique
       return render_status_422("#{customer.name}は同日に登録されています")
-    else
-      render json: TicketSerializer.new(reservation), status: 201
     end
+
+    render json: TicketSerializer.new(reservation), status: 201
 
     reservation.destroy! if sample_user_action?
   end
@@ -51,8 +49,13 @@ class ReservationsController < ApplicationController
   def count
     return head :no_content if sample_user_action?
 
-    set_reservation.update!(count_params)
-    head :no_content
+    begin
+      set_reservation.update!(count_params)
+    rescue ActiveRecord::RecordInvalid
+      render_status_422("枚数は1枚以上にして下さい")
+    else
+      head :no_content
+    end
   end
 
   private
@@ -71,10 +74,6 @@ class ReservationsController < ApplicationController
 
   def count_params
     params.require(:reservation).permit(:count)
-  end
-
-  def render_status_404(exception)
-    render json: { errors: [exception] }, status: 404
   end
 
   def render_status_422(exception)
