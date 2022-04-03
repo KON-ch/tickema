@@ -1,6 +1,4 @@
 class StagesController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_status_404
-
   def show
     user_stages = current_user.stages.select(:id, :title)
     stage = user_stages.find_by(id: params[:id])
@@ -26,12 +24,6 @@ class StagesController < ApplicationController
       tickets: tickets,
       candidates: candidates,
       otherStages: other_stages
-    }
-  end
-
-  private
-
-  def render_status_404(exception)
-    render json: { errors: [exception] }, status: 404
+    }, status: 200
   end
 end
