@@ -6,9 +6,9 @@ class StagesController < ApplicationController
     # 予約
     reservations = Reservation.for_stage(params[:id], current_user.id)
 
-    # 未予約 = 全顧客 - 予約済顧客
-    user_customers = current_user.customers.select(:id, :name)
-    candidates = user_customers - user_customers.reserved(params[:id])
+    # 予約候補者(未予約)
+    candidates =
+      ProvideCandidatesService.new(user_id: current_user.id, stage_id: params[:id]).list
 
     tickets =
       reservations.includes(:customer, :schedule).map do |reservation|
