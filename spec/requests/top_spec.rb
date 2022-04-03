@@ -12,12 +12,8 @@ RSpec.describe "Tops", type: :request do
       it { expect(response).to have_http_status(200) }
     end
 
-    context "ログインしていない場合" do
+    it_behaves_like "not logged in user is redirect" do
       before { get "/" }
-
-      it "ログイン画面へリダイレクトすること" do
-        expect(response).to have_http_status(302)
-      end
     end
   end
 end
