@@ -4,12 +4,20 @@ require 'rails_helper'
 
 RSpec.describe "Tops", type: :request do
   describe "GET #index " do
-    it "status 200" do
-      user = FactoryBot.create(:user)
-      sign_in user
+    context "ログインしている場合" do
+      include_context "user is logged in"
 
-      get "/"
-      expect(response).to have_http_status(200)
+      before { get "/" }
+
+      it { expect(response).to have_http_status(200) }
+    end
+
+    context "ログインしていない場合" do
+      before { get "/" }
+
+      it "ログイン画面へリダイレクトすること" do
+        expect(response).to have_http_status(302)
+      end
     end
   end
 end
