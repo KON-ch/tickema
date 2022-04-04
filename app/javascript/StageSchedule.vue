@@ -5,32 +5,24 @@
     ></create-customer>
 
     <template v-for="ticket in tickets">
-      <v-row
-        v-if="ticket.schedule_id == schedule_id"
+      <ticket-card
+        v-if="ticket.schedule_id === schedule_id"
         :key="ticket.id"
-        class="customer-data"
-      >
-        <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
-        <v-col cols="7" class="count-ticket">
-          <count-ticket
-            :id="ticket.id"
-            :count="ticket.count"
-          ></count-ticket>
-        </v-col>
-      </v-row>
+        :ticket="ticket"
+      />
     </template>
   </div>
 </template>
 
 <script>
-import CreateCustomer from './CreateCustomer.vue';
-import CountTicket from './CountTicket.vue';
 import { mapState } from 'vuex';
+import CreateCustomer from './CreateCustomer.vue';
+import TicketCard from './organisms/TicketCard.vue';
 
 export default {
   components: {
     CreateCustomer,
-    CountTicket,
+    TicketCard
   },
 
   data: function() {
@@ -53,6 +45,10 @@ export default {
 <style scoped>
 .schedules > .v-form {
   margin-top: 0 !important;
+}
+
+.schedules {
+  margin-bottom: 128px;
 }
 
 .customer-data {

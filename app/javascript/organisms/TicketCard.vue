@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ticket">
+  <v-card class="ticket-card">
     <v-row>
       <v-col cols="2" class="trash-button">
         <trash-button :id="ticket.id" />
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style scoped>
-  .ticket {
+  .ticket-card {
     border: solid gray;
     outline: 1px solid gray;
     outline-offset: -8px;

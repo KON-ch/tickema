@@ -1,22 +1,14 @@
 <template>
-  <div>
+  <div class="top">
     <v-text-field v-model="keyword" class="search-form">
       <template v-slot:label>検索</template>
     </v-text-field>
 
-    <v-card v-for="ticket in searchTickets" :key="ticket.id" class="search-card">
-      <v-row class="search-content">
-        <v-col cols="5" class="search-name">
-            {{ ticket.customer_name }}
-        </v-col>
-        <v-col cols="4">
-          {{ ticket.date }}
-        </v-col>
-        <v-col cols="3">
-          {{ ticket.time }}
-        </v-col>
-      </v-row>
-    </v-card>
+    <template v-for="ticket in searchTickets">
+      <div :key="ticket.id" class="ticket">
+        <ticket-card :ticket="ticket" />
+      </div>
+    </template>
 
     <div class="total-count">合計<span class="total-count_num" :class="countRank(totalCount)">{{ totalCount }}</span>枚</div>
 
@@ -47,11 +39,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import TicketCard from './organisms/TicketCard.vue'
   import StageSchedule from './StageSchedule.vue';
 
   export default {
     components: {
       StageSchedule,
+      TicketCard
     },
 
     data: function() {
@@ -107,6 +101,10 @@
 </script>
 
 <style scoped>
+.top > .ticket {
+  margin: 32px 24px 0;
+}
+
 .top-body {
   padding: 0 1rem;
   margin-bottom: 10rem;
@@ -116,9 +114,8 @@
   padding: 2rem 2rem 1rem;
 }
 
-.search-card {
-  text-align: center;
-  margin: 1rem;
+.ticket {
+  margin: 32px 24px 0;
 }
 
 .search-content {
@@ -133,7 +130,7 @@
 
 .total-count {
   text-align: right;
-  margin: 0 2rem 1rem;
+  margin:32px 2rem 1rem;
 }
 
 .total-count_num {
