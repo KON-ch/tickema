@@ -6,9 +6,9 @@
       </v-btn>
     </template>
     <template v-else>
-      <v-icon class="minus-btn no-active">
-        mdi-minus
-      </v-icon>
+      <v-btn class="minus-btn" disabled icon>
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
     </template>
   </span>
 </template>
