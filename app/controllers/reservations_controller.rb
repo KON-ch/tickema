@@ -6,6 +6,12 @@ class ReservationsController < ApplicationController
 
     customer = Customer.find_or_initialize_by(name: customer_name, user_id: current_user.id)
 
+    if sample_user_action?
+      reservation = customer.reservations.build(reservation_params)
+      render json: TicketSerializer.new(reservation), status: 200
+      return
+    end
+
     customer.save!
 
     begin
@@ -15,12 +21,12 @@ class ReservationsController < ApplicationController
     end
 
     render json: TicketSerializer.new(reservation), status: 201
-
-    reservation.destroy! if sample_user_action?
   end
 
   def destroy
-    return if sample_user_action?
+    if sample_user_action?
+      return head :no_content
+    end
 
     Reservation.find_by(id: params[:id]).destroy!
     head :no_content
@@ -30,7 +36,7 @@ class ReservationsController < ApplicationController
   # PATCH
   def status
     if sample_user_action?
-      render json: Reservation::STATUS.key(status_params[:status])
+      render json: Reservation::STATUS.key(status_params[:status]), status: 200
       return
     end
 
@@ -47,7 +53,9 @@ class ReservationsController < ApplicationController
 
   # PATCH
   def count
-    return head :no_content if sample_user_action?
+    if sample_user_action?
+      return head :no_content
+    end
 
     begin
       set_reservation.update!(count_params)

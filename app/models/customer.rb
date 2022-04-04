@@ -9,8 +9,4 @@ class Customer < ApplicationRecord
   validates :name, presence: true, length: { maximum: 10 }
 
   scope :reserved, -> (stage_id) { joins(:stages).where(stages: { id: stage_id }) }
-
-  def confirm_reservation
-    self.destroy! if reservations.blank?
-  end
 end

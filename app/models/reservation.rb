@@ -21,9 +21,4 @@ class Reservation < ApplicationRecord
 
   # def customer_name; customer.name; end
   delegate :name, to: :customer, prefix: true
-
-  after_destroy :confirm_reservation
-
-  # customer.destory! if customer.reservation.blank?
-  delegate :confirm_reservation, to: :customer
 end

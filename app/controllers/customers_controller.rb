@@ -9,7 +9,7 @@ class CustomersController < ApplicationController
       return render_status_422("#{customer.name}は既に登録されています")
     end
 
-    return if sample_user_action?
+    return head :no_content if sample_user_action?
 
     begin
       set_customer.update!(customer_params)
