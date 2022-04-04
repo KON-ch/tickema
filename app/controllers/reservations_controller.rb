@@ -36,7 +36,7 @@ class ReservationsController < ApplicationController
   # PATCH
   def status
     if sample_user_action?
-      render json: Reservation::STATUS.key(status_params[:status]), status: 200
+      render json: status_params[:status], status: 200
       return
     end
 
