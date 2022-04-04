@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="schedules">
+    <create-customer
+      :schedule_id="schedule_id"
+    ></create-customer>
+
     <template v-for="ticket in tickets">
       <v-row
         v-if="ticket.schedule_id == schedule_id"
@@ -15,10 +19,6 @@
         </v-col>
       </v-row>
     </template>
-
-    <create-customer
-      :schedule_id="schedule_id"
-    ></create-customer>
   </div>
 </template>
 
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style scoped>
+.schedules > .v-form {
+  margin-top: 0 !important;
+}
+
 .customer-data {
   padding: 0;
   margin: 1rem 0 1.5rem;
