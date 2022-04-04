@@ -24,6 +24,14 @@ RSpec.describe CustomersController, type: :request do
       before { put "/customers/#{customer.id}" }
     end
 
+    it_behaves_like "login sample user" do
+      let(:customer) { create(:customer, user: user) }
+
+      before { put "/customers/#{customer.id}", params: { customer: { name: "" } } }
+
+      it { expect(response).to have_http_status(204) }
+    end
+
     context "ログインしている場合" do
       include_context "user is logged in"
 

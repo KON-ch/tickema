@@ -8,13 +8,25 @@ RSpec.describe "Reservations", type: :request do
       before { post "/reservations" }
     end
 
+    it_behaves_like "login sample user" do
+      let(:reservation) { create(:reservation, :for_sample_user) }
+
+      before do
+        post "/reservations",
+          params: {
+            customer: { name: "テスト 太郎" },
+            reservation: { schedule_id: reservation.schedule_id }
+          }
+      end
+
+      it { expect(response).to have_http_status(200) }
+    end
+
     context "ログインしている場合" do
       include_context "user is logged in"
 
       context "顧客名が入力されていない場合" do
-        before do
-          post "/reservations", params: { customer: { name: nil } }
-        end
+        before { post "/reservations", params: { customer: { name: "" } } }
 
         it { expect(response).to have_http_status(422) }
       end
@@ -50,6 +62,14 @@ RSpec.describe "Reservations", type: :request do
       before { delete "/reservations/#{reservation.id}" }
     end
 
+    it_behaves_like "login sample user" do
+      let(:reservation) { create(:reservation, :for_sample_user) }
+
+      before { delete "/reservations/#{reservation.id}" }
+
+      it { expect(response).to have_http_status(204) }
+    end
+
     context "ログインしている場合" do
       include_context "user is logged in"
 
@@ -62,6 +82,17 @@ RSpec.describe "Reservations", type: :request do
   describe "PATCH#status" do
     it_behaves_like "not logged in user is redirect" do
       before { patch "/reservations/#{reservation.id}/status" }
+    end
+
+    it_behaves_like "login sample user" do
+      let(:reservation) { create(:reservation, :for_sample_user) }
+
+      before do
+        patch "/reservations/#{reservation.id}/status",
+          params: { reservation: { status: "applied" } }
+      end
+
+      it { expect(response).to have_http_status(200) }
     end
 
     context "ログインしている場合" do
@@ -90,6 +121,14 @@ RSpec.describe "Reservations", type: :request do
   describe "PATCH#count" do
     it_behaves_like "not logged in user is redirect" do
       before { patch "/reservations/#{reservation.id}/count" }
+    end
+
+    it_behaves_like "login sample user" do
+      let(:reservation) { create(:reservation, :for_sample_user) }
+
+      before { patch "/reservations/#{reservation.id}/count" }
+
+      it { expect(response).to have_http_status(204) }
     end
 
     context "ログインしている場合" do

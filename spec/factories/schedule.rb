@@ -6,4 +6,8 @@ FactoryBot.define do
     staged_on { Date.new(2020, 12, 31) }
     association :stage
   end
+
+  trait :schedule_for_sample_user do
+    association :stage, :stage_for_sample_user
+  end
 end

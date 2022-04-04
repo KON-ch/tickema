@@ -5,5 +5,9 @@ FactoryBot.define do
     name { "テスト" }
     email { "test@example.com" }
     password { 123456789012 }
+
+    trait :sample_user do
+      email { ENV["TEST_USER_EMAIL"] }
+    end
   end
 end
