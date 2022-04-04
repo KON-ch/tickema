@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <v-btn @click="deleteTarget = id; showModal = true" class="trash-btn" icon>
-      <v-icon>mdi-close-box-outline</v-icon>
+  <span>
+    <v-btn @click="deleteTarget = id; showModal = true" icon>
+      <v-icon small>mdi-close-box-outline</v-icon>
     </v-btn>
     <modal
       v-if="showModal"
       @cancel="showModal = false"
       @ok="deleteTicket(deleteTarget); showModal = false;"
     />
-  </div>
+  </span>
 </template>
 
 <script>
