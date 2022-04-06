@@ -5,11 +5,12 @@
     ></create-customer>
 
     <template v-for="ticket in tickets">
-      <ticket-card
-        v-if="ticket.schedule_id === schedule_id"
-        :key="ticket.id"
-        :ticket="ticket"
-      />
+      <div class="ticket" :key="ticket.id">
+        <ticket-card
+          v-if="ticket.schedule_id === schedule_id"
+          :ticket="ticket"
+        />
+      </div>
     </template>
   </div>
 </template>
@@ -51,19 +52,7 @@ export default {
   margin-bottom: 128px;
 }
 
-.customer-data {
-  padding: 0;
-  margin: 1rem 0 1.5rem;
-}
-
-.customer-name {
-  font-weight: bold;
-  font-size: 1.25rem;
-  padding-top: 0.5rem;
-  padding-right: 0;
-}
-
-.count-ticket {
-  padding: 0;
+.ticket {
+  margin-top: 32px;
 }
 </style>
