@@ -28,7 +28,8 @@ export const mutations = {
     state.tickets.find(ticket => ticket.id == payload.id).status = payload.status
   },
 
-  deleteCustomer(state, index) {
+  deleteCustomer(state, customerId) {
+    const index = state.candidates.findIndex(customer => customer.id === customerId)
     state.candidates.splice(index, 1)
   }
 }
