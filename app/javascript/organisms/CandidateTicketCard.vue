@@ -24,7 +24,7 @@
         <v-btn
           class="reserve-button"
           absolute
-          color="green darken-2"
+          color="teal accent-1"
           rounded
           small
           @click="reserveTicket"
@@ -108,7 +108,6 @@ export default {
   .reserve-button {
     left: 75%;
     top: 75%;
-    color: white;
   }
 
   .reserve-error {
