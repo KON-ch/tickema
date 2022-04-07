@@ -1,17 +1,15 @@
 <template>
   <div class="schedules">
-    <create-customer
-      :schedule_id="schedule_id"
-    ></create-customer>
-
     <template v-for="ticket in tickets">
       <div class="ticket" :key="ticket.id">
         <ticket-card
-          v-if="ticket.schedule_id === schedule_id"
+          v-if="ticket.schedule_id === schedule.id"
           :ticket="ticket"
         />
       </div>
     </template>
+
+    <schedule-ticket-card :schedule="schedule" />
   </div>
 </template>
 
@@ -19,11 +17,13 @@
 import { mapState } from 'vuex';
 import CreateCustomer from './CreateCustomer.vue';
 import TicketCard from './organisms/TicketCard.vue';
+import ScheduleTicketCard from './organisms/ScheduleTicketCard.vue'
 
 export default {
   components: {
     CreateCustomer,
-    TicketCard
+    TicketCard,
+    ScheduleTicketCard
   },
 
   data: function() {
@@ -33,9 +33,9 @@ export default {
   },
 
   props: {
-    schedule_id: {
-      type: Number,
-      default: 0,
+    schedule: {
+      type: Object,
+      default: null,
     }
   },
 
@@ -48,11 +48,11 @@ export default {
   margin-top: 0 !important;
 }
 
-.schedules {
-  margin-bottom: 128px;
+.ticket {
+  margin-top: 32px;
 }
 
-.ticket {
+.schedule-ticket-card {
   margin-top: 32px;
 }
 </style>

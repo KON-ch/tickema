@@ -28,7 +28,7 @@
         <v-list-item>
           <v-list-item-content>
             <stage-schedule
-              :schedule_id="schedule.id"
+              :schedule="schedule"
             ></stage-schedule>
           </v-list-item-content>
         </v-list-item>
