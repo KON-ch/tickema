@@ -15,13 +15,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import CreateCustomer from './CreateCustomer.vue';
 import TicketCard from './organisms/TicketCard.vue';
 import ScheduleTicketCard from './organisms/ScheduleTicketCard.vue'
 
 export default {
   components: {
-    CreateCustomer,
     TicketCard,
     ScheduleTicketCard
   },
