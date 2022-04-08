@@ -64,7 +64,6 @@ export default{
 
   methods: {
     updateStatus: function(id, status){
-      console.log(status)
       axios
         .patch(`/reservations/${id}/status`, { reservation: { status: status }})
         .then(res => {
