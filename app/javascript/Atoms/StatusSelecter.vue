@@ -1,17 +1,16 @@
 <template>
   <v-select
-    v-model="selectStatus"
     :items="statusList"
-    :value="item =>item.value"
+    :value="status"
     attach
     chips
     flat
     solo
-    @input="updateStatus(id, status)"
+    @input="item => updateStatus(id, item)"
   >
     <template #selection="{ item }">
       <v-chip
-        :color="setStatusColor(selectStatus)"
+        :color="setStatusColor( item.value )"
         text-color="white"
       >{{ item.text }}</v-chip>
     </template>
@@ -30,7 +29,6 @@ export default{
         { value: 'notified', text: '連絡済み' },
         { value: 'finished', text: 'お礼済み' },
       ],
-      selectStatus: this.status
     }
   },
 
@@ -66,6 +64,7 @@ export default{
 
   methods: {
     updateStatus: function(id, status){
+      console.log(status)
       axios
         .patch(`/reservations/${id}/status`, { reservation: { status: status }})
         .then(res => {
