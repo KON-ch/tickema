@@ -20,6 +20,12 @@ class ReservationsController < ApplicationController
       return render_status_422("#{customer.name}は同日に登録されています")
     end
 
+    stage_id = reservation.schedule.stage_id
+
+    if customer.stage_ids.exclude?(stage_id)
+      customer.customer_stage_histories.create(stage_id: stage_id)
+    end
+
     render json: TicketSerializer.new(reservation), status: 201
   end
 
@@ -28,7 +34,16 @@ class ReservationsController < ApplicationController
       return head :no_content
     end
 
-    Reservation.find_by(id: params[:id]).destroy!
+    reservation = Reservation.find_by(id: params[:id])
+    reservation.destroy!
+
+    stage_id = reservation.schedule.stage_id
+    customer = reservation.customer
+
+    if customer.reservations.for_stage(stage_id, current_user.id).blank?
+      CustomerStageHistory.find_by(stage_id: stage_id, customer_id: customer.id).destroy!
+    end
+
     head :no_content
   end
 
