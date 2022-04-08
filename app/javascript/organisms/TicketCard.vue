@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import TrashButton from '../Atoms/TrashButton.vue'
-import TicketCounter from '../Molecules/TicketCounter.vue';
-import StatusSelecter from '../Atoms/StatusSelecter.vue'
+import TrashButton from '../atoms/TrashButton.vue';
+import TicketCounter from '../molecules/TicketCounter.vue';
+import StatusSelecter from '../atoms/StatusSelecter.vue';
 
 export default {
   components: {

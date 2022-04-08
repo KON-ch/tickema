@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import PlusButton from '../Atoms/PlusButton.vue'
-import MinusButton from '../Atoms/MinusButton.vue'
+import PlusButton from '../atoms/PlusButton.vue'
+import MinusButton from '../atoms/MinusButton.vue'
 
 export default {
   components: {

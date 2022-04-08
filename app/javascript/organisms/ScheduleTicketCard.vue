@@ -41,8 +41,8 @@
 
 <script>
 import axios from 'axios';
-import CountSelecter from '../Atoms/CountSelecter.vue';
-import NameField from '../Atoms/NameField.vue'
+import CountSelecter from '../atoms/CountSelecter.vue';
+import NameField from '../atoms/NameField.vue';
 
 export default {
   components: {

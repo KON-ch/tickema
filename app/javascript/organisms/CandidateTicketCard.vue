@@ -36,8 +36,8 @@
 
 <script>
 import axios from 'axios';
-import CountSelecter from '../Atoms/CountSelecter.vue';
-import ScheduleSelecter from '../Atoms/ScheduleSelecter.vue';
+import CountSelecter from '../atoms/CountSelecter.vue';
+import ScheduleSelecter from '../atoms/ScheduleSelecter.vue';
 
 export default {
   components: {
