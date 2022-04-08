@@ -69,7 +69,7 @@ export default {
   methods: {
     reserveTicket: function() {
       this.errors = [];
-      const customerName = this.lastName + this.firstName
+      const customerName = this.lastName + " " + this.firstName
 
       if (!this.ticketCount) { this.errors.push("枚数を選択して下さい") }
       if (customerName === "") { this.errors.push("名前を入力して下さい") }
