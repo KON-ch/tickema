@@ -1,36 +1,27 @@
 <template>
-  <div>
+  <div class="schedules">
     <template v-for="ticket in tickets">
-      <v-row
-        v-if="ticket.schedule_id == schedule_id"
-        :key="ticket.id"
-        class="customer-data"
-      >
-        <v-col cols="5" class="customer-name">{{ ticket.customer_name }}</v-col>
-        <v-col cols="7" class="count-ticket">
-          <count-ticket
-            :id="ticket.id"
-            :count="ticket.count"
-          ></count-ticket>
-        </v-col>
-      </v-row>
+      <div class="ticket" :key="ticket.id">
+        <ticket-card
+          v-if="ticket.schedule_id === schedule.id"
+          :ticket="ticket"
+        />
+      </div>
     </template>
 
-    <create-customer
-      :schedule_id="schedule_id"
-    ></create-customer>
+    <schedule-ticket-card :schedule="schedule" />
   </div>
 </template>
 
 <script>
-import CreateCustomer from './CreateCustomer.vue';
-import CountTicket from './CountTicket.vue';
 import { mapState } from 'vuex';
+import TicketCard from './organisms/TicketCard.vue';
+import ScheduleTicketCard from './organisms/ScheduleTicketCard.vue'
 
 export default {
   components: {
-    CreateCustomer,
-    CountTicket,
+    TicketCard,
+    ScheduleTicketCard
   },
 
   data: function() {
@@ -40,9 +31,9 @@ export default {
   },
 
   props: {
-    schedule_id: {
-      type: Number,
-      default: 0,
+    schedule: {
+      type: Object,
+      default: null,
     }
   },
 
@@ -51,19 +42,15 @@ export default {
 </script>
 
 <style scoped>
-.customer-data {
-  padding: 0;
-  margin: 1rem 0 1.5rem;
+.schedules > .v-form {
+  margin-top: 0 !important;
 }
 
-.customer-name {
-  font-weight: bold;
-  font-size: 1.25rem;
-  padding-top: 0.5rem;
-  padding-right: 0;
+.ticket {
+  margin-top: 32px;
 }
 
-.count-ticket {
-  padding: 0;
+.schedule-ticket-card {
+  margin-top: 32px;
 }
 </style>
