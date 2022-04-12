@@ -1,8 +1,6 @@
 <template>
   <div class="unbooked-body">
-    <v-text-field v-model="keyword" class="search-form">
-      <template v-slot:label>検索</template>
-    </v-text-field>
+    <search-form v-model="keyword" />
 
     <template v-for="customer in searchCustomers">
       <candidate-ticket-card
@@ -15,10 +13,15 @@
 
 <script>
   import { mapState } from 'vuex';
+  import SearchForm from './atoms/SearchForm.vue';
   import CandidateTicketCard from './organisms/CandidateTicketCard.vue';
 
   export default {
-    components: { CandidateTicketCard },
+    components: {
+      CandidateTicketCard,
+      SearchForm
+    },
+
     data: function() {
       return {
         keyword: "",
@@ -37,9 +40,6 @@
   }
 </script>
 <style scoped>
-.search-form {
-  padding: 2rem 2rem 1rem;
-}
 
 .unbooked-body {
   margin-bottom: 10rem;

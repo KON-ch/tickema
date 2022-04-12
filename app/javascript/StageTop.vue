@@ -1,8 +1,6 @@
 <template>
   <div class="top">
-    <v-text-field v-model="keyword" class="search-form">
-      <template v-slot:label>検索</template>
-    </v-text-field>
+    <search-form v-model="keyword" />
 
     <template v-for="ticket in searchTickets">
       <div :key="ticket.id" class="ticket">
@@ -41,11 +39,13 @@
   import { mapGetters, mapState } from 'vuex';
   import TicketCard from './organisms/TicketCard.vue'
   import StageSchedule from './StageSchedule.vue';
+  import SearchForm from './atoms/SearchForm.vue'
 
   export default {
     components: {
       StageSchedule,
-      TicketCard
+      TicketCard,
+      SearchForm
     },
 
     data: function() {
@@ -108,10 +108,6 @@
 .top-body {
   padding: 0 1rem;
   margin-bottom: 10rem;
-}
-
-.search-form {
-  padding: 2rem 2rem 1rem;
 }
 
 .ticket {

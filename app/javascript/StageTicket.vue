@@ -1,8 +1,6 @@
 <template>
   <div class="ticket-body">
-    <v-text-field v-model="keyword" class="search-form">
-      <template v-slot:label>検索</template>
-    </v-text-field>
+    <search-form v-model="keyword" />
 
     <template v-for="ticket in searchTickets">
       <div class="ticket" :key="ticket.id">
@@ -21,11 +19,13 @@
 
 <script>
   import TicketCard from './organisms/TicketCard.vue'
+  import SearchForm from './atoms/SearchForm.vue'
   import { mapState } from 'vuex';
 
   export default {
     components: {
       TicketCard,
+      SearchForm
     },
 
     data: function() {
@@ -82,10 +82,6 @@
 
 .ticket-body {
   margin-bottom: 10rem;
-}
-
-.search-form {
-  padding: 2rem 2rem 1rem;
 }
 
 .customer-name {
