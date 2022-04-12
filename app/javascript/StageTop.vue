@@ -126,7 +126,7 @@
 
 .total-count {
   text-align: right;
-  margin:32px 2rem 1rem;
+  margin:12px 24px 24px;
 }
 
 .total-count_num {
