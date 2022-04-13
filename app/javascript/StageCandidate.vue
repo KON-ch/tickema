@@ -1,7 +1,5 @@
 <template>
   <div class="unbooked-body">
-    <search-form v-model="keyword" />
-
     <template v-for="customer in searchCustomers">
       <candidate-ticket-card
         :key="customer.id"
@@ -13,18 +11,15 @@
 
 <script>
   import { mapState } from 'vuex';
-  import SearchForm from './atoms/SearchForm.vue';
   import CandidateTicketCard from './organisms/CandidateTicketCard.vue';
 
   export default {
-    components: {
-      CandidateTicketCard,
-      SearchForm
-    },
+    components: { CandidateTicketCard },
 
-    data: function() {
-      return {
-        keyword: "",
+    props: {
+      keyword: {
+        type: String,
+        default: null
       }
     },
 

@@ -11,6 +11,8 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
 
+    <search-form v-model="keyword" />
+
     <div class="nav-btn">
       <template v-for="(item, index) in tab_items">
         <v-btn
@@ -28,15 +30,15 @@
 
     <div class="page">
       <div v-show="tab === 0">
-        <stage-top/>
+        <stage-top :keyword="keyword" />
       </div>
 
       <div v-show="tab === 1">
-        <stage-ticket/>
+        <stage-ticket :keyword="keyword" />
       </div>
 
       <div v-show="tab === 2">
-        <stage-candidate/>
+        <stage-candidate :keyword="keyword" />
       </div>
     </div>
 
@@ -46,6 +48,7 @@
 
 <script>
   import axios from 'axios';
+  import SearchForm from './atoms/SearchForm.vue'
   import StageTop from './StageTop.vue'
   import StageTicket from './StageTicket.vue'
   import StageCandidate from './StageCandidate.vue'
@@ -57,6 +60,7 @@
 
   export default {
     components: {
+      SearchForm,
       StageTop,
       StageTicket,
       StageCandidate,
@@ -72,6 +76,7 @@
           { title: "未予約", icon: "account-off-outline" },
         ],
         tab: 0,
+        keyword: ''
       }
     },
 
@@ -115,7 +120,7 @@
 }
 
 .nav-btn {
-  margin: 96px 0 32px;
+  margin: 8px 0 24px;
 }
 
 .nav-btn button {

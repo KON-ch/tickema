@@ -1,7 +1,5 @@
 <template>
   <div class="top">
-    <search-form v-model="keyword" />
-
     <template v-for="ticket in searchTickets">
       <div :key="ticket.id" class="ticket">
         <ticket-card :ticket="ticket" />
@@ -39,18 +37,17 @@
   import { mapGetters, mapState } from 'vuex';
   import TicketCard from './organisms/TicketCard.vue'
   import StageSchedule from './StageSchedule.vue';
-  import SearchForm from './atoms/SearchForm.vue'
 
   export default {
     components: {
       StageSchedule,
-      TicketCard,
-      SearchForm
+      TicketCard
     },
 
-    data: function() {
-      return {
-        keyword: "",
+    props: {
+      keyword: {
+        type: String,
+        default: null
       }
     },
 
