@@ -130,6 +130,7 @@
 .page {
   height: 100vh;
   overflow-y: scroll;
+  padding-bottom: 96px;
 }
 
 .stage-title {
