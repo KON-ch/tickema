@@ -22,7 +22,7 @@ export default {
 
 <style scoped>
 .search-form {
-  margin: 32px 24px 0;
+  margin: 0 24px;
 }
 </style>
 
