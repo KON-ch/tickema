@@ -67,8 +67,8 @@
       return {
         drawer: false,
         tab_items: [
-          { title: "TOP", icon: "calendar-edit" },
-          { title: "予約済み", icon: "account-multiple" },
+          { title: "日付別", icon: "calendar-edit" },
+          { title: "全て", icon: "account-multiple" },
           { title: "未予約", icon: "account-off-outline" },
         ],
         tab: 0,
