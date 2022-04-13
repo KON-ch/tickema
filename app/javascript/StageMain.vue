@@ -1,5 +1,5 @@
 <template>
-  <v-card class="main-body">
+  <div class="main-body">
     <v-app-bar
       absolute
       height="64px"
@@ -9,40 +9,39 @@
       <v-spacer></v-spacer>
 
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          fixed-tabs
-        >
-          <v-tab v-for="(item, index) in tab_items" :key="index">
-            <v-icon>mdi-{{item.icon}}</v-icon>{{ item.title }}
-          </v-tab>
-        </v-tabs>
-      </template>
     </v-app-bar>
 
-    <v-card class="tab-items">
-      <v-tabs-items v-model="tab">
-        <v-tab-item>
-          <stage-top/>
-        </v-tab-item>
+    <div class="nav-btn">
+      <template v-for="(item, index) in tab_items">
+        <v-btn
+          :key="index"
+          @click="tab = index"
+          :class="activeButton(index)"
+          depressed
+          rounded
+          small
+        >
+          <v-icon>mdi-{{item.icon}}</v-icon>{{ item.title }}
+        </v-btn>
+      </template>
+    </div>
 
-        <v-tab-item>
-          <stage-ticket/>
-        </v-tab-item>
+    <div class="page">
+      <div v-show="tab === 0">
+        <stage-top/>
+      </div>
 
-        <v-tab-item>
-          <stage-candidate/>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
+      <div v-show="tab === 1">
+        <stage-ticket/>
+      </div>
 
-    <user-menu
-      v-model="drawer"
-    ></user-menu>
+      <div v-show="tab === 2">
+        <stage-candidate/>
+      </div>
+    </div>
 
-  </v-card>
+    <user-menu v-model="drawer"/>
+  </div>
 </template>
 
 <script>
@@ -92,7 +91,15 @@
         .catch((e) => { console.error(e) })
     },
 
-    computed: mapState(["title"])
+    computed: {
+      ...mapState(["title"]),
+
+      activeButton() {
+        return function(index) {
+          if (this.tab === index) { return 'active-button' }
+        }
+      }
+    }
   }
 </script>
 <style scoped>
@@ -107,14 +114,26 @@
   display: none;
 }
 
-.tab-items {
+.nav-btn {
+  margin: 96px 0 32px;
+}
+
+.nav-btn button {
+  margin-left: 16px;
+}
+
+.page {
   height: 100vh;
   overflow-y: scroll;
-  padding-top: 7rem;
 }
 
 .stage-title {
   font-size: 1.5rem;
   color: #3636eb;
+}
+
+.active-button {
+  background-color: rgb(193 255 212) !important;
+  color: #838383 !important;
 }
 </style>
