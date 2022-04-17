@@ -32,7 +32,8 @@ gem 'dotenv-rails', '~>2.7.6'
 
 gem 'devise', '~>4.8.1'
 
-gem "net-smtp", '~>0.3.1'
+gem 'net-smtp', '~>0.3.1'
+gem 'net-pop', '~>0.1.1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
