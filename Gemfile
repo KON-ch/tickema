@@ -3,17 +3,17 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.3'
 
-gem 'rails'
-gem 'pg'
-gem 'puma'
+gem 'rails', '~> 6.1.5'
+gem 'pg', '~> 1.3.5'
+gem 'puma', '~>5.6.4'
 # Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'sass-rails', '~>6.0.0'
 # https://github.com/rails/webpacker
-gem 'webpacker'
+gem 'webpacker', '~>5.4.3'
 # https://github.com/turbolinks/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~>5.2.1'
 # https://github.com/rails/jbuilder
-gem 'jbuilder'
+gem 'jbuilder', '~>2.11.5'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -23,14 +23,14 @@ gem 'jbuilder'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
-gem 'bootsnap'
+gem 'bootsnap', '~>1.11.1'
 
-gem 'rails-i18n'
-gem 'nokogiri'
+gem 'rails-i18n', '~>6.0.0'
+gem 'nokogiri', '~>1.13.4'
 
-gem 'dotenv-rails'
+gem 'dotenv-rails', '~>2.7.6'
 
-gem 'devise'
+gem 'devise', '~>4.8.1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
