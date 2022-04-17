@@ -20,11 +20,13 @@ class ReservationsController < ApplicationController
       return render_status_422("#{customer.name}は同日に登録されています")
     end
 
-    stage_id = reservation.schedule.stage_id
+    customer_stage_history =
+      CustomerStageHistory.find_or_initialize_by(
+        customer_id: customer.id,
+        stage_id: reservation.schedule.stage_id
+      )
 
-    if customer.stage_ids.exclude?(stage_id)
-      customer.customer_stage_histories.create(stage_id: stage_id)
-    end
+    customer_stage_history.save!
 
     render json: TicketSerializer.new(reservation), status: 201
   end

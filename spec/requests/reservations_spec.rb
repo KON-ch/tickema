@@ -73,7 +73,10 @@ RSpec.describe "Reservations", type: :request do
     context "ログインしている場合" do
       include_context "user is logged in"
 
-      before { delete "/reservations/#{reservation.id}" }
+      before do
+        create(:customer_stage_history, stage: reservation.schedule.stage, customer: reservation.customer)
+        delete "/reservations/#{reservation.id}"
+      end
 
       it { expect(response).to have_http_status(204) }
     end
