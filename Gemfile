@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.3'
+ruby '3.1.2'
 
 gem 'rails', '~> 6.1.5'
 gem 'pg', '~> 1.3.5'
@@ -31,6 +31,8 @@ gem 'nokogiri', '~>1.13.4'
 gem 'dotenv-rails', '~>2.7.6'
 
 gem 'devise', '~>4.8.1'
+
+gem "net-smtp", '~>0.3.1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
