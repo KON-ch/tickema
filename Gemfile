@@ -26,7 +26,7 @@ gem 'jbuilder', '~>2.11.5'
 gem 'bootsnap', '~>1.11.1'
 
 gem 'rails-i18n', '~>6.0.0'
-gem 'nokogiri', '~>1.13.4'
+gem 'nokogiri', '~>1.13.5'
 
 gem 'dotenv-rails', '~>2.7.6'
 
