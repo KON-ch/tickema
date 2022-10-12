@@ -129,8 +129,7 @@
 
 .page {
   overflow-y: scroll;
-  height: calc(100vh - 190px);
-  height: -webkit-fill-available;
+  height: calc(100vh - 190px - 10vh);
 }
 
 .stage-title {
