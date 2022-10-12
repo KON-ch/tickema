@@ -77,10 +77,6 @@
   margin: 32px 24px 0;
 }
 
-.ticket-body {
-  margin-bottom: 10rem;
-}
-
 .customer-name {
   font-size: 1.5rem;
   font-weight: bold;

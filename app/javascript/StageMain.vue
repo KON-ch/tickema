@@ -120,7 +120,7 @@
 }
 
 .nav-btn {
-  margin: 8px 0 24px;
+  margin-bottom: 16px;
 }
 
 .nav-btn button {
@@ -128,9 +128,9 @@
 }
 
 .page {
-  height: 100vh;
   overflow-y: scroll;
-  padding-bottom: 96px;
+  height: calc(100vh - 190px);
+  height: -webkit-fill-available;
 }
 
 .stage-title {

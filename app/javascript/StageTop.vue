@@ -104,7 +104,6 @@
 
 .top-body {
   padding: 0 1rem;
-  margin-bottom: 256px;
 }
 
 .ticket {

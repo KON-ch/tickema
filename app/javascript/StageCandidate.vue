@@ -36,10 +36,6 @@
 </script>
 <style scoped>
 
-.unbooked-body {
-  margin-bottom: 10rem;
-}
-
 .candidate-ticket-card {
   margin: 24px;
 }
